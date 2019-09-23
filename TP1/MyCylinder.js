@@ -1,9 +1,14 @@
 class MyCylinder extends CGFobject {
 
-    constructor(scene, id, slices) {
+    constructor(scene, id, slices, stacks, height, r1, r2) {
         super(scene);
         this.id = id;
+        this.r1 = r1;
+        this.r2 = r2;
+        this.height = height;
         this.slices = slices;
+        this.stacks = stacks;
+        console.log( "Stackerino = " + this.stacks);
         this.initBuffers();
     };
 
@@ -15,26 +20,23 @@ class MyCylinder extends CGFobject {
         this.texCoords = [];
 
         var angle = 2*Math.PI/this.slices;
-        var r1 = 1;
-        var r2 = 0.5;
-        var variancia = (r2 - r1)/this.slices;
+        let r1 = this.r1;
+        let r2 = this.r2;
+        let variancia = (r2 - r1)/this.stacks;
 
-        for(let j = 0; j <= this.slices; j++){
+        for(let j = 0; j <= this.stacks; j++){
             for(let i= 0; i < this.slices; i++){
                 
-                this.vertices.push(r2*Math.cos(angle * i), r2*Math.sin(angle * i), j*1/this.slices);
+                this.vertices.push(r1*Math.cos(angle * i), r1*Math.sin(angle * i), this.height * j*1/this.stacks);
 
                 this.normals.push(Math.cos(angle * i), Math.sin(angle * i), 0);
 
-                this.texCoords.push(i/this.slices, j/this.slices);
+                this.texCoords.push(i/this.slices, j/this.stacks);
           }
-
-          if (r2 < r1) r2 -= variancia;
-          else r2 += variancia;
-          console.log(r2);
+        r1 += variancia;
         }
 
-        var numPontos = this.slices * this.slices;
+        var numPontos = this.slices * this.stacks;
 
         for(let i = 0; i < numPontos; i++){
             if((i+1)%this.slices==0){

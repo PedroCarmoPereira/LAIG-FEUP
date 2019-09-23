@@ -562,10 +562,27 @@ class MySceneGraph {
 
             else if (primitiveType == 'cylinder'){
                 
+                //slices
                 var slices = this.reader.getFloat(grandChildren[0], 'slices');
                 if (!(slices != null && !isNaN(slices))) return "unable to parse slices of the primitive for ID = " + primitiveId;
+
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                if (!(stacks != null && !isNaN(stacks))) return "unable to parse stacks of the primitive for ID = " + primitiveId;
+
+                var height = this.reader.getFloat(grandChildren[0], 'height');
+                if (!(height != null && !isNaN(height))) return "unable to parse height of the primitive for ID = " + primitiveId;
+
+                //r1
+                var r1 = this.reader.getFloat(grandChildren[0], 'base');
+                if (!(r1 != null && !isNaN(r1)))
+                    return "unable to parse r1 of the primitive for ID = " + primitiveId;
+
+                // r2
+                var r2 = this.reader.getFloat(grandChildren[0], 'top');
+                if (!(r2 != null && !isNaN(r2)))
+                    return "unable to parse r2 of the primitive for ID = " + primitiveId;
                 
-                var cyl = new MyCylinder(this.scene, primitiveId, slices);
+                var cyl = new MyCylinder(this.scene, primitiveId, slices, stacks, height,  r1, r2);
                 this.primitives[primitiveId] = cyl;
                 
             }
