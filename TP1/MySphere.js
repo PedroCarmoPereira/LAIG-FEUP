@@ -1,4 +1,4 @@
-class MyCylinder extends CGFobject {
+class MySphere extends CGFobject {
 
     constructor(scene, id, slices, stacks, height, r1, r2) {
         super(scene);
@@ -18,21 +18,19 @@ class MyCylinder extends CGFobject {
         this.normals = [];
         this.texCoords = [];
 
-        var angle = 2*Math.PI/this.slices;
+        var theta = 2*Math.PI/this.slices;
+        var phi = 2*Math.PI/this.stacks;
         let r1 = this.r1;
-        let r2 = this.r2;
-        let variancia = (r2 - r1)/this.stacks;
 
         for(let j = 0; j <= this.stacks; j++){
             for(let i= 0; i < this.slices; i++){
                 
-                this.vertices.push(r1*Math.cos(angle * i), r1*Math.sin(angle * i), this.height * j*1/this.stacks);
+                this.vertices.push(r1*Math.cos(theta*i)*Math.sin(phi*j), r1*Math.sin(phi*j)*Math.sin(theta*i), r1*Math.cos(phi*j));
 
-                this.normals.push(Math.cos(angle * i), Math.sin(angle * i), 0);
+                this.normals.push(Math.cos(theta * i), Math.sin(theta * i), 0);
 
                 this.texCoords.push(i/this.slices, j/this.stacks);
           }
-        r1 += variancia;
         }
 
         var numPontos = this.slices * this.stacks;

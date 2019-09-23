@@ -49,8 +49,9 @@
         </primitive>
 
         <primitive id="demoCylinder">
-        <!-- <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" /> --> 
+            <!-- <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" /> --> 
             <cylinder base='0.5' top='1' height='2' slices='20' stacks='20' />
+            <!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
         </primitive>
     </primitives>
 

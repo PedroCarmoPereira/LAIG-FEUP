@@ -34,6 +34,9 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
+        this.sphere = new MySphere(this.scene, 12, 30, 30, 2, 1, 0.5)
+        console.log(this.sphere);
+
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -769,6 +772,7 @@ class MySceneGraph {
 
         //To test the parsing/creation of the primitives, call the display function directly
         //this.primitives['demoRectangle'].display();
-        this.primitives['demoCylinder'].display();
+        //this.primitives['demoCylinder'].display();
+        this.sphere.display();
     }
 }
