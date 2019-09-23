@@ -559,6 +559,17 @@ class MySceneGraph {
 
                 this.primitives[primitiveId] = rect;
             }
+
+            else if (primitiveType == 'cylinder'){
+                
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices))) return "unable to parse slices of the primitive for ID = " + primitiveId;
+                
+                var cyl = new MyCylinder(this.scene, primitiveId, slices);
+                this.primitives[primitiveId] = cyl;
+                
+            }
+
             else {
                 console.warn("To do: Parse other primitives.");
             }
@@ -740,6 +751,7 @@ class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        this.primitives['demoRectangle'].display();
+        //this.primitives['demoRectangle'].display();
+        this.primitives['demoCylinder'].display();
     }
 }
