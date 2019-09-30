@@ -34,8 +34,6 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        this.torus = new MyTorus(this.scene, 'torus', 100, 100, 2, 0.5);
-
         // File reading 
         this.reader = new CGFXMLreader();
 
@@ -229,6 +227,56 @@ class MySceneGraph {
      * @param {view block element} viewsNode
      */
     parseView(viewsNode) {
+        var children = viewsNode.children;
+
+        this.views = [];
+
+        var grandChildren = [];
+
+        for (var i = 0; i < children.length; i++) {
+
+            var cameraType = false; // FALSE = perspective, TRUE = ortho
+            if (children[i].nodeName != "perspective") {
+                if (children[i].nodeName != 'ortho') {
+                    this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                    continue;
+                }
+
+                cameraType = true;
+            }
+
+            // Get id of the current camera.
+            var cameraId = this.reader.getString(children[i], 'id');
+            if (cameraId == null)
+                return "no ID defined for camera";
+
+            // Checks for repeated IDs.
+            if (this.views[cameraId] != null)
+                return "ID must be unique for each camera (conflict: ID = " + cameraId + ")";
+
+            grandChildren = children[i].children;
+            
+            if(!cameraType){
+                var near, far, angle;
+                near = this.reader.getFloat(children[i], 'near');
+                far = this.reader.getFloat(children[i], 'far');
+                angle = this.reader.getFloat(children[i], 'angle');
+
+                let x1, x2, y1, y2, z1, z2;
+
+                x1 = this.reader.getFloat(grandChildren[0], 'x');
+                y1 = this.reader.getFloat(grandChildren[0], 'y');
+                z1 = this.reader.getFloat(grandChildren[0], 'z');
+
+                x2 = this.reader.getFloat(grandChildren[1], 'x');
+                y2 = this.reader.getFloat(grandChildren[1], 'y');
+                z2 = this.reader.getFloat(grandChildren[1], 'z');
+
+                //this.cameras[cameraId] = new CGFcamera(angle, near, far, vec3.fromValues(x1, y1, z1), vec3.fromValues(x2, y2, z2));
+            }
+
+        }
+
         this.onXMLMinorError("To do: Parse views and create cameras.");
 
         return null;
@@ -516,7 +564,7 @@ class MySceneGraph {
             // Get id of the current primitive.
             var primitiveId = this.reader.getString(children[i], 'id');
             if (primitiveId == null)
-                return "no ID defined for texture";
+                return "no ID defined for primitive";
 
             // Checks for repeated IDs.
             if (this.primitives[primitiveId] != null)
