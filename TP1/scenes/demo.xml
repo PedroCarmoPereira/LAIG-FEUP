@@ -48,11 +48,21 @@
             <rectangle x1="-0.5" y1="-1" x2="0.5" y2="1" />
         </primitive>
 
+        <primitive id="demoTriangle">
+            <triangle x1="-0.5" y1="-1" z1='1.5'
+                      x2='0' y2='0' z2='0'
+                      x3='1' y3='1' z3='1'/>
+        </primitive>
+
         <primitive id="demoCylinder">
             <!-- <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" /> --> 
             <cylinder base='0.5' top='1' height='2' slices='20' stacks='20' />
-            <!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
         </primitive>
+
+        <primitive id="demoSphere">
+            <!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
+            <sphere radius='1' slices='50' stacks='50' />
+        </primitive>    
     </primitives>
 
     <components>
