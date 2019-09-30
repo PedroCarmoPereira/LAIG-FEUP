@@ -62,7 +62,11 @@
         <primitive id="demoSphere">
             <!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
             <sphere radius='1' slices='100' stacks='100' />
-        </primitive>    
+        </primitive> 
+
+        <primitive id="demoTorus">
+            <torus inner='0.5' outer='2' slices='50' loops='50' />
+        </primitive>       
     </primitives>
 
     <components>

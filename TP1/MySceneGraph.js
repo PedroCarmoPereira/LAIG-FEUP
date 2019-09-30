@@ -34,7 +34,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        this.torus = new MyTorus(this.scene, 'torus', 50, 50, 2, 0.5);
+        this.torus = new MyTorus(this.scene, 'torus', 100, 100, 2, 0.5);
 
         // File reading 
         this.reader = new CGFXMLreader();
@@ -656,6 +656,26 @@ class MySceneGraph {
                 this.primitives[primitiveId] = sp;
             }
 
+            else if (primitiveType == 'torus'){
+                //slices
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                if (!(slices != null && !isNaN(slices))) return "unable to parse slices of the primitive for ID = " + primitiveId;
+
+                var loops = this.reader.getFloat(grandChildren[0], 'loops');
+                if (!(loops != null && !isNaN(loops))) return "unable to parse loops of the primitive for ID = " + primitiveId;
+
+                var r1 = this.reader.getFloat(grandChildren[0], 'outer');
+                if (!(r1 != null && !isNaN(r1)))
+                    return "unable to parse outer of the primitive for ID = " + primitiveId;
+
+                var r2 = this.reader.getFloat(grandChildren[0], 'inner');
+                if (!(r2 != null && !isNaN(r2)))
+                    return "unable to parse inner of the primitive for ID = " + primitiveId;    
+
+                var tor = new MyTorus(this.scene, primitiveId, slices, loops, r1, r2);
+                this.primitives[primitiveId] = tor;
+            }
+
             else {
                 console.warn("To do: Parse other primitives.");
             }
@@ -841,6 +861,6 @@ class MySceneGraph {
         //this.primitives['demoCylinder'].display();
         //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
-        this.torus.display();
+        this.primitives['demoTorus'].display();
     }
 }
