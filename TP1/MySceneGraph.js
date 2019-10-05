@@ -43,6 +43,9 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
         this.reader.open('scenes/' + filename, this);
+
+        this.cylinder = new MyCylinder(this.scene, 5, 50, 50, 2, 1, 1);
+
     }
 
     /*
@@ -905,10 +908,164 @@ class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        //this.primitives['demoRectangle'].display();
+        //desk right1
+        this.scene.pushMatrix();
+        this.scene.scale(2, 1.5, 2.5);   
+        this.scene.translate(0, 1, 0);
+        this.scene.rotate(Math.PI, 0, 1, 0);      
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk left1
+        this.scene.pushMatrix();
+        this.scene.scale(2, 1.5, 2.5);   
+        this.scene.translate(0, 1, 0.6);    
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk front1
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/2, 0, 1, 0); 
+        this.scene.scale(1.5, 1.5, 2.5);  
+        this.scene.translate(-0.5, 1, 0.4);    
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk back1
+        this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI/2, 0, 1, 0); 
+        this.scene.scale(1.5, 1.5, 2.5);  
+        this.scene.translate(0.5, 1, 0.4);    
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk right2
+        this.scene.pushMatrix();
+        this.scene.scale(2, 1.5, 2.5);   
+        this.scene.translate(0, 1, 1.8);
+        this.scene.rotate(Math.PI, 0, 1, 0);      
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk left2
+        this.scene.pushMatrix();
+        this.scene.scale(2, 1.5, 2.5);   
+        this.scene.translate(0, 1, 2.4);    
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk front2
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/2, 0, 1, 0); 
+        this.scene.scale(1.5, 1.5, 2.5);  
+        this.scene.translate(-3.5, 1, 0.4);    
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk back2
+        this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI/2, 0, 1, 0); 
+        this.scene.scale(1.5, 1.5, 2.5);  
+        this.scene.translate(3.5, 1, 0.4);    
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //desk top
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI/2 + Math.PI, 1, 0, 0); 
+        this.scene.scale(2, 3, 2.5); 
+        this.scene.translate(0, -1, 1.2);  
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //lamp top
+        this.scene.pushMatrix();
+        this.scene.translate(0, 4.5, 5.3); 
+        this.scene.rotate(Math.PI/2, 1, 0, 0);  
+        this.scene.scale(0.5, 0.5, 0.3); 
+        this.primitives['demoCylinder'].display();
+        this.scene.popMatrix();
+
+        //lamp base
+        this.scene.pushMatrix();
+        this.scene.translate(0, 4, 5.3);
+        this.scene.rotate(Math.PI/2, 1, 0, 0);  
+        this.scene.scale(0.1, 0.1, 0.6); 
+        this.cylinder.display();
+        this.scene.popMatrix();
+
+        //chair leg1
+        this.scene.pushMatrix();
+        this.scene.translate(2.4, 0.7, 2.2);
+        this.scene.rotate(Math.PI/4, 0, 0, 1);
+        this.scene.scale(0.5, 0.5, 0.2); 
+        this.primitives['demoTorus'].display();
+        this.scene.popMatrix();
+
+        //chair leg2
+        this.scene.pushMatrix();
+        this.scene.translate(2.4, 0.7, 3.8);
+        this.scene.rotate(Math.PI/4, 0, 0, 1);
+        this.scene.scale(0.5, 0.5, 0.2); 
+        this.primitives['demoTorus'].display();
+        this.scene.popMatrix();
+
+        //chair top
+        this.scene.pushMatrix();
+        this.scene.translate(2.4, 1.6, 3);  
+        this.scene.rotate(Math.PI/2 + Math.PI, 1, 0, 0); 
+        this.scene.scale(2, 1, 1); 
+        this.primitives['demoRectangle'].display();
+        this.scene.popMatrix();
+
+        //chair back
+        this.scene.pushMatrix();
+        this.scene.translate(3.4, 2.5, 3);
+        this.scene.rotate(Math.PI/2, 0, 1, 0);
+        this.scene.rotate(Math.PI/4, 0, 0, 1);
+        this.scene.scale(0.6, 0.6, 0.2); 
+        this.primitives['demoTorus'].display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.1, 0.7, 5.3);
+        this.scene.scale(0.1, 0.1, 0.1); 
+        this.primitives['demoSphere'].display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.1, 1.5, 5.3);
+        this.scene.scale(0.1, 0.1, 0.1); 
+        this.primitives['demoSphere'].display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.1, 2.3, 5.3);
+        this.scene.scale(0.1, 0.1, 0.1); 
+        this.primitives['demoSphere'].display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.1, 0.7, 0.7);
+        this.scene.scale(0.1, 0.1, 0.1); 
+        this.primitives['demoSphere'].display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.1, 1.5, 0.7);
+        this.scene.scale(0.1, 0.1, 0.1); 
+        this.primitives['demoSphere'].display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.1, 2.3, 0.7);
+        this.scene.scale(0.1, 0.1, 0.1); 
+        this.primitives['demoSphere'].display();
+        this.scene.popMatrix();
+
         //this.primitives['demoCylinder'].display();
         //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
-        this.primitives['demoTorus'].display();
+        //this.primitives['demoTorus'].display();
     }
 }
