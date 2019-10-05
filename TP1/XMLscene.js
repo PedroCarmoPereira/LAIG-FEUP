@@ -45,11 +45,11 @@ class XMLscene extends CGFscene {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
-    updateCamera(){
+    /*updateCamera(){
         if(this.currCameraID && this.currCameraID != "starter"){
             this.camera = this.views[this.currCameraID];
         }
-    }
+    }*/
 
 
     /**
@@ -132,10 +132,10 @@ class XMLscene extends CGFscene {
         this.pushMatrix();
         this.axis.display();
 
-        for (var i = 0; i < this.lights.length; i++) {
-            this.lights[i].setVisible(true);
-            this.lights[i].enable();
-        }
+        /*for (var i = 0; i < this.lights.length; i++) {
+            //this.lights[i].setVisible(true);
+            //this.lights[i].enable();
+        }*/
 
         if (this.sceneInited) {
             // Draw axis

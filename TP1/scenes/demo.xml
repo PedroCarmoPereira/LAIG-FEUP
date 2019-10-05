@@ -7,11 +7,12 @@
             <to x="0" y="-2" z="0" />
         </perspective>
     
+    <!--
        <ortho id="demoOrtho" near="0.01" far ="5" left="10" right="15" top="20" bottom="25">
             <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
-            <!--<up x="20" y ="1" z="20" /> -->
-       </ortho> 
+            <up x="20" y ="1" z="20" /> 
+       </ortho> -->
     </views>
 
     <ambient>
@@ -43,7 +44,7 @@
 
     <transformations>
         <transformation id="demoTransform">
-            <scale x="5" y="1" z="5" />
+            <scale x="5" y="5" z="5" />
             <rotate axis="x" angle="-45" />
             <rotate axis="z" angle="-45" />
         </transformation>

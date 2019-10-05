@@ -311,8 +311,8 @@ class MySceneGraph {
         }
 
         //this.log("Post Parser: " + this.scene.viewIDs);
-        this.scene.camera = this.scene.views[defaultView];
-        this.onXMLMinorError("To do: Parse views and create cameras.");
+        //this.scene.camera = this.scene.views[defaultView];
+        this.onXMLMinorError("To do: Acabar Interface com o Drop Down e ver porque é que quando damos set a uma nova camera deixamos de conseguir controlar a imagem");
 
         return null;
     }
@@ -562,11 +562,29 @@ class MySceneGraph {
                         transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'scale':                        
-                        this.onXMLMinorError("To do: Parse scale transformations.");
+                        var coordinates = this.parseCoordinates3D(grandChildren[j], "scale transformation for ID " + transformationID);
+                        if(!Array.isArray(coordinates)) return coordinates;
+
+                        transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
                         break;
                     case 'rotate':
-                        // angle
-                        this.onXMLMinorError("To do: Parse rotate transformations.");
+                        var axis, angle;
+                        axis = this.reader.getString(grandChildren[j], "axis");
+                        angle = this.reader.getFloat(grandChildren[j], "angle");
+
+                        switch(axis){
+                            case 'x':
+                                transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angle);
+                                break;
+                            case 'y':
+                                transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angle);
+                                break;
+                            case 'z':
+                                transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angle);
+                                break;
+
+                        }
+
                         break;
                 }
             }
@@ -941,6 +959,7 @@ class MySceneGraph {
 
         //To test the parsing/creation of the primitives, call the display function directly
         //desk right1
+        /*
         this.scene.pushMatrix();
         this.scene.scale(2, 1.5, 2.5);   
         this.scene.translate(0, 1, 0);
@@ -1093,7 +1112,13 @@ class MySceneGraph {
         this.scene.translate(1.1, 2.3, 0.7);
         this.scene.scale(0.1, 0.1, 0.1); 
         this.primitives['demoSphere'].display();
+        this.scene.popMatrix();*/
+
+        this.scene.pushMatrix();
+        this.scene.multMatrix(this.transformations["demoTransform"]); //Para testar
+        this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
+        //this.scene.
 
         //this.primitives['demoCylinder'].display();
         //this.primitives['demoTriangle'].display();
