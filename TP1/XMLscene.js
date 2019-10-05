@@ -31,7 +31,9 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
-
+        this.currCameraID = "default";
+        this.viewIDs = [];
+        this.viewIDs.push(this.currCameraID);
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
     }
@@ -42,6 +44,14 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
+
+    updateCamera(){
+        if(this.currCameraID && this.currCameraID != "starter"){
+            this.camera = this.views[this.currCameraID];
+        }
+    }
+
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */

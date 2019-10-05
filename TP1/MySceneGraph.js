@@ -45,7 +45,6 @@ class MySceneGraph {
         this.reader.open('scenes/' + filename, this);
 
         this.cylinder = new MyCylinder(this.scene, 5, 50, 50, 2, 1, 1);
-
     }
 
     /*
@@ -231,11 +230,12 @@ class MySceneGraph {
      */
     parseView(viewsNode) {
         var children = viewsNode.children;
+        
+        var defaultView = this.reader.getString(viewsNode, "default");
 
-        this.views = [];
+        this.scene.views = [];
 
         var grandChildren = [];
-
         for (var i = 0; i < children.length; i++) {
 
             var cameraType = false; // FALSE = perspective, TRUE = ortho
@@ -254,13 +254,14 @@ class MySceneGraph {
                 return "no ID defined for camera";
 
             // Checks for repeated IDs.
-            if (this.views[cameraId] != null)
+            if (this.scene.views[cameraId] != null)
                 return "ID must be unique for each camera (conflict: ID = " + cameraId + ")";
 
+            this.scene.viewIDs.push(cameraId);
             grandChildren = children[i].children;
-            
+        
             if(!cameraType){
-                var near, far, angle;
+                let near, far, angle;
                 near = this.reader.getFloat(children[i], 'near');
                 far = this.reader.getFloat(children[i], 'far');
                 angle = this.reader.getFloat(children[i], 'angle');
@@ -275,11 +276,42 @@ class MySceneGraph {
                 y2 = this.reader.getFloat(grandChildren[1], 'y');
                 z2 = this.reader.getFloat(grandChildren[1], 'z');
 
-                //this.cameras[cameraId] = new CGFcamera(angle, near, far, vec3.fromValues(x1, y1, z1), vec3.fromValues(x2, y2, z2));
+                this.scene.views[cameraId] = new CGFcamera(angle, near, far, vec3.fromValues(x1, y1, z1), vec3.fromValues(x2, y2, z2));
             }
 
+            else {
+                let near, far, left, right, top, bottom;
+                near = this.reader.getFloat(children[i], 'near');
+                far = this.reader.getFloat(children[i], 'far');
+                left = this.reader.getFloat(children[i], 'left');
+                right = this.reader.getFloat(children[i], 'right');
+                top = this.reader.getFloat(children[i], 'top');
+                bottom = this.reader.getFloat(children[i], 'bottom');
+
+                let fx, fy, fz, tx, ty, tz, ux, uy, uz;
+                fx = this.reader.getFloat(grandChildren[0], 'x');
+                fy = this.reader.getFloat(grandChildren[0], 'y');
+                fz = this.reader.getFloat(grandChildren[0], 'z');
+
+                tx = this.reader.getFloat(grandChildren[1], 'x');
+                ty = this.reader.getFloat(grandChildren[1], 'y');
+                tz = this.reader.getFloat(grandChildren[1], 'z');
+                
+                if (grandChildren[2] != undefined && grandChildren[2] != null){
+                    ux = this.reader.getFloat(grandChildren[2], 'x');
+                    uy = this.reader.getFloat(grandChildren[2], 'y');
+                    uz = this.reader.getFloat(grandChildren[2], 'z');
+                }
+                
+                else { ux = 0; uy = 1; uz = 0; }
+
+                this.scene.views[cameraId] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec4.fromValues(fx, fy, fz, 0), vec4.fromValues(tx, ty, tz, 0), vec3.fromValues(ux, uy, uz))
+
+            }
         }
 
+        //this.log("Post Parser: " + this.scene.viewIDs);
+        this.scene.camera = this.scene.views[defaultView];
         this.onXMLMinorError("To do: Parse views and create cameras.");
 
         return null;
