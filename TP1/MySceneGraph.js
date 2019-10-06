@@ -958,74 +958,74 @@ class MySceneGraph {
         //To do: Create display loop for transversing the scene graph
 
         //To test the parsing/creation of the primitives, call the display function directly
-        //desk right1
         /*
+        //desk right1
         this.scene.pushMatrix();
-        this.scene.scale(2, 1.5, 2.5);   
-        this.scene.translate(0, 1, 0);
+        this.scene.translate(0, 1.5, 0);
         this.scene.rotate(Math.PI, 0, 1, 0);      
+        this.scene.scale(2, 1.5, 2.5);   
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk left1
         this.scene.pushMatrix();
+        this.scene.translate(0, 1.5, 1.5);    
         this.scene.scale(2, 1.5, 2.5);   
-        this.scene.translate(0, 1, 0.6);    
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk front1
         this.scene.pushMatrix();
+        this.scene.translate(1, 1.5, 0.75);    
         this.scene.rotate(Math.PI/2, 0, 1, 0); 
         this.scene.scale(1.5, 1.5, 2.5);  
-        this.scene.translate(-0.5, 1, 0.4);    
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk back1
         this.scene.pushMatrix();
+        this.scene.translate(-1, 1.5, 0.75);    
         this.scene.rotate(-Math.PI/2, 0, 1, 0); 
         this.scene.scale(1.5, 1.5, 2.5);  
-        this.scene.translate(0.5, 1, 0.4);    
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk right2
         this.scene.pushMatrix();
-        this.scene.scale(2, 1.5, 2.5);   
-        this.scene.translate(0, 1, 1.8);
+        this.scene.translate(0, 1.5, 4.5);
         this.scene.rotate(Math.PI, 0, 1, 0);      
+        this.scene.scale(2, 1.5, 2.5);   
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk left2
         this.scene.pushMatrix();
+        this.scene.translate(0, 1.5, 6);    
         this.scene.scale(2, 1.5, 2.5);   
-        this.scene.translate(0, 1, 2.4);    
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk front2
         this.scene.pushMatrix();
+        this.scene.translate(1, 1.5, 5.25);    
         this.scene.rotate(Math.PI/2, 0, 1, 0); 
         this.scene.scale(1.5, 1.5, 2.5);  
-        this.scene.translate(-3.5, 1, 0.4);    
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk back2
         this.scene.pushMatrix();
+        this.scene.translate(-1, 1.5, 5.25);    
         this.scene.rotate(-Math.PI/2, 0, 1, 0); 
         this.scene.scale(1.5, 1.5, 2.5);  
-        this.scene.translate(3.5, 1, 0.4);    
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
         //desk top
         this.scene.pushMatrix();
+        this.scene.translate(0, 3, 3);  
         this.scene.rotate(Math.PI/2 + Math.PI, 1, 0, 0); 
         this.scene.scale(2, 3, 2.5); 
-        this.scene.translate(0, -1, 1.2);  
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
 
