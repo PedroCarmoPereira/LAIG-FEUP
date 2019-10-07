@@ -484,11 +484,11 @@ class MySceneGraph {
         this.mineSideMat.setSpecular(0.1, 0.1, 0.1, 1);
         this.mineSideMat.setShininess(10.0);*/ 
 
-        this.testMat = new CGFappearance(this.scene);
+        /*this.testMat = new CGFappearance(this.scene);
         this.testMat.setAmbient(0.1, 0.1, 0.1);
         this.testMat.setDiffuse(0.9,0.9, 0.9);
         this.testMat.setSpecular(0.1, 0.1, 0.1);
-        this.testMat.setShininess(10.0);
+        this.testMat.setShininess(10.0);*/
 
         var children = texturesNode.children;
         this.textures = [];
@@ -508,11 +508,11 @@ class MySceneGraph {
 
             this.textures[textureID] = new CGFtexture(this.scene, textLocal);
 
-            if (i == 1){
+            /*if (i == 0){
                 this.log("AAA" + this.textures[textureID]);
                 this.testMat.setTexture(this.textures[textureID]);
                 this.testMat.setTextureWrap('REPEAT', 'REPEAT');
-            }
+            }*/
         }
 
         this.log("Parsed textures");
@@ -547,11 +547,34 @@ class MySceneGraph {
             if (this.materials[materialID] != null)
                 return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
-            //Continue here
-            this.onXMLMinorError("To do: Parse materials.");
+            grandChildren = children[i].children;
+
+            var shininess = this.reader.getFloat(children[i], "shininess");
+            
+        
+            var e, a, d, s;
+            e = this.parseColor(grandChildren[0], "material");
+            if (!Array.isArray(e)) return e;
+
+            a = this.parseColor(grandChildren[1], "material");
+            if (!Array.isArray(a)) return a;
+
+            d = this.parseColor(grandChildren[2], "material");
+            if (!Array.isArray(d)) return d;
+
+            s = this.parseColor(grandChildren[3], "material");
+            if (!Array.isArray(s)) return s;
+
+
+            this.materials[materialID] = new CGFappearance(this.scene);
+            this.materials[materialID].setAmbient(a[0], a[1], a[2], a[3]);
+            this.materials[materialID].setDiffuse(d[0], d[1], d[2], d[3]);
+            this.materials[materialID].setSpecular(s[0], s[1], s[2], s[3]);
+            this.materials[materialID].setEmission(e[0], e[1], e[2], e[3]);
+            this.materials[materialID].setShininess(shininess);
         }
 
-        //this.log("Parsed materials");
+        this.log("Parsed materials");
         return null;
     }
 
@@ -1152,7 +1175,7 @@ class MySceneGraph {
 
         this.scene.pushMatrix();
         this.scene.multMatrix(this.transformations["demoTransform"]); //Para testar
-        this.testMat.apply();
+        this.materials["demoMaterial"].apply();
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
         //this.scene.
