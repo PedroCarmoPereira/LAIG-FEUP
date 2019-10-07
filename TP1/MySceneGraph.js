@@ -305,7 +305,7 @@ class MySceneGraph {
                 
                 else { ux = 0; uy = 1; uz = 0; }
 
-                this.scene.views[cameraId] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec4.fromValues(fx, fy, fz, 0), vec4.fromValues(tx, ty, tz, 0), vec3.fromValues(ux, uy, uz))
+                this.scene.views[cameraId] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(fx, fy, fz), vec3.fromValues(tx, ty, tz), vec3.fromValues(ux, uy, uz));
 
             }
         }
