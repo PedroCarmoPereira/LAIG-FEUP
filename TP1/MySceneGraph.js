@@ -311,7 +311,7 @@ class MySceneGraph {
         }
 
         //this.log("Post Parser: " + this.scene.viewIDs);
-        //this.scene.camera = this.scene.views[defaultView];
+        this.scene.camera = this.scene.views[defaultView];
         this.onXMLMinorError("To do: Acabar Interface com o Drop Down e ver porque é que quando damos set a uma nova camera deixamos de conseguir controlar a imagem");
 
         return null;
@@ -477,8 +477,45 @@ class MySceneGraph {
      */
     parseTextures(texturesNode) {
 
-        //For each texture in textures block, check ID and file URL
-        this.onXMLMinorError("To do: Parse textures.");
+        /*TO DO: REMOVE LATER*/
+        /*this.mineSideMat = new CGFappearance(this);
+        this.mineSideMat.setAmbient(0.1, 0.1, 0.1, 1);
+        this.mineSideMat.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.mineSideMat.setSpecular(0.1, 0.1, 0.1, 1);
+        this.mineSideMat.setShininess(10.0);*/ 
+
+        this.testMat = new CGFappearance(this.scene);
+        this.testMat.setAmbient(0.1, 0.1, 0.1);
+        this.testMat.setDiffuse(0.9,0.9, 0.9);
+        this.testMat.setSpecular(0.1, 0.1, 0.1);
+        this.testMat.setShininess(10.0);
+
+        var children = texturesNode.children;
+        this.textures = [];
+        for(var i = 0; i < children.length; i++){
+            if (children[i].nodeName != "texture"){
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+            
+            var textureID = this.reader.getString(children[i], "id");
+            if(textureID == null) return "no ID defined for texture";
+
+            if (this.textures[textureID] != null)
+                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
+            
+            var textLocal = this.reader.getString(children[i], "file");
+
+            this.textures[textureID] = new CGFtexture(this.scene, textLocal);
+
+            if (i == 1){
+                this.log("AAA" + this.textures[textureID]);
+                this.testMat.setTexture(this.textures[textureID]);
+                this.testMat.setTextureWrap('REPEAT', 'REPEAT');
+            }
+        }
+
+        this.log("Parsed textures");
         return null;
     }
 
@@ -493,7 +530,6 @@ class MySceneGraph {
 
         var grandChildren = [];
         var nodeNames = [];
-
         // Any number of materials.
         for (var i = 0; i < children.length; i++) {
 
@@ -509,7 +545,7 @@ class MySceneGraph {
 
             // Checks for repeated IDs.
             if (this.materials[materialID] != null)
-                return "ID must be unique for each light (conflict: ID = " + materialID + ")";
+                return "ID must be unique for each material (conflict: ID = " + materialID + ")";
 
             //Continue here
             this.onXMLMinorError("To do: Parse materials.");
@@ -1116,6 +1152,7 @@ class MySceneGraph {
 
         this.scene.pushMatrix();
         this.scene.multMatrix(this.transformations["demoTransform"]); //Para testar
+        this.testMat.apply();
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
         //this.scene.
