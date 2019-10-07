@@ -309,10 +309,8 @@ class MySceneGraph {
 
             }
         }
-
-        //this.log("Post Parser: " + this.scene.viewIDs);
         this.scene.camera = this.scene.views[defaultView];
-        this.onXMLMinorError("To do: Acabar Interface com o Drop Down e ver porque é que quando damos set a uma nova camera deixamos de conseguir controlar a imagem");
+        this.log("To do: Acabar Interface com o Drop Down e ver porque é que quando damos set a uma nova camera deixamos de conseguir controlar a imagem");
 
         return null;
     }
@@ -860,7 +858,7 @@ class MySceneGraph {
 
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
-
+            var componentTransf = [];
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -889,7 +887,64 @@ class MySceneGraph {
 
             this.onXMLMinorError("To do: Parse components.");
             // Transformations
+            var transfMatrix = mat4.create();
+            var transfVect = grandChildren[transformationIndex].children;
+            for (let k = 0; k < transfVect.length; k++) {
+                this.log(transfVect[k].nodeName);
+                if(transfVect[k].nodeName == "transformationref"){
+                    var transfID = this.reader.getString(transfVect[k], "id");
+                    if (this.transformations[transfID] == undefined){
+                        this.log("Referenced transformation " + transfID + " does not exist");
+                        continue;
+                    }
 
+                    transfMatrix = this.transformations[transfID];
+
+                }
+
+                else if (transfVect[k].nodeName == "translate"){
+                    var coordinates = this.parseCoordinates3D(transfVect[k], "translate transformation for ID " + componentID);
+                        if (!Array.isArray(coordinates))
+                            return coordinates;
+
+                    transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+                }
+
+                else if (transfVect[k].nodeName == "rotate"){
+                    var axis, angle;
+                        axis = this.reader.getString(transfVect[k], "axis");
+                        angle = this.reader.getFloat(transfVect[k], "angle");
+
+                        switch(axis){
+                            case 'x':
+                                transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angle);
+                                break;
+                            case 'y':
+                                transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angle);
+                                break;
+                            case 'z':
+                                transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angle);
+                                break;
+
+                        }
+                }
+
+                else if(transfVect[k].nodeName == "scale"){
+                    var coordinates = this.parseCoordinates3D(transfVect[k], "scale transformation for ID " + componentID);
+                    if(!Array.isArray(coordinates)) return coordinates;
+
+                    transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
+
+                    this.log("Ping");
+                }
+
+                else {
+                    this.onXMLMinorError("Unexpected tag " + transfVect[k].nodeName);
+                    continue;
+                }
+
+                componentTransf[k] = transfMatrix;
+            }
             // Materials
 
             // Texture
