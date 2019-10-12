@@ -851,6 +851,10 @@ class MySceneGraph {
         var children = componentsNode.children;
 
         this.components = [];
+        var componentTransf = [];
+        var componentMat = [];
+        var componentTex = [];
+        var componentChildren = [];
 
         var grandChildren = [];
         var grandgrandChildren = [];
@@ -858,7 +862,6 @@ class MySceneGraph {
 
         // Any number of components.
         for (var i = 0; i < children.length; i++) {
-            var componentTransf = [];
             if (children[i].nodeName != "component") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
                 continue;
@@ -868,6 +871,7 @@ class MySceneGraph {
             var componentID = this.reader.getString(children[i], 'id');
             if (componentID == null)
                 return "no ID defined for componentID";
+
 
             // Checks for repeated IDs.
             if (this.components[componentID] != null)
@@ -882,7 +886,6 @@ class MySceneGraph {
 
             var transformationIndex = nodeNames.indexOf("transformation");
             var materialsIndex = nodeNames.indexOf("materials");
-            var textureIndex = nodeNames.indexOf("texture");
             var childrenIndex = nodeNames.indexOf("children");
 
             this.onXMLMinorError("To do: Parse components.");
@@ -890,7 +893,6 @@ class MySceneGraph {
             var transfMatrix = mat4.create();
             var transfVect = grandChildren[transformationIndex].children;
             for (let k = 0; k < transfVect.length; k++) {
-                this.log(transfVect[k].nodeName);
                 if(transfVect[k].nodeName == "transformationref"){
                     var transfID = this.reader.getString(transfVect[k], "id");
                     if (this.transformations[transfID] == undefined){
@@ -935,7 +937,6 @@ class MySceneGraph {
 
                     transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
 
-                    this.log("Ping");
                 }
 
                 else {
@@ -943,13 +944,68 @@ class MySceneGraph {
                     continue;
                 }
 
-                componentTransf[k] = transfMatrix;
+                componentTransf[componentID] = transfMatrix;
             }
             // Materials
 
-            // Texture
+            var materialVect = grandChildren[materialsIndex].children;
+            for (let k = 0; k < materialVect.length; k++) {
+                if(materialVect[k].nodeName == "material"){
+                    var materialID = this.reader.getString(materialVect[k], "id");
+                        if (this.materials[materialID] == undefined){
+                            this.log("Referenced material " + materialID + " does not exist");
+                            continue;
+                        }
+                    componentMat[componentID] = this.materials[materialID];
+                }
+            
+                else {
+                    this.onXMLMinorError("Unexpected tag " + materialVect[k].nodeName);
+                    continue;
+                }
+            
+            }
+        // Texture
+        
+        //this.log( this.reader.getString(grandChildren[2], "id"));
+            if(grandChildren[2].nodeName == "texture"){
+                var textureID = this.reader.getString(grandChildren[2], "id");
+                if (this.textures[textureID] == undefined){
+                    this.log("Referenced texture " + textureID + " does not exist");
+                    continue;
+                }
+                componentTex[componentID] = this.textures[textureID];
+            }
+                
+            else {
+                this.onXMLMinorError("Unexpected tag " + grandChildren[2].nodeName);
+                continue;
+            }
 
             // Children
+
+            var childrenVect = grandChildren[childrenIndex].children;
+            for (let k = 0; k < childrenVect.length; k++) {
+                if(childrenVect[k].nodeName == "primitiveref"){
+                    var childrenID = this.reader.getString(childrenVect[k], "id");
+                        if (this.primitives[childrenID] == undefined){
+                            this.log("Referenced primitive " + childrenID + " does not exist");
+                            continue;
+                        }
+                    componentChildren[componentID] = this.primitives[materialID];
+                }
+
+                else if(childrenVect[k].nodeName == "componentref"){
+                    var childrenID = this.reader.getString(childrenVect[k], "id");
+                    componentChildren[componentID] = childrenID;
+                }
+            
+                else {
+                    this.onXMLMinorError("Unexpected tag " + childrenVect[k].nodeName);
+                    continue;
+                }
+            
+            }
         }
     }
 
@@ -1230,7 +1286,7 @@ class MySceneGraph {
 
         this.scene.pushMatrix();
         this.scene.multMatrix(this.transformations["demoTransform"]); //Para testar
-        this.materials["demoMaterial"].apply();
+        //this.componentMat['Handle1'].apply();
         this.primitives['demoRectangle'].display();
         this.scene.popMatrix();
         //this.scene.
