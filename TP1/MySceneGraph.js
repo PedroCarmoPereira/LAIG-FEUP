@@ -482,12 +482,12 @@ class MySceneGraph {
         this.mineSideMat.setSpecular(0.1, 0.1, 0.1, 1);
         this.mineSideMat.setShininess(10.0);*/ 
 
-        /*this.testMat = new CGFappearance(this.scene);
+        this.testMat = new CGFappearance(this.scene);
         this.testMat.setAmbient(0.1, 0.1, 0.1);
         this.testMat.setDiffuse(0.9,0.9, 0.9);
         this.testMat.setSpecular(0.1, 0.1, 0.1);
-        this.testMat.setShininess(10.0);*/
-
+        this.testMat.setShininess(10.0);
+        
         var children = texturesNode.children;
         this.textures = [];
         for(var i = 0; i < children.length; i++){
@@ -498,13 +498,14 @@ class MySceneGraph {
             
             var textureID = this.reader.getString(children[i], "id");
             if(textureID == null) return "no ID defined for texture";
-
+            
             if (this.textures[textureID] != null)
-                return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
+            return "ID must be unique for each texture (conflict: ID = " + textureID + ")";
             
             var textLocal = this.reader.getString(children[i], "file");
-
+            
             this.textures[textureID] = new CGFtexture(this.scene, textLocal);
+            this.testMat.setTexture(this.textures["Desk"]);
 
             /*if (i == 0){
                 this.log("AAA" + this.textures[textureID]);
@@ -1285,9 +1286,9 @@ class MySceneGraph {
         this.scene.popMatrix();*/
 
         this.scene.pushMatrix();
-        this.scene.multMatrix(this.transformations["demoTransform"]); //Para testar
-        //this.componentMat['Handle1'].apply();
-        this.primitives['demoRectangle'].display();
+        //this.scene.multMatrix(this.transformations["demoTransform"]); //Para testar
+        this.testMat.apply();
+        this.primitives['demoSphere'].display();
         this.scene.popMatrix();
         //this.scene.
 

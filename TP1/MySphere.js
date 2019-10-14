@@ -17,7 +17,7 @@ class MySphere extends CGFobject {
         this.texCoords = [];
 
         var theta = 2*Math.PI/this.slices;
-        var phi = 2*Math.PI/this.stacks;
+        var phi = Math.PI/this.stacks;
         let r1 = this.r1;
 
         for(let j = 0; j <= this.stacks; j++){

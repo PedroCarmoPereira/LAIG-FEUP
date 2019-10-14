@@ -1,7 +1,7 @@
 <lxs>
     <scene root="Study" axis_length="5"/>
 
-    <views default="demoOrtho">
+    <views default="demoPerspective">
         <perspective id="demoPerspective" near="0.1" far="500" angle="45">
             <from x="30" y="15" z="30" />
             <to x="0" y="-2" z="0" />
@@ -15,7 +15,7 @@
     </views>
 
     <ambient> <!-- TO DO: MUDAR PARA GLOBAL AQUI E O NO PARSER -->
-        <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+        <ambient r="1" g="1" b="1" a="1.0" />
         <background r="0.0" g="0.0" b="0.0" a="1.0" />
     </ambient>
 
@@ -72,11 +72,11 @@
 
         <primitive id="demoSphere">
             <!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
-            <sphere radius='1' slices='100' stacks='100' />
+            <sphere radius='1' slices='20' stacks='20' />
         </primitive> 
 
         <primitive id="demoTorus">
-            <torus inner='0.5' outer='2' slices='50' loops='4' />
+            <torus inner='0.5' outer='2' slices='50' loops='50' />
         </primitive>
 
         <primitive id="LampBase">
