@@ -35,14 +35,15 @@
         <texture id="ChairLegs" file="scenes/images/chairlegs.jpg" />
         <texture id="Lamp" file="scenes/images/lamp.jpg" />
         <texture id="Floor" file="scenes/images/floor.jpg" />
+        <texture id="Handle" file="scenes/images/handle.jpg" />
     </textures>
 
     <materials>
         <material id="demoMaterial" shininess="10">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
-            <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
-            <specular r="0.6" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.5" b="0.5" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
     </materials>
 
@@ -72,11 +73,11 @@
 
         <primitive id="demoSphere">
             <!-- <sphere radius="ff" slices="ii" stacks="ii" /> -->
-            <sphere radius='1' slices='20' stacks='20' />
+            <sphere radius='1' slices='50' stacks='50' />
         </primitive> 
 
         <primitive id="demoTorus">
-            <torus inner='0.5' outer='2' slices='50' loops='50' />
+            <torus inner='0.5' outer='2' slices='50' loops='4' />
         </primitive>
 
         <primitive id="LampBase">
@@ -94,7 +95,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -107,7 +108,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -121,7 +122,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -135,7 +136,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -149,7 +150,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -162,7 +163,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -176,7 +177,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -190,7 +191,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -204,7 +205,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Desk"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -218,7 +219,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Lamp"/>
             <children>
                 <primitiveref id="demoCylinder" />
             </children>
@@ -232,7 +233,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="ChairLegs"/>
             <children>
                 <primitiveref id="LampBase" />
             </children>
@@ -246,7 +247,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="ChairLegs"/>
             <children>
                 <primitiveref id="demoTorus" />
             </children>
@@ -260,7 +261,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="ChairLegs"/>
             <children>
                 <primitiveref id="demoTorus" />
             </children>
@@ -275,7 +276,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="ChairLegs"/>
             <children>
                 <primitiveref id="demoTorus" />
             </children>
@@ -289,7 +290,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="ChairTop"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -302,7 +303,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Handle"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -315,7 +316,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Handle"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -328,7 +329,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Handle"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -341,7 +342,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Handle"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -354,7 +355,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Handle"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -367,7 +368,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="Handle"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>

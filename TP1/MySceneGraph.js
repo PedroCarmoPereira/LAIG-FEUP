@@ -889,7 +889,7 @@ class MySceneGraph {
             var materialsIndex = nodeNames.indexOf("materials");
             var childrenIndex = nodeNames.indexOf("children");
 
-            this.onXMLMinorError("To do: Parse components.");
+           // this.onXMLMinorError("To do: Parse components.");
             // Transformations
             var transfMatrix = mat4.create();
             var transfVect = grandChildren[transformationIndex].children;
@@ -920,13 +920,13 @@ class MySceneGraph {
 
                         switch(axis){
                             case 'x':
-                                transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angle);
+                                transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, angle*Math.PI/180);
                                 break;
                             case 'y':
-                                transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angle);
+                                transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, angle*Math.PI/180);
                                 break;
                             case 'z':
-                                transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angle);
+                                transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, angle*Math.PI/180);
                                 break;
 
                         }
@@ -949,6 +949,7 @@ class MySceneGraph {
             }
             // Materials
 
+            componentMat[componentID] = [];
             var materialVect = grandChildren[materialsIndex].children;
             for (let k = 0; k < materialVect.length; k++) {
                 if(materialVect[k].nodeName == "material"){
@@ -957,7 +958,7 @@ class MySceneGraph {
                             this.log("Referenced material " + materialID + " does not exist");
                             continue;
                         }
-                    componentMat[componentID] = this.materials[materialID];
+                    componentMat[componentID].push(this.materials[materialID]);
                 }
             
                 else {
@@ -969,13 +970,14 @@ class MySceneGraph {
         // Texture
         
         //this.log( this.reader.getString(grandChildren[2], "id"));
+        componentTex[componentID] = [];
             if(grandChildren[2].nodeName == "texture"){
                 var textureID = this.reader.getString(grandChildren[2], "id");
                 if (this.textures[textureID] == undefined){
                     this.log("Referenced texture " + textureID + " does not exist");
                     continue;
                 }
-                componentTex[componentID] = this.textures[textureID];
+                componentTex[componentID].push(this.textures[textureID]);
             }
                 
             else {
@@ -984,7 +986,7 @@ class MySceneGraph {
             }
 
             // Children
-
+            componentChildren[componentID] = [];
             var childrenVect = grandChildren[childrenIndex].children;
             for (let k = 0; k < childrenVect.length; k++) {
                 if(childrenVect[k].nodeName == "primitiveref"){
@@ -993,12 +995,12 @@ class MySceneGraph {
                             this.log("Referenced primitive " + childrenID + " does not exist");
                             continue;
                         }
-                    componentChildren[componentID] = this.primitives[materialID];
+                    componentChildren[componentID].push(this.primitives[childrenID]);
                 }
 
                 else if(childrenVect[k].nodeName == "componentref"){
                     var childrenID = this.reader.getString(childrenVect[k], "id");
-                    componentChildren[componentID] = childrenID;
+                    componentChildren[componentID].push(this.components[childrenID]);
                 }
             
                 else {
@@ -1007,6 +1009,8 @@ class MySceneGraph {
                 }
             
             }
+            
+            this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID], componentChildren[componentID]);
         }
     }
 
@@ -1285,16 +1289,24 @@ class MySceneGraph {
         this.primitives['demoSphere'].display();
         this.scene.popMatrix();*/
 
-        this.scene.pushMatrix();
+        //this.scene.pushMatrix();
         //this.scene.multMatrix(this.transformations["demoTransform"]); //Para testar
-        this.testMat.apply();
-        this.primitives['demoSphere'].display();
-        this.scene.popMatrix();
+        //this.testMat.apply();
+        //this.primitives['demoSphere'].display();
+        //this.scene.popMatrix();
         //this.scene.
 
         //this.primitives['demoCylinder'].display();
         //this.primitives['demoTriangle'].display();
         //this.primitives['demoSphere'].display();
         //this.primitives['demoTorus'].display();
+
+        //this.scene.popMatrix();
+        
+       /* for(let k = 0; k < this.components[this.idRoot].children.length; k++){
+            this.components[this.components[this.idRoot].children[k]].children[0].display();
+        }*/
+        //console.log(this.transformations['demoTransform']);
+        this.components[this.idRoot].display();
     }
 }
