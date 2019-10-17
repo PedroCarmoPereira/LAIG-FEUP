@@ -3,8 +3,8 @@
 
     <views default="demoPerspective">
         <perspective id="demoPerspective" near="0.1" far="500" angle="45">
-            <from x="30" y="15" z="30" />
-            <to x="0" y="-2" z="0" />
+            <from x="30" y="15" z="-10" />
+            <to x="0" y="-2" z="10" />
         </perspective>
         <!--  Left e Bottom devem ser < 0 -->
        <ortho id="demoOrtho" near="0.01" far ="500" left="-10" right="10" top="10" bottom="-10">
@@ -36,6 +36,8 @@
         <texture id="Lamp" file="scenes/images/lamp.jpg" />
         <texture id="Floor" file="scenes/images/floor.jpg" />
         <texture id="Handle" file="scenes/images/handle.jpg" />
+        <texture id="Wall" file="scenes/images/wall.jpg" />
+        <texture id="Shelf" file="scenes/images/shelf.jpg" />
     </textures>
 
     <materials>
@@ -373,13 +375,184 @@
                 <primitiveref id="demoSphere" />
             </children>
         </component>
-        <component id="Study">
+        <component id="Wall1">
             <transformation>
+                <translate x="-1.2" y="5" z="7" />
+                <rotate axis="y" angle="90" />
+                <scale x="15" y="5" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Wall"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id="Wall2">
+            <transformation>
+                <translate x="6.3" y="5" z="14.5" />
+                <scale x="15" y="5" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Wall"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id="Floor">
+            <transformation>
+                <translate x="6.3" y="0" z="7" />
+                <rotate axis="x" angle="90" />
+                <scale x="15" y="7.5" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Floor"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id="ShelfAux1">
+            <transformation>
+                <translate x="3" y="4" z="13.7" />
+                <rotate axis="y" angle="90" />
+                <scale x="1.5" y="4" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Shelf"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id="ShelfAux2">
+            <transformation>
+                <translate x="3.2" y="4" z="13.7" />
+                <rotate axis="y" angle="90" />
+                <scale x="1.5" y="4" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Shelf"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id="ShelfAux3">
+            <transformation>
+                <translate x="3.1" y="4" z="12.95" />
+                <scale x="0.2" y="4" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id="ShelfBack">
+            <transformation>
+                <translate x="6" y="4" z="14.49" />
+                <scale x="6" y="4" z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Shelf"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+        <component id="ShelfSide1">
+            <transformation>
+                <translate x="6" y="0" z="0" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
             </materials>
             <texture id="demoTexture"/>
+            <children>
+                <componentref id="ShelfAux1" />
+                <componentref id="ShelfAux2" />
+                <componentref id="ShelfAux3" />
+            </children>
+        </component>
+        <component id="ShelfSide2">
+            <transformation>
+                <translate x="3" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="ShelfAux1" />
+                <componentref id="ShelfAux2" />
+                <componentref id="ShelfAux3" />
+            </children>
+        </component>
+        <component id="ShelfBot">
+            <transformation>
+                <translate x="9" y="-1" z="0" />
+                <rotate axis="z" angle="90" />
+                <scale x="1.1" y="0.73 " z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="ShelfAux1" />
+                <componentref id="ShelfAux2" />
+                <componentref id="ShelfAux3" />
+            </children>
+        </component>
+        <component id="ShelfMiddle">
+            <transformation>
+                <translate x="9" y="2" z="0" />
+                <rotate axis="z" angle="90" />
+                <scale x="1.1" y="0.73 " z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="ShelfAux1" />
+                <componentref id="ShelfAux2" />
+                <componentref id="ShelfAux3" />
+            </children>
+        </component>
+        <component id="ShelfTop">
+            <transformation>
+                <translate x="9.2" y="4.5" z="0" />
+                <rotate axis="z" angle="90" />
+                <scale x="1.1" y="0.775 " z="1" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="ShelfAux1" />
+                <componentref id="ShelfAux2" />
+                <componentref id="ShelfAux3" />
+            </children>
+        </component>
+        <component id="Desk">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Desk"/>
             <children>
                 <componentref id="DeskRight1" />
                 <componentref id="DeskRight2" />
@@ -390,18 +563,74 @@
                 <componentref id="DeskBack1" />
                 <componentref id="DeskBack2" />
                 <componentref id="DeskTop" />
-                <componentref id="ChairLeg1" />
-                <componentref id="ChairLeg2" />
-                <componentref id="ChairBack" />
-                <componentref id="ChairTop" />
-                <componentref id="LampBase" />
-                <componentref id="LampTop" />
                 <componentref id="Handle1" />
                 <componentref id="Handle2" />
                 <componentref id="Handle3" />
                 <componentref id="Handle4" />
                 <componentref id="Handle5" />
                 <componentref id="Handle6" />
+            </children>
+        </component>
+        <component id="Lamp">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Lamp"/>
+            <children>
+                <componentref id="LampBase" />
+                <componentref id="LampTop" />
+            </children>
+        </component>
+        <component id="Chair">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="ChairLeg1" />
+                <componentref id="ChairLeg2" />
+                <componentref id="ChairBack" />
+                <componentref id="ChairTop" />
+            </children>
+        </component>
+        <component id="Shelf">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="Shelf"/>
+            <children>
+                <componentref id="ShelfAux1" />
+                <componentref id="ShelfAux2" />
+                <componentref id="ShelfAux3" />
+                <componentref id="ShelfSide1" />
+                <componentref id="ShelfSide2" />
+                <componentref id="ShelfTop" />
+                <componentref id="ShelfBot" />
+                <componentref id="ShelfMiddle" />
+                <componentref id="ShelfBack" />
+            </children>
+        </component>
+        <component id="Study">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture"/>
+            <children>
+                <componentref id="Desk" />
+                <componentref id="Chair" />
+                <componentref id="Lamp" />
+                <componentref id="Wall1" />
+                <componentref id="Wall2" />
+                <componentref id="Floor" />
+                <componentref id="Shelf" />
             </children>
         </component>
     </components>

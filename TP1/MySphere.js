@@ -28,7 +28,8 @@ class MySphere extends CGFobject {
                 this.normals.push(Math.cos(theta*i)*Math.sin(phi*j), Math.sin(phi*j)*Math.sin(theta*i), Math.cos(phi*j));
 
                 this.texCoords.push(i/this.slices, j/this.stacks);
-          }
+
+            }
         }
 
         var numPontos = this.slices * this.stacks;

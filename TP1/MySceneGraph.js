@@ -973,17 +973,25 @@ class MySceneGraph {
         componentTex[componentID] = [];
             if(grandChildren[2].nodeName == "texture"){
                 var textureID = this.reader.getString(grandChildren[2], "id");
-                if (this.textures[textureID] == undefined){
+                if(textureID == 'inherit' || textureID == 'none'){
+                    componentTex[componentID].push(textureID);
+                }
+
+                else if (this.textures[textureID] == undefined){
                     this.log("Referenced texture " + textureID + " does not exist");
                     continue;
                 }
-                componentTex[componentID].push(this.textures[textureID]);
+                
+                else componentTex[componentID].push(this.textures[textureID]);
+                this.log(textureID);
             }
                 
             else {
                 this.onXMLMinorError("Unexpected tag " + grandChildren[2].nodeName);
                 continue;
             }
+
+            this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID]);
 
             // Children
             componentChildren[componentID] = [];
@@ -1001,6 +1009,7 @@ class MySceneGraph {
                 else if(childrenVect[k].nodeName == "componentref"){
                     var childrenID = this.reader.getString(childrenVect[k], "id");
                     componentChildren[componentID].push(this.components[childrenID]);
+                    this.components[childrenID].setParent(this.components[componentID].textures);
                 }
             
                 else {
@@ -1010,7 +1019,8 @@ class MySceneGraph {
             
             }
             
-            this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID], componentChildren[componentID]);
+            //this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID], componentChildren[componentID]);
+            this.components[componentID].setChildren(componentChildren[componentID]);
         }
     }
 
