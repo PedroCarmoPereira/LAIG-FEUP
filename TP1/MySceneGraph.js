@@ -115,8 +115,8 @@ class MySceneGraph {
         }
 
         // <ambient>
-        if ((index = nodeNames.indexOf("ambient")) == -1)
-            return "tag <ambient> missing";
+        if ((index = nodeNames.indexOf("global")) == -1)
+            return "tag <global> missing";
         else {
             if (index != AMBIENT_INDEX)
                 this.onXMLMinorError("tag <ambient> out of order");
@@ -475,13 +475,6 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-
-        /*TO DO: REMOVE LATER*/
-        /*this.mineSideMat = new CGFappearance(this);
-        this.mineSideMat.setAmbient(0.1, 0.1, 0.1, 1);
-        this.mineSideMat.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.mineSideMat.setSpecular(0.1, 0.1, 0.1, 1);
-        this.mineSideMat.setShininess(10.0);*/ 
 
         this.testMat = new CGFappearance(this.scene);
         this.testMat.setAmbient(0.1, 0.1, 0.1);

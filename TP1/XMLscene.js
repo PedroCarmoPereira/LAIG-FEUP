@@ -158,9 +158,6 @@ class XMLscene extends CGFscene {
                     this.lights[i].setVisible(false);
                     this.lights[i].disable();
                 }
-
-                console.log("Light " + i + ": " + this.lights[i].enabled);
-
                 this.lights[i].update();
             }
         }
