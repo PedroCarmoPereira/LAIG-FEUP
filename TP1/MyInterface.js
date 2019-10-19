@@ -26,7 +26,6 @@ class MyInterface extends CGFinterface {
         // add a group of controls (and open/expand by defult)
 
         this.initKeys();
-
         return true;
     }
 
@@ -37,6 +36,15 @@ class MyInterface extends CGFinterface {
         this.scene.gui=this;
         this.processKeyboard=function(){};
         this.activeKeys={};
+    }
+
+    initLights(numLights){
+        var f = this.gui.addFolder('Lights');
+        f.open();
+        for(let i = 0; i < numLights; i++){
+            this.scene.setLights[i] = this.scene.lights[i].enabled;
+            f.add(this.scene.setLights, i).name("Light " + i + " Enabled");
+        }
     }
 
     processKeyDown(event) {

@@ -36,6 +36,7 @@ class XMLscene extends CGFscene {
         this.viewIDs.push(this.currCameraID);
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
+        this.setLights = [];
     }
 
     /**
@@ -112,6 +113,8 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 
         this.interface.setActiveCamera(this.camera);
+        
+        this.interface.initLights(this.numLights);
     }
 
     /**
@@ -145,6 +148,21 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
+
+            for(let i = 0; i < this.numLights; i++){
+                if(this.setLights[i]) {
+                    this.lights[i].setVisible(true);
+                    this.lights[i].enable();
+                }
+                else{
+                    this.lights[i].setVisible(false);
+                    this.lights[i].disable();
+                }
+
+                console.log("Light " + i + ": " + this.lights[i].enabled);
+
+                this.lights[i].update();
+            }
         }
 
         this.popMatrix();

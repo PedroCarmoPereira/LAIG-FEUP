@@ -359,7 +359,7 @@ class MySceneGraph {
         var children = lightsNode.children;
 
         this.lights = [];
-        var numLights = 0;
+        this.scene.numLights = 0;
 
         var grandChildren = [];
         var nodeNames = [];
@@ -457,15 +457,16 @@ class MySceneGraph {
             }
 
             this.lights[lightId] = global;
-            numLights++;
+            this.scene.numLights++;
         }
 
-        if (numLights == 0)
+        if (this.scene.numLights == 0)
             return "at least one light must be defined";
-        else if (numLights > 8)
+        else if (this.scene.numLights > 8)
             this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
         this.log("Parsed lights");
+        console.log("Num lights: " + this.scene.numLights);
         return null;
     }
 
