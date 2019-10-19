@@ -310,6 +310,7 @@ class MySceneGraph {
             }
         }
         this.scene.camera = this.scene.views[defaultView];
+        this.scene.currCameraID = defaultView;
         this.log("To do: Acabar Interface com o Drop Down e ver porque é que quando damos set a uma nova camera deixamos de conseguir controlar a imagem");
 
         return null;

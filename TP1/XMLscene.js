@@ -12,6 +12,7 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
+        this.currCameraID = "";
     }
 
     /**
@@ -31,7 +32,6 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
-        this.currCameraID = "default";
         this.viewIDs = [];
         this.viewIDs.push(this.currCameraID);
         this.axis = new CGFaxis(this);
@@ -46,11 +46,10 @@ class XMLscene extends CGFscene {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
     }
 
-    /*updateCamera(){
-        if(this.currCameraID && this.currCameraID != "starter"){
-            this.camera = this.views[this.currCameraID];
-        }
-    }*/
+    updateCamera(){
+        this.camera = this.views[this.currCameraID];
+        this.interface.setActiveCamera(this.camera);
+    }
 
 
     /**
@@ -114,7 +113,8 @@ class XMLscene extends CGFscene {
 
         this.interface.setActiveCamera(this.camera);
         
-        this.interface.initLights(this.numLights);
+        this.interface.initLights();
+        this.interface.initCameras();
     }
 
     /**

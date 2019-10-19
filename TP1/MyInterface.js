@@ -20,8 +20,6 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
         //console.log("IDS: " + this.scene.viewIDs);
-        //this.gui.add(this.scene, 'currCameraID', this.scene.viewIDs).name('Selected Camera').onChange(this.scene.updateCamera.bind(this.scene));
-
         //        this.gui.add(this.scene, 'selectedObject', this.scene.objectIDs).name('Selected Object').onChange(this.scene.updateObjectComplexity.bind(this.scene))
         // add a group of controls (and open/expand by defult)
 
@@ -38,10 +36,14 @@ class MyInterface extends CGFinterface {
         this.activeKeys={};
     }
 
-    initLights(numLights){
+    initCameras(){
+        this.gui.add(this.scene, 'currCameraID', this.scene.viewIDs).name('Selected Camera').onChange(this.scene.updateCamera.bind(this.scene));
+    }
+
+    initLights(){
         var f = this.gui.addFolder('Lights');
         f.open();
-        for(let i = 0; i < numLights; i++){
+        for(let i = 0; i < this.scene.numLights; i++){
             this.scene.setLights[i] = this.scene.lights[i].enabled;
             f.add(this.scene.setLights, i).name("Light " + i + " Enabled");
         }
