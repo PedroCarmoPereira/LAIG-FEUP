@@ -26,29 +26,30 @@ class Component extends CGFobject {
             if(isPrimitive(this.children[k]))
                 this.children[k].updateTexCoords(this.coords[0], this.coords[1]);
 
-            if(this.materials[0] != 'inherit'){   
+            var matIndex = this.scene.matCnt % this.materials.length;
+            if(this.materials[matIndex] != 'inherit'){   
                 if(this.textures == 'none'){
-                    this.materials[0].setTexture();
+                    this.materials[matIndex].setTexture();
                 }  
 
                 else if(this.textures != 'inherit') 
-                    this.materials[0].setTexture(this.textures[0]); 
+                    this.materials[matIndex].setTexture(this.textures[0]); 
             
                 if(this.materials != 'inherit')
-                    this.materials[0].apply();
+                    this.materials[matIndex].apply();
             }
 
-            else if(this.materials[0] == 'inherit'){
+            else if(this.materials[matIndex] == 'inherit'){
                 this.materials = mat;
                 if(this.textures == 'none'){
-                    this.materials[0].setTexture();
+                    this.materials[matIndex].setTexture();
                 }  
 
                 else if(this.textures != 'inherit') 
-                    this.materials[0].setTexture(this.textures[0]); 
+                    this.materials[matIndex].setTexture(this.textures[0]); 
             
                 if(this.materials != 'inherit')
-                    this.materials[0].apply();  
+                    this.materials[matIndex].apply();  
             }
                 
             this.children[k].display(this.materials);

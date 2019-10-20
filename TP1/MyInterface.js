@@ -54,6 +54,10 @@ class MyInterface extends CGFinterface {
     };
 
     processKeyUp(event) {
+        if(event.code === "KeyM"){
+            this.scene.matCnt++;
+            console.log("M");
+        }
         this.activeKeys[event.code]=false;
     };
 
