@@ -475,12 +475,6 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-
-        this.testMat = new CGFappearance(this.scene);
-        this.testMat.setAmbient(0.1, 0.1, 0.1);
-        this.testMat.setDiffuse(0.9,0.9, 0.9);
-        this.testMat.setSpecular(0.1, 0.1, 0.1);
-        this.testMat.setShininess(10.0);
         
         var children = texturesNode.children;
         this.textures = [];
@@ -501,11 +495,6 @@ class MySceneGraph {
             this.textures[textureID] = new CGFtexture(this.scene, textLocal);
             this.testMat.setTexture(this.textures["Desk"]);
 
-            /*if (i == 0){
-                this.log("AAA" + this.textures[textureID]);
-                this.testMat.setTexture(this.textures[textureID]);
-                this.testMat.setTextureWrap('REPEAT', 'REPEAT');
-            }*/
         }
 
         this.log("Parsed textures");
