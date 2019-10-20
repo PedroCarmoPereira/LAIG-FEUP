@@ -115,8 +115,8 @@ class MySceneGraph {
         }
 
         // <ambient>
-        if ((index = nodeNames.indexOf("global")) == -1)
-            return "tag <global> missing";
+        if ((index = nodeNames.indexOf("globals")) == -1)
+            return "tag <globals> missing";
         else {
             if (index != AMBIENT_INDEX)
                 this.onXMLMinorError("tag <ambient> out of order");
@@ -493,7 +493,6 @@ class MySceneGraph {
             var textLocal = this.reader.getString(children[i], "file");
             
             this.textures[textureID] = new CGFtexture(this.scene, textLocal);
-            this.testMat.setTexture(this.textures["Desk"]);
 
         }
 
