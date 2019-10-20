@@ -851,6 +851,7 @@ class MySceneGraph {
         var componentMat = [];
         var componentTex = [];
         var componentChildren = [];
+        var componentTexCoords = [];
 
         var grandChildren = [];
         var grandgrandChildren = [];
@@ -949,11 +950,16 @@ class MySceneGraph {
             for (let k = 0; k < materialVect.length; k++) {
                 if(materialVect[k].nodeName == "material"){
                     var materialID = this.reader.getString(materialVect[k], "id");
-                        if (this.materials[materialID] == undefined){
+                        if(materialID == 'inherit'){
+                            componentMat[componentID].push(materialID);
+                        }
+                        
+                        else if (this.materials[materialID] == undefined){
                             this.log("Referenced material " + materialID + " does not exist");
                             continue;
                         }
-                    componentMat[componentID].push(this.materials[materialID]);
+
+                        else componentMat[componentID].push(this.materials[materialID]);
                 }
             
                 else {
@@ -966,27 +972,30 @@ class MySceneGraph {
         
         //this.log( this.reader.getString(grandChildren[2], "id"));
         componentTex[componentID] = [];
+        componentTexCoords[componentID] = [];
             if(grandChildren[2].nodeName == "texture"){
                 var textureID = this.reader.getString(grandChildren[2], "id");
+                var length_s = this.reader.getString(grandChildren[2], "length_s");
+                var length_t = this.reader.getString(grandChildren[2], "length_t");
+                componentTexCoords[componentID].push(length_s);
+                componentTexCoords[componentID].push(length_t);
                 if(textureID == 'inherit' || textureID == 'none'){
                     componentTex[componentID].push(textureID);
                 }
-
+                
                 else if (this.textures[textureID] == undefined){
                     this.log("Referenced texture " + textureID + " does not exist");
                     continue;
                 }
                 
                 else componentTex[componentID].push(this.textures[textureID]);
-                this.log(textureID);
             }
+
                 
             else {
                 this.onXMLMinorError("Unexpected tag " + grandChildren[2].nodeName);
                 continue;
             }
-
-            this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID]);
 
             // Children
             componentChildren[componentID] = [];
@@ -1004,7 +1013,6 @@ class MySceneGraph {
                 else if(childrenVect[k].nodeName == "componentref"){
                     var childrenID = this.reader.getString(childrenVect[k], "id");
                     componentChildren[componentID].push(this.components[childrenID]);
-                    this.components[childrenID].setParent(this.components[componentID].textures);
                 }
             
                 else {
@@ -1014,8 +1022,7 @@ class MySceneGraph {
             
             }
             
-            //this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID], componentChildren[componentID]);
-            this.components[componentID].setChildren(componentChildren[componentID]);
+            this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID], componentChildren[componentID], componentTexCoords[componentID]);
         }
     }
 
@@ -1312,6 +1319,6 @@ class MySceneGraph {
             this.components[this.components[this.idRoot].children[k]].children[0].display();
         }*/
         //console.log(this.transformations['demoTransform']);
-        this.components[this.idRoot].display();
+        this.components[this.idRoot].display(this.components[this.idRoot].materials);
     }
 }

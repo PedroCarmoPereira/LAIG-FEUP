@@ -7,42 +7,51 @@ function isPrimitive(obj){
 
 class Component extends CGFobject {
 
-    constructor(scene, transformations, materials, textures){
+    constructor(scene, transformations, materials, textures, children, coords){
         super(scene);
         this.scene = scene;
         this.transformations = transformations;
         this.materials = materials;
         this.textures = textures;
-    }
-
-    setParent(parent){
-        this.parent = parent;
-    }
-
-    setChildren(children){
         this.children = children;
+        this.coords = coords;
     }
 
-    display(){
+    display(mat){
         for(let k = 0; k < this.children.length; k++){
             this.scene.pushMatrix();
             if(this.transformations)
                 this.scene.multMatrix(this.transformations);
+            
+            if(isPrimitive(this.children[k]))
+                this.children[k].updateTexCoords(this.coords[0], this.coords[1]);
 
-            if(this.textures == 'inherit'){  
-                this.textures = this.parent;
-                for(let k = 0; k < this.children.length; k++){
-                    if(!isPrimitive(this.children[k]))
-                        this.children[k].setParent(this.textures);
-                }
-                if(this.textures != 'none')
+            if(this.materials[0] != 'inherit'){   
+                if(this.textures == 'none'){
+                    this.materials[0].setTexture();
+                }  
+
+                else if(this.textures != 'inherit') 
                     this.materials[0].setTexture(this.textures[0]); 
-            } 
+            
+                if(this.materials != 'inherit')
+                    this.materials[0].apply();
+            }
 
-            if(this.textures != 'none')
-                this.materials[0].setTexture(this.textures[0]);    
-            this.materials[0].apply();
-            this.children[k].display();
+            else if(this.materials[0] == 'inherit'){
+                this.materials = mat;
+                if(this.textures == 'none'){
+                    this.materials[0].setTexture();
+                }  
+
+                else if(this.textures != 'inherit') 
+                    this.materials[0].setTexture(this.textures[0]); 
+            
+                if(this.materials != 'inherit')
+                    this.materials[0].apply();  
+            }
+                
+            this.children[k].display(this.materials);
             this.scene.popMatrix();
         }
     }

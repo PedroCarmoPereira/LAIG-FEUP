@@ -24,7 +24,26 @@ class MyTriangle extends CGFobject {
 			0, 1, 2,
 			2, 1, 0,
 		];
+
+		this.texCoords = [
+			0, 1,
+			1, 1, 
+			0, 0, 
+			1, 0 
+		];
+
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	}
+
+	updateTexCoords(s, t){
+		var coord1 = (this.x2-this.x1) / s;
+		var coord2 = (this.y2-this.y1) / t;
+		this.texCoords = [
+			0, coord2,
+			coord1, coord2,
+			0, 0,
+			coord1, 0
+		]
+      };
 }

@@ -114,7 +114,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -127,7 +127,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -141,7 +141,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -155,7 +155,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -169,7 +169,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -182,7 +182,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -196,7 +196,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -210,7 +210,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -224,7 +224,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -238,7 +238,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Lamp"/>
+            <texture id="Lamp" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoCylinder" />
             </children>
@@ -252,7 +252,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="ChairLegs"/>
+            <texture id="ChairLegs" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="LampBase" />
             </children>
@@ -266,7 +266,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="ChairLegs"/>
+            <texture id="ChairLegs" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoTorus" />
             </children>
@@ -280,7 +280,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="ChairLegs"/>
+            <texture id="ChairLegs" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoTorus" />
             </children>
@@ -295,7 +295,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="ChairLegs"/>
+            <texture id="ChairLegs" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoTorus" />
             </children>
@@ -309,7 +309,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="ChairTop"/>
+            <texture id="ChairTop" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -322,7 +322,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Handle"/>
+            <texture id="Handle" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -335,7 +335,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Handle"/>
+            <texture id="Handle" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -348,7 +348,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Handle"/>
+            <texture id="Handle" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -361,7 +361,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Handle"/>
+            <texture id="Handle" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -374,7 +374,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Handle"/>
+            <texture id="Handle" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -387,7 +387,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Handle"/>
+            <texture id="Handle" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoSphere" />
             </children>
@@ -401,7 +401,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Wall"/>
+            <texture id="Wall" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -414,7 +414,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Wall"/>
+            <texture id="Wall" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -428,7 +428,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Floor"/>
+            <texture id="Floor" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -442,7 +442,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Shelf"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -456,7 +456,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Shelf"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -469,7 +469,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -480,9 +480,9 @@
                 <scale x="6" y="4" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="inherit" />
             </materials>
-            <texture id="Shelf"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -494,7 +494,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <componentref id="ShelfAux1" />
                 <componentref id="ShelfAux2" />
@@ -508,7 +508,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <componentref id="ShelfAux1" />
                 <componentref id="ShelfAux2" />
@@ -524,7 +524,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <componentref id="ShelfAux1" />
                 <componentref id="ShelfAux2" />
@@ -540,7 +540,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <componentref id="ShelfAux1" />
                 <componentref id="ShelfAux2" />
@@ -556,7 +556,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="0" length_t="0"/>
             <children>
                 <componentref id="ShelfAux1" />
                 <componentref id="ShelfAux2" />
@@ -569,7 +569,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Desk"/>
+            <texture id="Desk" length_s="0" length_t="0"/>
             <children>
                 <componentref id="DeskRight1" />
                 <componentref id="DeskRight2" />
@@ -594,7 +594,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Lamp"/>
+            <texture id="Lamp" length_s="0" length_t="0"/>
             <children>
                 <componentref id="LampBase" />
                 <componentref id="LampTop" />
@@ -606,7 +606,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="0" length_t="0"/>
             <children>
                 <componentref id="ChairLeg1" />
                 <componentref id="ChairLeg2" />
@@ -620,7 +620,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="Shelf"/>
+            <texture id="Shelf" length_s="0" length_t="0"/>
             <children>
                 <componentref id="ShelfAux1" />
                 <componentref id="ShelfAux2" />
@@ -639,7 +639,7 @@
             <materials>
                 <material id="demoMaterial" />
             </materials>
-            <texture id="demoTexture"/>
+            <texture id="demoTexture" length_s="0" length_t="0"/>
             <children>
                 <componentref id="Desk" />
                 <componentref id="Chair" />

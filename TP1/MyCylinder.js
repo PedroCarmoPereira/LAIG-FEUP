@@ -60,5 +60,8 @@ class MyCylinder extends CGFobject {
 		this.initGLBuffers();
 	};
 
+    updateTexCoords = function(s, t){
+        this.updateTexCoordsGLBuffers();
+      };
 
 }
