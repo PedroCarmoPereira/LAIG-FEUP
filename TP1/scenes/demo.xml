@@ -52,7 +52,7 @@
         <texture id="ChairLegs" file="scenes/images/chairlegs.jpg" />
         <texture id="Lamp" file="scenes/images/lamp.jpg" />
         <texture id="Floor" file="scenes/images/floor.jpg" />
-        <texture id="Handle" file="scenes/images/handle.jpg" />
+        <texture id="Handle" file="scenes/images/handle.png" />
         <texture id="Wall" file="scenes/images/wall.jpg" />
         <texture id="Shelf" file="scenes/images/shelf.jpg" />
     </textures>
@@ -70,6 +70,34 @@
             <ambient r="0" g="0.5" b="0" a="1.0" />
             <diffuse r="0" g="0.5" b="0" a="1.0" />
             <specular r="0" g="0" b="0" a="1.0" />
+        </material>
+
+        <material id="wall" shininess="10">
+            <emission r="0.2" g="0.2" b="0.2" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.3" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+
+        <material id="wood" shininess="10">
+            <emission r="0.2" g="0.2" b="0.2" a="1.0" />
+            <ambient r="0.4" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="1" g="1" b="1" a="1.0" />
+        </material>
+
+        <material id="wood2" shininess="10">
+            <emission r="0.2" g="0.2" b="0.2" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+        </material>
+
+        <material id="metal" shininess="10">
+            <emission r="0.6" g="0.6" b="0.6" a="1.0" />
+            <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.8" g="0.8" b="0.8" a="1.0" />
         </material>
 
     </materials>
@@ -120,7 +148,7 @@
                 <scale x="2" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -133,7 +161,7 @@
                 <scale x="2" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -147,7 +175,7 @@
                 <scale x="1.5" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -161,7 +189,7 @@
                 <scale x="1.5" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -175,7 +203,7 @@
                 <scale x="2" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -188,7 +216,7 @@
                 <scale x="2" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -202,7 +230,7 @@
                 <scale x="1.5" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -216,7 +244,7 @@
                 <scale x="1.5" y="1.5" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -230,7 +258,7 @@
                 <scale x="2" y="3" z="2.5" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Desk" length_s="0" length_t="0"/>
             <children>
@@ -273,6 +301,7 @@
             </transformation>
             <materials>
                 <material id="demoMaterial" />
+                <material id="metal" />
             </materials>
             <texture id="ChairLegs" length_s="0" length_t="0"/>
             <children>
@@ -287,6 +316,7 @@
             </transformation>
             <materials>
                 <material id="demoMaterial" />
+                <material id="metal" />
             </materials>
             <texture id="ChairLegs" length_s="0" length_t="0"/>
             <children>
@@ -302,6 +332,7 @@
             </transformation>
             <materials>
                 <material id="demoMaterial" />
+                <material id="metal" />
             </materials>
             <texture id="ChairLegs" length_s="0" length_t="0"/>
             <children>
@@ -315,7 +346,7 @@
                 <scale x="2" y="1" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="ChairTop" length_s="0" length_t="0"/>
             <children>
@@ -328,7 +359,7 @@
                 <scale x="0.1" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -341,7 +372,7 @@
                 <scale x="0.1" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -354,7 +385,7 @@
                 <scale x="0.1" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -367,7 +398,7 @@
                 <scale x="0.1" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -380,7 +411,7 @@
                 <scale x="0.1" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -393,7 +424,7 @@
                 <scale x="0.1" y="0.1" z="0.1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -404,11 +435,12 @@
             <transformation>
                 <translate x="-1.2" y="5" z="7" />
                 <rotate axis="y" angle="90" />
+                <rotate axis="x" angle="180" />
                 <scale x="15" y="5" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
-                <!--<material id="testMaterial" />-->
+                <material id="wall" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Wall" length_s="0" length_t="0"/>
             <children>
@@ -421,7 +453,8 @@
                 <scale x="15" y="5" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wall" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Wall" length_s="0" length_t="0"/>
             <children>
@@ -435,7 +468,7 @@
                 <scale x="15" y="7.5" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood" />
             </materials>
             <texture id="Floor" length_s="0" length_t="0"/>
             <children>
@@ -449,7 +482,7 @@
                 <scale x="1.5" y="4" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood2" />
             </materials>
             <texture id="inherit" length_s="0" length_t="0"/>
             <children>
@@ -463,7 +496,7 @@
                 <scale x="1.5" y="4" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood2" />
             </materials>
             <texture id="inherit" length_s="0" length_t="0"/>
             <children>
@@ -476,7 +509,7 @@
                 <scale x="0.2" y="4" z="1" />
             </transformation>
             <materials>
-                <material id="demoMaterial" />
+                <material id="wood2" />
             </materials>
             <texture id="inherit" length_s="0" length_t="0"/>
             <children>
@@ -489,7 +522,7 @@
                 <scale x="6" y="4" z="1" />
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="wood2" />
             </materials>
             <texture id="inherit" length_s="0" length_t="0"/>
             <children>

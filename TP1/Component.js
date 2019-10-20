@@ -17,7 +17,7 @@ class Component extends CGFobject {
         this.coords = coords;
     }
 
-    display(mat){
+    display(mat, tex){
         for(let k = 0; k < this.children.length; k++){
             this.scene.pushMatrix();
             if(this.transformations)
@@ -30,7 +30,11 @@ class Component extends CGFobject {
             if(this.materials[matIndex] != 'inherit'){   
                 if(this.textures == 'none'){
                     this.materials[matIndex].setTexture();
-                }  
+                } 
+                
+                else if(this.textures == 'inherit'){
+                    this.textures = tex;
+                }
 
                 else if(this.textures != 'inherit') 
                     this.materials[matIndex].setTexture(this.textures[0]); 
@@ -45,6 +49,10 @@ class Component extends CGFobject {
                     this.materials[matIndex].setTexture();
                 }  
 
+                else if(this.textures == 'inherit'){
+                    this.textures = tex;
+                }
+
                 else if(this.textures != 'inherit') 
                     this.materials[matIndex].setTexture(this.textures[0]); 
             
@@ -52,7 +60,7 @@ class Component extends CGFobject {
                     this.materials[matIndex].apply();  
             }
                 
-            this.children[k].display(this.materials);
+            this.children[k].display(this.materials, this.textures);
             this.scene.popMatrix();
         }
     }
