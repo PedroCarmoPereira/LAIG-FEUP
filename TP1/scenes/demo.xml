@@ -360,6 +360,7 @@
             </transformation>
             <materials>
                 <material id="wood" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -373,6 +374,7 @@
             </transformation>
             <materials>
                 <material id="wood" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -386,6 +388,7 @@
             </transformation>
             <materials>
                 <material id="wood" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -399,6 +402,7 @@
             </transformation>
             <materials>
                 <material id="wood" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -412,6 +416,7 @@
             </transformation>
             <materials>
                 <material id="wood" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>
@@ -425,6 +430,7 @@
             </transformation>
             <materials>
                 <material id="wood" />
+                <material id="testMaterial" />
             </materials>
             <texture id="Handle" length_s="0" length_t="0"/>
             <children>

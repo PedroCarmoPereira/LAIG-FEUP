@@ -39,7 +39,6 @@ class Component extends CGFobject {
                 else if(this.textures != 'inherit') 
                     this.materials[matIndex].setTexture(this.textures[0]); 
             
-                if(this.materials != 'inherit')
                     this.materials[matIndex].apply();
             }
 
