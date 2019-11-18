@@ -39,7 +39,15 @@ class NurbsScene extends CGFscene
 		this.plane = new cylinder2(this, 50, 50);
 		
 		this.surfaces = [];
-		
+
+		/*REMOVE L8R*/
+		var props1 = new Props(0, 0, 0, 0, 0, 0, 1, 1, 1);
+		var props2 = new Props(-2, 2, 2, 90, 0, 0, 2, 2, 2);
+		var props3 = new Props(-2, 2, 2, 0, 0, 0, 2, 2, 2);
+
+		this.keyFrameAnim = new KeyFrameAnimation(props1, props2, 0, 2);
+		this.setUpdatePeriod(50);
+		this.comp = new Component(this, mat4.create(), 'none', 'none', [this.plane], []);
 
 		this.makeSurface(1, // degree on U: 2 control vertexes U
 						 1, // degree on V: 2 control vertexes on V
@@ -166,6 +174,10 @@ class NurbsScene extends CGFscene
 		this.setShininess(10.0);	
 	};
 
+	update(t){
+		this.keyFrameAnim.update(t);
+	};
+
 	display() 
 	{
 		// Clear image and depth buffer every time we update the scene
@@ -197,8 +209,11 @@ class NurbsScene extends CGFscene
 			this.popMatrix();
 		}*/
 
-		this.pushMatrix();
-		this.plane.display();
-		this.popMatrix();
+		//this.pushMatrix();
+		this.keyFrameAnim.apply(this.comp);
+		this.comp.display();
+		//this.popMatrix();
+
+		//requestAnimationFrame(this.animation.apply(transfMatrix, this.plane));
 	};
 }

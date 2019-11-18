@@ -68,7 +68,6 @@ class cylinder2 extends CGFobject {
         this.scene.popMatrix();
         
         this.obj2.display();
-
         this.scene.pushMatrix();
         this.scene.rotate(Math.PI, 0, 1, 0);
         this.obj2.display();
