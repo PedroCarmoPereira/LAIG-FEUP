@@ -43,8 +43,8 @@ class MySceneGraph {
          * If any error occurs, the reader calls onXMLError on this object, with an error message
          */
         this.reader.open('scenes/' + filename, this);
-
         this.cylinder = new MyCylinder(this.scene, 5, 50, 50, 2, 1, 1);
+        
     }
 
     /*
@@ -1129,7 +1129,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-       
         this.components[this.idRoot].display(this.components[this.idRoot].materials);
     }
 }

@@ -39,7 +39,8 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(100);
         this.setLights = [];
 
-        this.texrtt = new CGFtextureRTT(this, this.width, this.height);
+        this.texrtt = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
+        this.securityCam = new MySecurityCamera(this, -1, 0, 5, 0, 5);
     }
 
     /**
@@ -138,6 +139,8 @@ class XMLscene extends CGFscene {
         // Apply transformations corresponding to the camera position relative to the origin
         this.applyViewMatrix();
 
+        this.texrtt.bind(1);
+
         this.pushMatrix();
         this.axis.display();
 
@@ -151,7 +154,7 @@ class XMLscene extends CGFscene {
             this.setDefaultAppearance();
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            this.graph.displayScene(this.shader);
 
             for(let i = 0; i < this.numLights; i++){
                 if(this.setLights[i]) {
@@ -171,17 +174,12 @@ class XMLscene extends CGFscene {
     }
 
     display(){
-        // to do render_to_texture
-		/*this.texrtt.attachToFrameBuffer();
-		this.render(this.securityCamera);
-		this.texrtt.detachFromFrameBuffer();*/
-        this.render(this.camera);
-        /*this.shader = new CGFshader(this.gl, "shaders/rectangle.vert", "shaders/rectangle.frag");
-        this.shader.setUniformsValues({ uSamplerTex: 1 });
-        this.texrtt.bind(1);
-		this.securityCam = new MySecurityCamera(this, -1, 0, 5, 0, 5, this.shader);
-        this.disable(this.gl.DEPTH_TEST);
+		this.texrtt.attachToFrameBuffer();
+		this.render();
+		this.texrtt.detachFromFrameBuffer();
+        this.render();
+        this.gl.disable(this.gl.DEPTH_TEST);
         this.securityCam.display();
-        this.enable(this.gl.DEPTH_TEST);*/
+        this.gl.enable(this.gl.DEPTH_TEST);
 	}
 }
