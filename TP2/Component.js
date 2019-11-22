@@ -1,8 +1,8 @@
 function isPrimitive(obj){
-    /*if (obj instanceof MyRectangle || obj instanceof MyCylinder || obj instanceof MySphere
+    if (obj instanceof MyRectangle || obj instanceof MyCylinder || obj instanceof MySphere
         || obj instanceof MyTorus || obj instanceof MyTriangle) return true;
 
-    return false;*/
+    return false;
 }
 
 class Component extends CGFobject {
@@ -26,8 +26,8 @@ class Component extends CGFobject {
             if(isPrimitive(this.children[k]))
                 this.children[k].updateTexCoords(this.coords[0], this.coords[1]);
 
-            //var matIndex = this.scene.matCnt % this.materials.length;
-            /*if(this.materials[matIndex] != 'inherit'){   
+            var matIndex = this.scene.matCnt % this.materials.length;
+            if(this.materials[matIndex] != 'inherit'){   
                 if(this.textures == 'none'){
                     this.materials[matIndex].setTexture();
                 } 
@@ -57,7 +57,7 @@ class Component extends CGFobject {
             
                 if(this.materials != 'inherit')
                     this.materials[matIndex].apply();  
-            }*/
+            }
                 
             this.children[k].display(this.materials, this.textures);
             this.scene.popMatrix();
