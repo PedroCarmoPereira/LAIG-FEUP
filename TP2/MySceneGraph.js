@@ -44,7 +44,7 @@ class MySceneGraph {
          */
         this.reader.open('scenes/' + filename, this);
         //this.cylinder = new MyCylinder(this.scene, 5, 50, 50, 2, 1, 1);
-        this.cylinder = new cylinder2(this.scene, 50, 50, 4, 2, 2);
+        //this.cylinder = new cylinder2(this.scene, 50, 50, 4, 2, 2);
         
     }
 
@@ -1130,7 +1130,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        //this.components[this.idRoot].display(this.components[this.idRoot].materials);
-        this.cylinder.display();
+        this.components[this.idRoot].display(this.components[this.idRoot].materials);
     }
 }
