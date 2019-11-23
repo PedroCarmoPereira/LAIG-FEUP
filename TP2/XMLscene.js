@@ -179,7 +179,7 @@ class XMLscene extends CGFscene {
 		this.texrtt.detachFromFrameBuffer();
         this.render();
         this.gl.disable(this.gl.DEPTH_TEST);
-        this.securityCam.display();
+        //this.securityCam.display();
         this.gl.enable(this.gl.DEPTH_TEST);
 	}
 }

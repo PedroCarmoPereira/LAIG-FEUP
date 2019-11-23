@@ -1,34 +1,37 @@
 class cylinder2 extends CGFobject {
 
-    constructor(scene, stacks, slices) {
+    constructor(scene, slices, stacks, height, r1, r2) {
         super(scene);
         this.scene = scene;
         this.stacks = stacks;
         this.slices = slices;
+        this.height = height;
+        this.r1 = r1;
+        this.r2 = r2;
         this.initBuffers();
     };
 
     initBuffers(){
-
+        console.log(this.height);
         var nurbsSurface = new CGFnurbsSurface(3, 1, [
             [
-                [-1.0, -1.0, 0.0, 1 ],
-                [-1.0,  1.0, 0.0, 1 ] 
+                [-this.r2, 0.0, 0.0, 1 ],
+                [-this.r1,  this.height, 0.0, 1 ] 
             ],
 
             [ 
-                [ -1.0, -1.0, 1.4, 1 ],
-                [ -1.0,  1.0, 1.4, 1 ]							 
+                [ -this.r2, 0.0, this.r2*1.4, 1 ],
+                [ -this.r1,  this.height, this.r1*1.4, 1 ]							 
             ],
 
             [ 
-                [ 1.0, -1.0, 1.4, 1 ],
-                [ 1.0,  1.0, 1.4, 1 ]							 
+                [ this.r2, 0.0, this.r2*1.4, 1 ],
+                [ this.r1,  this.height, this.r1*1.4, 1 ]							 
             ],
            
             [
-                [ 1.0, -1.0, 0.0, 1 ],
-                [ 1.0,  1.0, 0.0, 1 ]							 
+                [ this.r2, 0.0, 0.0, 1 ],
+                [ this.r1, this.height, 0.0, 1 ]							 
             ]
         ]);
 
@@ -36,23 +39,23 @@ class cylinder2 extends CGFobject {
 
         var nurbsSurface = new CGFnurbsSurface(3, 1, [
             [
-                [-1.0, -1.0, 0.0, 1 ],
-                [-1.0,  1.0, 0.0, 1 ], 
+                [-this.r2, 0.0, 0.0, 1 ],
+                [-this.r1,  this.height, 0.0, 1 ], 
             ],
 
             [ 
-                [ -1.0, -1.0, -1.4, 1 ],
-                [ -1.0,  1.0, -1.4, 1 ],							 
+                [ -this.r2, 0.0, -this.r2*1.4, 1 ],
+                [ -this.r1,  this.height, -this.r1*1.4, 1 ],							 
             ],
 
             [ 
-                [ 1.0, -1.0, -1.4, 1 ],
-                [ 1.0,  1.0, -1.4, 1 ],							 
+                [ this.r2, 0.0, -this.r2*1.4, 1 ],
+                [ this.r1,  this.height, -this.r1*1.4, 1 ],							 
             ],
            
             [
-                [ 1.0, -1.0, 0.0, 1 ],
-                [ 1.0,  1.0, 0.0, 1 ],							 
+                [ this.r2, 0.0, 0.0, 1 ],
+                [ this.r1,  this.height, 0.0, 1 ],							 
             ]
         ]);
 
