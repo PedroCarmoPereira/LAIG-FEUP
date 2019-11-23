@@ -8,8 +8,9 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
-var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 7;
+var PRIMITIVES_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -174,6 +175,18 @@ class MySceneGraph {
                 return error;
         }
 
+        // <animations>
+        if ((index = nodeNames.indexOf("animations")) == -1) return "tag <animations> missing";
+        
+        else{
+            if (index != ANIMATIONS_INDEX) this.onXMLMinorError("tag <animations> out of order");
+            //Parse primitives block
+            if ((error = this.parseAnimations(nodes[index])) != null)
+                return error;
+
+        }
+
+
         // <primitives>
         if ((index = nodeNames.indexOf("primitives")) == -1)
             return "tag <primitives> missing";
@@ -185,7 +198,6 @@ class MySceneGraph {
             if ((error = this.parsePrimitives(nodes[index])) != null)
                 return error;
         }
-
         // <components>
         if ((index = nodeNames.indexOf("components")) == -1)
             return "tag <components> missing";
@@ -675,8 +687,6 @@ class MySceneGraph {
                 return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, patch, plane or cylinder2)";
             }
 
-            console.log("TODO: cylinder2 fix");
-
             // Specifications for the current primitive.
             var primitiveType = grandChildren[0].nodeName;
 
@@ -1059,6 +1069,76 @@ class MySceneGraph {
         }
     }
 
+    parseAnimations(animationsNode){
+        var children = animationsNode.children;
+        this.animations = [];
+        var grandChildren = [];
+        var greatGrandChildren = [];
+        var keyframes;
+        for(let i = 0; i < children.length; i++){
+            if (children[i].nodeName != "animation") {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+
+            // Get id of the current animation.
+            var animationId = this.reader.getString(children[i], 'id');
+            if (animationId == null)
+                return "no ID defined for animation";
+
+            // Checks for repeated IDs.
+            if (this.animations[animationId] != null)
+                return "ID must be unique for each animation (conflict: ID = " + animationId + ")";
+
+            grandChildren = children[i].children;
+
+            let kf_test = false;
+            for(let j = 0; j < grandChildren.length; j++){
+
+                if (grandChildren[j].nodeName != "keyframe") {
+                    this.onXMLMinorError("unknown tag <" + grandChildren[i].nodeName + ">");
+                    continue;
+                }
+                
+                var instant = this.reader.getFloat(grandChildren[j], "instant");
+                greatGrandChildren = grandChildren[j].children;
+                kf_test = true;
+                keyframes = [];
+                var transfMatrix = mat4.create();
+                for(let k = 0; k < greatGrandChildren.length; k++){
+                    switch (greatGrandChildren[k].nodeName) {
+                        case 'translate':
+                            var coordinates = this.parseCoordinates3D(greatGrandChildren[k], "translate transformation for ID " + animationId);
+                            if (!Array.isArray(coordinates))
+                                return coordinates;
+    
+                            transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+                            break;
+                        case 'scale':                        
+                            var coordinates = this.parseCoordinates3D(greatGrandChildren[k], "scale transformation for ID " + animationId);
+                            if(!Array.isArray(coordinates)) return coordinates;
+    
+                            transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
+                            break;
+                        case 'rotate':
+                            var xrot, yrot, zrot;
+                            xrot = this.reader.getString(greatGrandChildren[k], "angle_x");
+                            yrot = this.reader.getFloat(greatGrandChildren[k], "angle_y");
+                            zrot = this.reader.getFloat(greatGrandChildren[k], "angle_y");
+                            transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, xrot);
+                            transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, yrot);
+                            transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, zrot);
+                            break;
+                    }
+                }
+
+                keyframes.push([instant, transfMatrix]);
+            }
+
+            if (!kf_test) this.onXMLMinorError("<keyframe> tag missing");
+            this.animations[animationId] = keyframes;
+        }
+    }
 
     /**
      * Parse the coordinates from a node with ID = id
@@ -1176,5 +1256,6 @@ class MySceneGraph {
      */
     displayScene() {
         this.components[this.idRoot].display(this.components[this.idRoot].materials);
+        console.log(this.animations);
     }
 }
