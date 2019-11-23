@@ -670,9 +670,12 @@ class MySceneGraph {
             if (grandChildren.length != 1 ||
                 (grandChildren[0].nodeName != 'rectangle' && grandChildren[0].nodeName != 'triangle' &&
                     grandChildren[0].nodeName != 'cylinder' && grandChildren[0].nodeName != 'sphere' &&
-                    grandChildren[0].nodeName != 'torus')) {
-                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere or torus)"
+                    grandChildren[0].nodeName != 'torus' && grandChildren[0].nodeName != 'patch' && grandChildren[0].nodeName != 'plane'
+                    && grandChildren[0].nodeName != 'cylinder2' )) {
+                return "There must be exactly 1 primitive type (rectangle, triangle, cylinder, sphere, torus, patch, plane or cylinder2)";
             }
+
+            console.log("TODO: cylinder2 fix");
 
             // Specifications for the current primitive.
             var primitiveType = grandChildren[0].nodeName;
@@ -816,6 +819,36 @@ class MySceneGraph {
 
                 var tor = new MyTorus(this.scene, primitiveId, slices, loops, r1, r2);
                 this.primitives[primitiveId] = tor;
+            }
+
+            else if (primitiveType == 'plane'){
+                var U = this.reader.getFloat(grandChildren[0], 'npartsU');
+                var V = this.reader.getFloat(grandChildren[0], 'npartsV');
+
+                var plane = new Plane(this.scene, U, V);
+                this.primitives[primitiveId] = plane;
+            }
+            
+            else if (primitiveType == 'patch'){
+                var U = this.reader.getFloat(grandChildren[0], 'npartsU');
+                var V = this.reader.getFloat(grandChildren[0], 'npartsV');
+
+                var degU = this.reader.getFloat(grandChildren[0], 'npointsU');
+                var degV = this.reader.getFloat(grandChildren[0], 'npointsV');
+
+                var controlPointNode = grandChildren[0].children;
+                var controlPoints = [];
+                for (let i = 0; i < controlPointNode.length; i++) {
+                        let controlPoint = [];
+                        controlPoint[0] = this.reader.getFloat(controlPointNode[i], 'xx');
+                        controlPoint[1] = this.reader.getFloat(controlPointNode[i], 'yy');
+                        controlPoint[2] = this.reader.getFloat(controlPointNode[i], 'zz');
+                        controlPoints.push(controlPoint);
+                }
+
+                var patch = new Patch(this.scene, U, V, degU, degV, controlPoints);
+                this.primitives[primitiveId] = patch;
+
             }
 
             else {

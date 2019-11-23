@@ -1,13 +1,19 @@
 <lxs>
     <scene root="Study" axis_length="5"/>
 
-    <views default="demoPerspective">
-        <perspective id="demoPerspective" near="0.1" far="500" angle="45">
+    <views default="frontPerspective">
+        
+        <perspective id="frontPerspective" near="0.1" far="500" angle="45">
             <from x="15" y="15" z="-10" />
             <to x="0" y="-2" z="10" />
         </perspective>
+
+        <perspective id="topdownPerspective" near="0.1" far="100" angle="90">
+            <from x="5" y="15" z="5" />
+            <to x="0" y="-2" z="0" />
+        </perspective>
         <!--  Left e Bottom devem ser < 0 -->
-       <ortho id="demoOrtho" near="0.01" far ="500" left="-10" right="10" top="10" bottom="-10">
+       <ortho id="frontOrtho" near="0.01" far ="500" left="-10" right="10" top="10" bottom="-10">
             <from x="14.296844482421875" y="10.409506797790527" z="6.718874931335449" />
             <to x="-0.7031448483467102" y="0.40950608253479004" z="4.218871116638184" />
             <up x="0" y ="1" z="0" /> 
@@ -137,7 +143,15 @@
 
         <primitive id="LampBase">
             <cylinder base='1' top='1' height='2' slices='50' stacks='50' />
-        </primitive>         
+        </primitive>    
+
+        <primitive id="demoPatch">
+            <patch npointsU="1" npointsV="1" npartsU="1" npartsV="1" >
+                <controlpoint xx="0" yy="0" zz="0" />
+                <controlpoint xx="1" yy="1" zz="1" />
+            </patch>
+        </primitive>
+
     </primitives>
 
     <components>
@@ -681,6 +695,20 @@
                 <componentref id="ShelfBack" />
             </children>
         </component>
+
+        <component id="PatchTest">
+            <transformation>
+                <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="wood2" />
+            </materials>
+            <texture id="inherit" length_s="0" length_t="0"/>
+            <children>
+                <primitiveref id="demoPatch" />
+            </children>
+        </component>
+
         <component id="Study">
             <transformation>
             </transformation>
