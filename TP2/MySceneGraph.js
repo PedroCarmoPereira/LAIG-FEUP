@@ -851,6 +851,18 @@ class MySceneGraph {
 
             }
 
+            else if (primitiveType == 'cylinder2'){
+                //(scene, slices, stacks, height, r1, r2)
+                var slices = this.reader.getFloat(grandChildren[0], 'slices');
+                var stacks = this.reader.getFloat(grandChildren[0], 'stacks');
+                var base = this.reader.getFloat(grandChildren[0], 'base');
+                var top = this.reader.getFloat(grandChildren[0], 'top');
+                var height = this.reader.getFloat(grandChildren[0], 'height');
+
+                var cyl = new cylinder2(this.scene, slices, stacks, base, top, height);
+                this.primitives[primitiveId] = cyl;
+            }
+
             else {
                 console.warn("To do: Parse other primitives.");
             }
