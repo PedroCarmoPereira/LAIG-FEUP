@@ -165,10 +165,29 @@
         </primitive>    
 
         <primitive id="demoPatch">
-            <patch npointsU="1" npointsV="1" npartsU="1" npartsV="1" >
-                <controlpoint xx="0" yy="0" zz="0" />
-                <controlpoint xx="1" yy="1" zz="1" />
+            <patch npointsU="2" npointsV="1" npartsU="50" npartsV="50" >
+                <controlpoint xx="-1.5" yy="-1.5" zz="0" />
+                <controlpoint xx="-1.5" yy="1.5" zz="0" />
+                <controlpoint xx="0" yy="-1.5" zz="2" />
+                <controlpoint xx="0" yy="1.5" zz="2" />
+                <controlpoint xx="1.5" yy="-1.5" zz="0" />
+                <controlpoint xx="1.5" yy="1.5" zz="0" />
             </patch>
+        </primitive>
+
+        <primitive id="demoPatch2">
+            <patch npointsU="2" npointsV="1" npartsU="50" npartsV="50" >
+                <controlpoint xx="-1.5" yy="-1.5" zz="0" />
+                <controlpoint xx="-1.5" yy="1.5" zz="0" />
+                <controlpoint xx="0" yy="-1.5" zz="-2" />
+                <controlpoint xx="0" yy="1.5" zz="-2" />
+                <controlpoint xx="1.5" yy="-1.5" zz="0" />
+                <controlpoint xx="1.5" yy="1.5" zz="0" />
+            </patch>
+        </primitive>
+
+        <primitive id="demoCylinder2">
+            <cylinder2 base="2" top="2" height="2" slices="50" stacks="50" />
         </primitive>
 
     </primitives>
@@ -358,18 +377,33 @@
         </component>
         <component id="ChairBack">
             <transformation>
-                <translate x="3.4" y="2.5" z="3" />
+                <translate x="3.3" y="2.8" z="3" />
                 <rotate axis="y" angle="90" />
-                <rotate axis="z" angle="45" />
-                <scale x="0.6" y="0.6" z="0.2" />
+                <scale x="0.6" y="0.8" z="0.2" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
                 <material id="metal" />
             </materials>
-            <texture id="ChairLegs" length_s="0" length_t="0"/>
+            <texture id="ChairTop" length_s="0" length_t="0"/>
             <children>
-                <primitiveref id="demoTorus" />
+                <primitiveref id="demoPatch" />
+            </children>
+        </component>
+        <component id="ChairBack2">
+            <transformation>
+                <translate x="3.3" y="2.8" z="3" />
+                <rotate axis="y" angle="90" />
+                <rotate axis="x" angle="180" />
+                <scale x="0.6" y="0.8" z="0.2" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+                <material id="metal" />
+            </materials>
+            <texture id="ChairTop" length_s="0" length_t="0"/>
+            <children>
+                <primitiveref id="demoPatch2" />
             </children>
         </component>
         <component id="ChairTop">
@@ -692,6 +726,7 @@
                 <componentref id="ChairLeg1" />
                 <componentref id="ChairLeg2" />
                 <componentref id="ChairBack" />
+                <componentref id="ChairBack2" />
                 <componentref id="ChairTop" />
             </children>
         </component>
@@ -731,6 +766,20 @@
             </children>
         </component>
 
+        <component id="Basket">
+            <transformation>
+                <translate x="0" y="0" z="7" />
+                <scale x="0.3" y="1 " z="0.3" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="ChairLegs" length_s="0" length_t="0"/>
+            <children>
+                <primitiveref id="demoCylinder2" />
+            </children>
+        </component>
+
         <component id="Study">
             <transformation>
             </transformation>
@@ -746,6 +795,7 @@
                 <componentref id="Wall2" />
                 <componentref id="Floor" />
                 <componentref id="Shelf" />
+                <componentref id="Basket" />
             </children>
         </component>
     </components>

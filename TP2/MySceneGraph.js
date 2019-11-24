@@ -46,7 +46,6 @@ class MySceneGraph {
         this.reader.open('scenes/' + filename, this);
         //this.cylinder = new MyCylinder(this.scene, 5, 50, 50, 2, 1, 1);
         //this.cylinder = new cylinder2(this.scene, 50, 50, 4, 2, 2);
-        
     }
 
     /*
@@ -848,15 +847,23 @@ class MySceneGraph {
 
                 var controlPointNode = grandChildren[0].children;
                 var controlPoints = [];
-                for (let i = 0; i < controlPointNode.length; i++) {
+                var control = [];
+                for (let i = 0; i <= degU; i++) {
+                    for(let j = 0; j <= degV; j++){
+                        console.log(j);
                         let controlPoint = [];
-                        controlPoint[0] = this.reader.getFloat(controlPointNode[i], 'xx');
-                        controlPoint[1] = this.reader.getFloat(controlPointNode[i], 'yy');
-                        controlPoint[2] = this.reader.getFloat(controlPointNode[i], 'zz');
+                        controlPoint[0] = this.reader.getFloat(controlPointNode[j+i*(degV+1)], 'xx');
+                        controlPoint[1] = this.reader.getFloat(controlPointNode[j+i*(degV+1)], 'yy');
+                        controlPoint[2] = this.reader.getFloat(controlPointNode[j+i*(degV+1)], 'zz');
+                        controlPoint[3] = 1;
                         controlPoints.push(controlPoint);
-                }
-
-                var patch = new Patch(this.scene, U, V, degU, degV, controlPoints);
+                        console.log(controlPoints);
+                    }
+                        control.push(controlPoints);
+                        controlPoints = [];
+                    }
+                   // console.log(control);
+                var patch = new Patch(this.scene, U, V, degU, degV, control);
                 this.primitives[primitiveId] = patch;
 
             }
@@ -869,7 +876,7 @@ class MySceneGraph {
                 var top = this.reader.getFloat(grandChildren[0], 'top');
                 var height = this.reader.getFloat(grandChildren[0], 'height');
 
-                var cyl = new cylinder2(this.scene, slices, stacks, base, top, height);
+                var cyl = new cylinder2(this.scene, slices, stacks, height, base, top);
                 this.primitives[primitiveId] = cyl;
             }
 
@@ -877,7 +884,6 @@ class MySceneGraph {
                 console.warn("To do: Parse other primitives.");
             }
         }
-
         this.log("Parsed primitives");
         return null;
     }
@@ -1273,6 +1279,7 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.components[this.idRoot].display(this.components[this.idRoot].materials)
+        this.components[this.idRoot].display(this.components[this.idRoot].materials);
+        //this.primitives['demoPatch'].display();
     }
 }
