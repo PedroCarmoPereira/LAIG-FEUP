@@ -1149,16 +1149,7 @@ class MySceneGraph {
 
                 var time;
                 if(lastinst != instant) time = instant - lastinst;
-                else time = instant
-                console.log("X: " + x);
-                console.log("Y: " + y);
-                console.log("Z: " + z);
-                console.log("aX: " + ax);
-                console.log("aY: " + ay);
-                console.log("aZ: " + az);
-                console.log("sX: " + sx);
-                console.log("sY: " + sy);
-                console.log("sZ: " + sz);
+                else time = instant;
                 keyframes.push(new KeyFrameAnimation(time, new Props(x, y, z, ax, ay, az, sx, sy, sz)));
             }
 

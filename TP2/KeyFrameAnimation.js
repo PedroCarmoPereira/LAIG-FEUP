@@ -24,7 +24,6 @@ class KeyFrameAnimation extends Animation{
         this.baseTransformation = mat4.rotateZ(this.baseTransformation, this.baseTransformation, 0);
         this.baseTransformation = mat4.scale(this.baseTransformation, this.baseTransformation, [1,1,1]); 
         this.done = false;
-        this.ping = false;
     }
     
 
@@ -54,26 +53,12 @@ class KeyFrameAnimation extends Animation{
     apply(component){
         if (this.startTime < this.endTime){
             component.transformations = mat4.translate(component.transformations, this.baseTransformation, this.currentProps.coords);
-            console.log("APLLY : " + this.baseTransformation);
             component.transformations = mat4.rotateX(component.transformations, component.transformations, this.currentProps.angles[0]*Math.PI/180);
             component.transformations = mat4.rotateY(component.transformations, component.transformations, this.currentProps.angles[1]*Math.PI/180);
             component.transformations = mat4.rotateZ(component.transformations, component.transformations, this.currentProps.angles[2]*Math.PI/180);
             component.transformations = mat4.scale(component.transformations, component.transformations, this.currentProps.scales);
-            if(!this.ping) {
-                this.baseTransformation = mat4.create();
-                this.baseTransformation = mat4.translate(this.baseTransformation, this.baseTransformation, [0,0,0]); 
-                this.baseTransformation = mat4.rotateX(this.baseTransformation, this.baseTransformation, 0);
-                this.baseTransformation = mat4.rotateY(this.baseTransformation, this.baseTransformation, 0);
-                this.baseTransformation = mat4.rotateZ(this.baseTransformation, this.baseTransformation, 0);
-                this.baseTransformation = mat4.scale(this.baseTransformation, this.baseTransformation, [1,1,1]); 
-                this.ping = true;
-            }
-            return null;
         }
 
-        else {
-            this.done = true;
-            return component.transformations;
-        }
+        else this.done = true;
     }
 }

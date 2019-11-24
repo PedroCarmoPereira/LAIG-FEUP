@@ -17,21 +17,16 @@ class Component extends CGFobject {
         this.coords = coords;
         this.anims = animations;
         this.ai = 0;
-        this.tmp = null;
         if(!this.transformations) this.transformations = mat4.create();
     }
 
     display(mat, tex){
 
         if (this.ai < this.anims.length){
-            if (!this.anims[this.ai].done){
-                this.tmp = this.anims[this.ai].apply(this);
-            }
+            if (!this.anims[this.ai].done) this.anims[this.ai].apply(this);
             else {
                 this.ai++;
-                if (this.ai < this.anims.length) {
-                    this.anims[this.ai].baseTransformation = this.tmp;
-                }
+                if (this.ai < this.anims.length) this.anims[this.ai].currentProps = this.anims[this.ai - 1].currentProps;
             }
         }
 
