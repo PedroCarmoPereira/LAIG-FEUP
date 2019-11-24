@@ -40,7 +40,8 @@ class XMLscene extends CGFscene {
         this.setLights = [];
 
         this.texrtt = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
-        this.securityCam = new MySecurityCamera(this, -1, 0, 5, 0, 5);
+        console.log("asfasf" + this.gl.canvas.width);
+        this.securityCam = new MySecurityCamera(this, -1, -2, -12, 2, -3.5);
     }
 
     /**
@@ -48,7 +49,6 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        this.securityCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 20, 15), vec3.fromValues(0, 0, 0));
     }
 
     updateCamera(){
@@ -61,6 +61,7 @@ class XMLscene extends CGFscene {
             if (this.graph.components[comp].ai < this.graph.components[comp].anims.length)
             this.graph.components[comp].anims[this.graph.components[comp].ai].update(t);
         }
+        this.securityCam.update(t);
     }
 
     /**
@@ -131,9 +132,10 @@ class XMLscene extends CGFscene {
     /**
      * Displays the scene.
      */
-    render() {
+    render(camera) {
         // ---- BEGIN Background, camera and axis setup
 
+        this.camera = camera;
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -147,18 +149,19 @@ class XMLscene extends CGFscene {
 
         this.texrtt.bind(1);
 
+        
         this.pushMatrix();
         this.axis.display();
-
+        
         /*for (var i = 0; i < this.lights.length; i++) {
             //this.lights[i].setVisible(true);
             //this.lights[i].enable();
         }*/
-
+        
         if (this.sceneInited) {
             // Draw axis
             this.setDefaultAppearance();
-
+            
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene(this.shader);
 
@@ -181,9 +184,10 @@ class XMLscene extends CGFscene {
 
     display(){
 		this.texrtt.attachToFrameBuffer();
-		this.render();
-		this.texrtt.detachFromFrameBuffer();
-        this.render();
+		if (this.views != undefined) this.render(this.views['securityCamera']);
+        this.texrtt.detachFromFrameBuffer();
+        if (this.views != undefined) this.updateCamera();
+        this.render(this.camera);
         this.gl.disable(this.gl.DEPTH_TEST);
         this.securityCam.display();
         this.gl.enable(this.gl.DEPTH_TEST);

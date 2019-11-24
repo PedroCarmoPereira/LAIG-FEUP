@@ -245,7 +245,7 @@ class MySceneGraph {
         var children = viewsNode.children;
         
         var defaultView = this.reader.getString(viewsNode, "default");
-
+        
         this.scene.views = [];
 
         var grandChildren = [];

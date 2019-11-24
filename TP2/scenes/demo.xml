@@ -1,11 +1,14 @@
 <lxs>
     <scene root="Study" axis_length="5"/>
 
-    <views default="frontPerspective">
-        
-        <perspective id="frontPerspective" near="0.1" far="500" angle="45">
-            <from x="15" y="15" z="-10" />
-            <to x="0" y="-2" z="10" />
+    <views default="demoPerspective">
+        <perspective id="demoPerspective" near="0.1" far="500" angle="45">
+            <from x="5" y="5" z="-15" />
+            <to x="5" y="5" z="0" />
+        </perspective>
+        <perspective id="securityCamera" near="0.1" far="500" angle="45">
+            <from x="15" y="10" z="0" />
+            <to x="0" y="0" z="13" />
         </perspective>
 
         <perspective id="topdownPerspective" near="0.1" far="100" angle="90">
