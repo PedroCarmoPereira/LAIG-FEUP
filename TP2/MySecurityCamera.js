@@ -13,4 +13,8 @@ class MySecurityCamera {
         this.rectangle.display();
         this.scene.setActiveShader(this.scene.defaultShader);
     }
+
+    update(time){
+        this.shader.setUniformsValues({time: time / 200 % 1000})
+    }
 }
