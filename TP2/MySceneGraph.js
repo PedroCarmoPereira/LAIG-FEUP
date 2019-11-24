@@ -1089,6 +1089,7 @@ class MySceneGraph {
         var grandChildren = [];
         var greatGrandChildren = [];
         var keyframes;
+        var lastinst = -1;
         for(let i = 0; i < children.length; i++){
             if (children[i].nodeName != "animation") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -1116,6 +1117,7 @@ class MySceneGraph {
                 }
                 
                 var instant = this.reader.getFloat(grandChildren[j], "instant");
+                if (lastinst == -1) lastinst = instant;
                 greatGrandChildren = grandChildren[j].children;
                 kf_test = true;
                 var x = 0, y = 0, z = 0, ax = 0, ay = 0, az = 0, sx = 1, sy = 1, sz = 1;
@@ -1127,15 +1129,15 @@ class MySceneGraph {
                                 return coordinates;
     
                             x = coordinates[0];
-                            y = coordinates[0];
-                            z = coordinates[0];
+                            y = coordinates[1];
+                            z = coordinates[2];
                             break;
                         case 'scale':                        
                             var coordinates = this.parseCoordinates3D(greatGrandChildren[k], "scale transformation for ID " + animationId);
                             if(!Array.isArray(coordinates)) return coordinates;
                             sx = coordinates[0];
-                            sy = coordinates[0];
-                            sz = coordinates[0];
+                            sy = coordinates[1];
+                            sz = coordinates[2];
                             break;
                         case 'rotate':
                             ax = this.reader.getFloat(greatGrandChildren[k], "angle_x");
@@ -1145,7 +1147,19 @@ class MySceneGraph {
                     }
                 }
 
-                keyframes.push(new KeyFrameAnimation(instant, new Props(x, y, z, ax, ay, az, sx, sy, sz)));
+                var time;
+                if(lastinst != instant) time = instant - lastinst;
+                else time = instant
+                console.log("X: " + x);
+                console.log("Y: " + y);
+                console.log("Z: " + z);
+                console.log("aX: " + ax);
+                console.log("aY: " + ay);
+                console.log("aZ: " + az);
+                console.log("sX: " + sx);
+                console.log("sY: " + sy);
+                console.log("sZ: " + sz);
+                keyframes.push(new KeyFrameAnimation(time, new Props(x, y, z, ax, ay, az, sx, sy, sz)));
             }
 
             if (!kf_test) this.onXMLMinorError("<keyframe> tag missing");

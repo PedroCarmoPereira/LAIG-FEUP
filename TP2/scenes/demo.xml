@@ -120,8 +120,8 @@
         <animation id="demoAnim">
             <keyframe instant="10">
                 <translate x="10" y="-10" z="5" />
-                <rotate angle_x="0" angle_y="0" angle_z="0" />
-                <scale x="1" y="1" z="1" />
+                <rotate angle_x="45" angle_y="0" angle_z="0" />
+                <scale x="1" y="2" z="1" />
             </keyframe>
 
             <keyframe instant="15">
