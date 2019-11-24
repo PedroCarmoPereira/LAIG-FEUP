@@ -9,12 +9,13 @@ class MySecurityCamera {
 
     display(){
         this.scene.setActiveShader(this.shader);
-        this.scene.texrtt.bind();
+        this.scene.texrtt.bind(0);
         this.rectangle.display();
+        this.scene.texrtt.unbind(0);
         this.scene.setActiveShader(this.scene.defaultShader);
     }
 
     update(time){
-        this.shader.setUniformsValues({time: time / 200 % 1000})
+        this.shader.setUniformsValues({time: time / 200 % 1000});
     }
 }
