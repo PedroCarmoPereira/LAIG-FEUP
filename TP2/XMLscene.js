@@ -13,6 +13,7 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.currCameraID = "";
+        this.currSecCamID = "";
     }
 
     /**
@@ -41,7 +42,7 @@ class XMLscene extends CGFscene {
 
         this.texrtt = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
         console.log("asfasf" + this.gl.canvas.width);
-        this.securityCam = new MySecurityCamera(this, -1, -2, -12, 2, -3.5);
+        this.securityCam = new MySecurityCamera(this, -1, 0.5, 1, -1, -0.5);
     }
 
     /**
@@ -54,6 +55,10 @@ class XMLscene extends CGFscene {
     updateCamera(){
         this.camera = this.views[this.currCameraID];
         this.interface.setActiveCamera(this.camera);
+    }
+
+    updateSecurityCamera(){
+        this.securityView = this.views[this.currSecCamID];
     }
 
     update(t){
@@ -184,7 +189,7 @@ class XMLscene extends CGFscene {
 
     display(){
 		this.texrtt.attachToFrameBuffer();
-		if (this.views != undefined) this.render(this.views['securityCamera']);
+		if (this.views != undefined) this.render(this.securityView);
         this.texrtt.detachFromFrameBuffer();
         if (this.views != undefined) this.updateCamera();
         this.render(this.camera);
