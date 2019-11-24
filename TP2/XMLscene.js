@@ -13,6 +13,7 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.currCameraID = "";
+        this.currSecCamID = "";
     }
 
     /**
@@ -54,6 +55,10 @@ class XMLscene extends CGFscene {
     updateCamera(){
         this.camera = this.views[this.currCameraID];
         this.interface.setActiveCamera(this.camera);
+    }
+
+    updateSecurityCamera(){
+        this.securityView = this.views[this.currSecCamID];
     }
 
     update(t){
@@ -184,7 +189,7 @@ class XMLscene extends CGFscene {
 
     display(){
 		this.texrtt.attachToFrameBuffer();
-		if (this.views != undefined) this.render(this.views['securityCamera']);
+		if (this.views != undefined) this.render(this.securityView);
         this.texrtt.detachFromFrameBuffer();
         if (this.views != undefined) this.updateCamera();
         this.render(this.camera);

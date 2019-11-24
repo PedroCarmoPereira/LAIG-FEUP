@@ -324,7 +324,8 @@ class MySceneGraph {
         }
         this.scene.camera = this.scene.views[defaultView];
         this.scene.currCameraID = defaultView;
-
+        this.scene.currSecCamID = defaultView;
+        this.scene.securityView = this.scene.views[defaultView];
         return null;
     }
 

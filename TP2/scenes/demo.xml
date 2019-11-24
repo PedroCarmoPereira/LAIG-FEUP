@@ -698,9 +698,6 @@
         <component id="Shelf">
             <transformation>
             </transformation>
-            
-            <animationref id="demoAnim" />
-
             <materials>
                 <material id="demoMaterial" />
             </materials>
