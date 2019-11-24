@@ -7,7 +7,7 @@ function isPrimitive(obj){
 
 class Component extends CGFobject {
 
-    constructor(scene, transformations, materials, textures, children, coords){
+    constructor(scene, transformations, materials, textures, children, coords, animations){
         super(scene);
         this.scene = scene;
         this.transformations = transformations;
@@ -15,9 +15,28 @@ class Component extends CGFobject {
         this.textures = textures;
         this.children = children;
         this.coords = coords;
+        this.anims = animations;
+        this.ai = 0;
+        this.tmp = null;
+        if(!this.transformations) this.transformations = mat4.create();
     }
 
     display(mat, tex){
+
+        if (this.ai < this.anims.length){
+            if (!this.anims[this.ai].done){
+                this.tmp = this.anims[this.ai].apply(this);
+            }
+            else {
+                this.ai++;
+                if (this.ai < this.anims.length) {
+                    this.anims[this.ai].baseTransformation = this.tmp;
+                }
+            }
+        }
+
+
+
         for(let k = 0; k < this.children.length; k++){
             this.scene.pushMatrix();
             if(this.transformations)
@@ -59,7 +78,7 @@ class Component extends CGFobject {
                     this.materials[matIndex].apply();  
             }
                 
-            this.children[k].display(this.materials, this.textures);
+            if (!( this.children[k] instanceof KeyFrameAnimation) && this.children[k] != undefined)this.children[k].display(this.materials, this.textures);
             this.scene.popMatrix();
         }
     }

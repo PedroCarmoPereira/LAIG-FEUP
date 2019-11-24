@@ -893,6 +893,7 @@ class MySceneGraph {
         var componentTransf = [];
         var componentMat = [];
         var componentTex = [];
+        var componentAnim = [];
         var componentChildren = [];
         var componentTexCoords = [];
 
@@ -926,9 +927,9 @@ class MySceneGraph {
 
             var transformationIndex = nodeNames.indexOf("transformation");
             var materialsIndex = nodeNames.indexOf("materials");
+            var texIndex = nodeNames.indexOf("texture");
+            var animationIndex = nodeNames.indexOf("animationref");
             var childrenIndex = nodeNames.indexOf("children");
-
-           // this.onXMLMinorError("To do: Parse components.");
             // Transformations
             var transfMatrix = mat4.create();
             var transfVect = grandChildren[transformationIndex].children;
@@ -941,9 +942,7 @@ class MySceneGraph {
                     }
 
                     transfMatrix = this.transformations[transfID];
-
                 }
-
                 else if (transfVect[k].nodeName == "translate"){
                     var coordinates = this.parseCoordinates3D(transfVect[k], "translate transformation for ID " + componentID);
                         if (!Array.isArray(coordinates))
@@ -951,7 +950,6 @@ class MySceneGraph {
 
                     transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
                 }
-
                 else if (transfVect[k].nodeName == "rotate"){
                     var axis, angle;
                         axis = this.reader.getString(transfVect[k], "axis");
@@ -976,7 +974,6 @@ class MySceneGraph {
                     if(!Array.isArray(coordinates)) return coordinates;
 
                     transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
-
                 }
 
                 else {
@@ -986,6 +983,23 @@ class MySceneGraph {
 
                 componentTransf[componentID] = transfMatrix;
             }
+
+            // Animations
+            componentAnim[componentID] = [];
+            if(animationIndex != -1) {
+                if( grandChildren[animationIndex].nodeName == "animationref"){
+                    var animId = this.reader.getString(grandChildren[animationIndex], "id");
+                    componentAnim[componentID] = this.animations[animId];
+                    console.log("ANIM ID: " + animId);
+                    console.log(this.animations[animId]);
+                    console.log("THIS IS A: " + componentID);
+                }
+                else {
+                    this.onXMLMinorError("Unexpected tag " + grandChildren[animationIndex].nodeName);
+                    continue;
+                }
+            }
+            
             // Materials
 
             componentMat[componentID] = [];
@@ -1016,10 +1030,10 @@ class MySceneGraph {
         //this.log( this.reader.getString(grandChildren[2], "id"));
         componentTex[componentID] = [];
         componentTexCoords[componentID] = [];
-            if(grandChildren[2].nodeName == "texture"){
-                var textureID = this.reader.getString(grandChildren[2], "id");
-                var length_s = this.reader.getString(grandChildren[2], "length_s");
-                var length_t = this.reader.getString(grandChildren[2], "length_t");
+            if(grandChildren[texIndex].nodeName == "texture"){
+                var textureID = this.reader.getString(grandChildren[texIndex], "id");
+                var length_s = this.reader.getString(grandChildren[texIndex], "length_s");
+                var length_t = this.reader.getString(grandChildren[texIndex], "length_t");
                 componentTexCoords[componentID].push(length_s);
                 componentTexCoords[componentID].push(length_t);
                 if(textureID == 'inherit' || textureID == 'none'){
@@ -1036,7 +1050,7 @@ class MySceneGraph {
 
                 
             else {
-                this.onXMLMinorError("Unexpected tag " + grandChildren[2].nodeName);
+                this.onXMLMinorError("Unexpected tag " + grandChildren[texIndex].nodeName);
                 continue;
             }
 
@@ -1065,7 +1079,7 @@ class MySceneGraph {
             
             }
             
-            this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID], componentChildren[componentID], componentTexCoords[componentID]);
+            this.components[componentID] = new Component(this.scene, componentTransf[componentID], componentMat[componentID], componentTex[componentID], componentChildren[componentID], componentTexCoords[componentID], componentAnim[componentID]);
         }
     }
 
@@ -1093,6 +1107,7 @@ class MySceneGraph {
             grandChildren = children[i].children;
 
             let kf_test = false;
+            keyframes = [];            
             for(let j = 0; j < grandChildren.length; j++){
 
                 if (grandChildren[j].nodeName != "keyframe") {
@@ -1103,8 +1118,7 @@ class MySceneGraph {
                 var instant = this.reader.getFloat(grandChildren[j], "instant");
                 greatGrandChildren = grandChildren[j].children;
                 kf_test = true;
-                keyframes = [];
-                var transfMatrix = mat4.create();
+                var x = 0, y = 0, z = 0, ax = 0, ay = 0, az = 0, sx = 1, sy = 1, sz = 1;
                 for(let k = 0; k < greatGrandChildren.length; k++){
                     switch (greatGrandChildren[k].nodeName) {
                         case 'translate':
@@ -1112,27 +1126,26 @@ class MySceneGraph {
                             if (!Array.isArray(coordinates))
                                 return coordinates;
     
-                            transfMatrix = mat4.translate(transfMatrix, transfMatrix, coordinates);
+                            x = coordinates[0];
+                            y = coordinates[0];
+                            z = coordinates[0];
                             break;
                         case 'scale':                        
                             var coordinates = this.parseCoordinates3D(greatGrandChildren[k], "scale transformation for ID " + animationId);
                             if(!Array.isArray(coordinates)) return coordinates;
-    
-                            transfMatrix = mat4.scale(transfMatrix, transfMatrix, coordinates);
+                            sx = coordinates[0];
+                            sy = coordinates[0];
+                            sz = coordinates[0];
                             break;
                         case 'rotate':
-                            var xrot, yrot, zrot;
-                            xrot = this.reader.getString(greatGrandChildren[k], "angle_x");
-                            yrot = this.reader.getFloat(greatGrandChildren[k], "angle_y");
-                            zrot = this.reader.getFloat(greatGrandChildren[k], "angle_y");
-                            transfMatrix = mat4.rotateX(transfMatrix, transfMatrix, xrot);
-                            transfMatrix = mat4.rotateY(transfMatrix, transfMatrix, yrot);
-                            transfMatrix = mat4.rotateZ(transfMatrix, transfMatrix, zrot);
+                            ax = this.reader.getFloat(greatGrandChildren[k], "angle_x");
+                            ay = this.reader.getFloat(greatGrandChildren[k], "angle_y");
+                            az = this.reader.getFloat(greatGrandChildren[k], "angle_y");
                             break;
                     }
                 }
 
-                keyframes.push([instant, transfMatrix]);
+                keyframes.push(new KeyFrameAnimation(instant, new Props(x, y, z, ax, ay, az, sx, sy, sz)));
             }
 
             if (!kf_test) this.onXMLMinorError("<keyframe> tag missing");
@@ -1255,7 +1268,6 @@ class MySceneGraph {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        this.components[this.idRoot].display(this.components[this.idRoot].materials);
-        console.log(this.animations);
+        this.components[this.idRoot].display(this.components[this.idRoot].materials)
     }
 }

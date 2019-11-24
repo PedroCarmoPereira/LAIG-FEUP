@@ -19,7 +19,6 @@ class MyInterface extends CGFinterface {
         //  http://workshop.chromeexperiments.com/examples/gui
 
         this.gui = new dat.GUI();
-        //console.log("IDS: " + this.scene.viewIDs);
         //        this.gui.add(this.scene, 'selectedObject', this.scene.objectIDs).name('Selected Object').onChange(this.scene.updateObjectComplexity.bind(this.scene))
         // add a group of controls (and open/expand by defult)
 
@@ -56,7 +55,6 @@ class MyInterface extends CGFinterface {
     processKeyUp(event) {
         if(event.code === "KeyM"){
             this.scene.matCnt++;
-            console.log("M");
         }
         this.activeKeys[event.code]=false;
     };

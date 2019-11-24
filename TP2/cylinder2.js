@@ -12,7 +12,6 @@ class cylinder2 extends CGFobject {
     };
 
     initBuffers(){
-        console.log(this.height);
         var nurbsSurface = new CGFnurbsSurface(3, 1, [
             [
                 [-this.r2, 0.0, 0.0, 1 ],
