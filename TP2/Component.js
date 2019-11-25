@@ -36,9 +36,6 @@ class Component extends CGFobject {
             this.scene.pushMatrix();
             if(this.transformations)
                 this.scene.multMatrix(this.transformations);
-            
-            if(isPrimitive(this.children[k]))
-                this.children[k].updateTexCoords(this.coords[0], this.coords[1]);
 
             var matIndex = this.scene.matCnt % this.materials.length;
             if(this.materials[matIndex] != 'inherit'){   

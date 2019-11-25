@@ -41,7 +41,6 @@ class XMLscene extends CGFscene {
         this.setLights = [];
 
         this.texrtt = new CGFtextureRTT(this, this.gl.canvas.width, this.gl.canvas.height);
-        console.log("asfasf" + this.gl.canvas.width);
         this.securityCam = new MySecurityCamera(this, -1, 0.5, 1, -1, -0.5);
     }
 

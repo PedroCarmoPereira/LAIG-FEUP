@@ -851,19 +851,16 @@ class MySceneGraph {
                 var control = [];
                 for (let i = 0; i <= degU; i++) {
                     for(let j = 0; j <= degV; j++){
-                        console.log(j);
                         let controlPoint = [];
                         controlPoint[0] = this.reader.getFloat(controlPointNode[j+i*(degV+1)], 'xx');
                         controlPoint[1] = this.reader.getFloat(controlPointNode[j+i*(degV+1)], 'yy');
                         controlPoint[2] = this.reader.getFloat(controlPointNode[j+i*(degV+1)], 'zz');
                         controlPoint[3] = 1;
                         controlPoints.push(controlPoint);
-                        console.log(controlPoints);
                     }
                         control.push(controlPoints);
                         controlPoints = [];
                     }
-                   // console.log(control);
                 var patch = new Patch(this.scene, U, V, degU, degV, control);
                 this.primitives[primitiveId] = patch;
 
@@ -997,9 +994,6 @@ class MySceneGraph {
                 if( grandChildren[animationIndex].nodeName == "animationref"){
                     var animId = this.reader.getString(grandChildren[animationIndex], "id");
                     componentAnim[componentID] = this.animations[animId];
-                    console.log("ANIM ID: " + animId);
-                    console.log(this.animations[animId]);
-                    console.log("THIS IS A: " + componentID);
                 }
                 else {
                     this.onXMLMinorError("Unexpected tag " + grandChildren[animationIndex].nodeName);

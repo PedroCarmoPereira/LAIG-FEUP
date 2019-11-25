@@ -133,6 +133,30 @@
                 <scale x="1" y="1" z="1" />
             </keyframe>
         </animation>
+
+        <animation id="Desk">
+            <keyframe instant="10">
+                <translate x="10" y="5" z="2" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="Chair">
+            <keyframe instant="10">
+                <translate x="10" y="0" z="0" />
+                <rotate angle_x="0" angle_y="45" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
+
+        <animation id="Shelf">
+            <keyframe instant="5">
+                <translate x="0" y="5" z="0" />
+                <rotate angle_x="0" angle_y="0" angle_z="0" />
+                <scale x="1" y="1" z="1" />
+            </keyframe>
+        </animation>
     </animations>
     
     <primitives>
@@ -679,6 +703,7 @@
             </children>
         </component>
         <component id="Desk">
+            <animationref id="Desk" />
             <transformation>
             </transformation>
             <materials>
@@ -704,6 +729,7 @@
             </children>
         </component>
         <component id="Lamp">
+            <animationref id="Desk" />
             <transformation>
             </transformation>
             <materials>
@@ -716,6 +742,7 @@
             </children>
         </component>
         <component id="Chair">
+            <animationref id="Chair" />
             <transformation>
             </transformation>
             <materials>
@@ -731,6 +758,7 @@
             </children>
         </component>
         <component id="Shelf">
+            <animationref id="Shelf"/>
             <transformation>
             </transformation>
             <materials>
