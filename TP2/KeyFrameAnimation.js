@@ -6,15 +6,15 @@ class KeyFrameAnimation extends Animation{
         this.endProps = endProps;
         this.startTime = 0;
         this.endTime = endTime;
-        this.varProps = new Props((endProps.coords[0])/(endTime),
-                                  (endProps.coords[1])/(endTime),
-                                  (endProps.coords[2])/(endTime),
-                                  (endProps.angles[0])/(endTime),
-                                  (endProps.angles[1])/(endTime),
-                                  (endProps.angles[2])/(endTime),
-                                  (endProps.scales[0])/(endTime),
-                                  (endProps.scales[1])/(endTime),
-                                  (endProps.scales[2])/(endTime)
+        this.varProps = new Props((this.endProps.coords[0] - this.currentProps.coords[0])/(endTime),
+                                  (this.endProps.coords[1] - this.currentProps.coords[1])/(endTime),
+                                  (this.endProps.coords[2] - this.currentProps.coords[2])/(endTime),
+                                  (this.endProps.angles[0] - this.currentProps.angles[0])/(endTime),
+                                  (this.endProps.angles[1] - this.currentProps.angles[1])/(endTime),
+                                  (this.endProps.angles[2] - this.currentProps.angles[2])/(endTime),
+                                  (this.endProps.scales[0] - this.currentProps.scales[0])/(endTime),
+                                  (this.endProps.scales[1] - this.currentProps.scales[1])/(endTime),
+                                  (this.endProps.scales[2] - this.currentProps.scales[2])/(endTime)
                                 );
         this.then = 0;  
         this.baseTransformation = mat4.create();
@@ -33,7 +33,6 @@ class KeyFrameAnimation extends Animation{
         var deltaTime = now - this.then;
         this.then = now;
         this.startTime += deltaTime;
-
         if(this.startTime < this.endTime){
             this.currentProps.coords[0] += this.varProps.coords[0] * deltaTime;
             this.currentProps.coords[1] += this.varProps.coords[1] * deltaTime;
@@ -60,5 +59,18 @@ class KeyFrameAnimation extends Animation{
         }
 
         else this.done = true;
+    }
+
+    updateProps(){
+        this.varProps = new Props((this.endProps.coords[0] - this.currentProps.coords[0])/(this.endTime),
+                                  (this.endProps.coords[1] - this.currentProps.coords[1])/(this.endTime),
+                                  (this.endProps.coords[2] - this.currentProps.coords[2])/(this.endTime),
+                                  (this.endProps.angles[0] - this.currentProps.angles[0])/(this.endTime),
+                                  (this.endProps.angles[1] - this.currentProps.angles[1])/(this.endTime),
+                                  (this.endProps.angles[2] - this.currentProps.angles[2])/(this.endTime),
+                                  (this.endProps.scales[0] - this.currentProps.scales[0])/(this.endTime),
+                                  (this.endProps.scales[1] - this.currentProps.scales[1])/(this.endTime),
+                                  (this.endProps.scales[2] - this.currentProps.scales[2])/(this.endTime)
+                                );                   
     }
 }

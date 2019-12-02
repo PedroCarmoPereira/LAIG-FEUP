@@ -26,7 +26,10 @@ class Component extends CGFobject {
             if (!this.anims[this.ai].done) this.anims[this.ai].apply(this);
             else {
                 this.ai++;
-                if (this.ai < this.anims.length) this.anims[this.ai].currentProps = this.anims[this.ai - 1].currentProps;
+                if (this.ai < this.anims.length){
+                    this.anims[this.ai].currentProps = this.anims[this.ai - 1].currentProps;
+                    this.anims[this.ai].updateProps();
+                }
             }
         }
 

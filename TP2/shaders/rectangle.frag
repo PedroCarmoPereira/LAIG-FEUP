@@ -18,7 +18,7 @@ void main() {
     float step2 = 0.5;	
 
     if(mod(vTextureCoord.y * 10.0 - sin(time), 2.0) > 1.0){ 
-        vec4 color = vec4(tex.rgb + 0.7, 0.0);
+        vec4 color = vec4(tex.rgb + 0.8, 0.0);
         vec4 color2 = mix(color, black, smoothstep(step1, step2, dist));
         gl_FragColor = vec4(color2.rgb * dist, 1.0);
     }

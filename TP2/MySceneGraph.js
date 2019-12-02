@@ -1091,6 +1091,7 @@ class MySceneGraph {
         var greatGrandChildren = [];
         var keyframes;
         var lastinst = -1;
+        var tempId;
         for(let i = 0; i < children.length; i++){
             if (children[i].nodeName != "animation") {
                 this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
@@ -1118,7 +1119,6 @@ class MySceneGraph {
                 }
                 
                 var instant = this.reader.getFloat(grandChildren[j], "instant");
-                if (lastinst == -1) lastinst = instant;
                 greatGrandChildren = grandChildren[j].children;
                 kf_test = true;
                 var x = 0, y = 0, z = 0, ax = 0, ay = 0, az = 0, sx = 1, sy = 1, sz = 1;
@@ -1149,8 +1149,15 @@ class MySceneGraph {
                 }
 
                 var time;
-                if(lastinst != instant) time = instant - lastinst;
-                else time = instant;
+                if(animationId == tempId){
+                    time = instant - lastinst;
+                    lastinst = instant;
+                }
+                else{
+                    time = instant;
+                    tempId = animationId;
+                    lastinst = instant;
+                }
                 keyframes.push(new KeyFrameAnimation(time, new Props(x, y, z, ax, ay, az, sx, sy, sz)));
             }
 
