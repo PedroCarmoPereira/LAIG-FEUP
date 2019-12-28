@@ -9,11 +9,13 @@
 		
 		<div id="content">
 			<div id="params">
-				<input type="text" id="board" value="[[1,1,1],[0,0,0],[2,2,2]]"/>
+				<input type="text" id="board" value="[[0, 0, 0], [0, 0, 0], [0, 0, 0]]"/>
 				<br/>
-				<input type="text" id="player" value="1"/>
+				<input type="text" id="player" value="blue0"/>
 				<br/>
-				<input type="text" id="play" value="1-1"/>
+				<input type="text" id="col" value="1"/>
+				<br>
+				<input type="text" id="line" value="1"/>
 				<br/>
 				<button type="button" id="search" onClick="makeRequest();" >Send</button>
 			</div>
@@ -38,16 +40,18 @@
 				// Get Parameter Values
 				var v_board = document.querySelector("#board").value;
 				var v_player = document.querySelector("#player").value;
-				var v_play = document.querySelector("#play").value;
+				var v_col = document.querySelector("#col").value;
+				var v_line = document.querySelector("#line").value;
 				
 				// Compose Request String
-				var requestString = "[play," + v_player + "," + v_board + "," + v_play + "]";
+				var requestString = "[play," + v_player + "," + v_board + "," + v_col + "," + v_line + "]";
 				postGameRequest(requestString, handleReply);
 				
 			}
 			
 			//Handle the JSON Reply
 			function handleReply(data){
+				console.log("AAA" + data.target.response);
 				response=JSON.parse(data.target.response);
 				document.querySelector("#reply").innerHTML=response.message;		// Access message and show
 				document.querySelector("#board").value=response.newBoard;			// Access new Board
