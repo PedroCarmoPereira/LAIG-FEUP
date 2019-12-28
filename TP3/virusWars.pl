@@ -26,6 +26,14 @@ menu(Board, Blue, Red):- nl, nl, write('VIRUS WARS') ,  nl, nl, write('1. Tutori
 	   					(Op = 1 -> writeTutorial, nl, menu(Board, Blue, Red);
 	   					menu(Board, Blue, Red)))).
 
+boardBySize(laig, [[0, 0, 0, 0, 0, 0],
+				   [0, 0, 0, 0, 0, 0],
+				   [0, 0, 0, 0, 0, 0],
+				   [0, 0, 0, 0, 0, 0],
+				   [0, 0, 0, 0, 0, 0],
+				   [0, 0, 0, 0, 0, 0]
+			]).
+
 boardBySize(0, [[' ',' ',' ',' ',' ', ' '],
 				[' ',' ',' ',' ',' ', ' '],
 				[' ',' ',' ',' ',' ', ' '],
@@ -153,8 +161,8 @@ getRedsCells(Board, Size, L, LT, LF):- getIndexList(L, Board, Row), getRedsCells
 
 isRealPos(pos(C, L), Size):- C >= 0, C < Size, L >= 0, L < Size.
 
-isValidPos(pos(C, L), Size, Board, red):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'B' ; Elem = ' '), !.
-isValidPos(pos(C, L), Size, Board, blue):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'R' ; Elem = ' '), !.
+isValidPos(pos(C, L), Size, Board, red):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'B' ; Elem = ' '; Elem = 0), !.
+isValidPos(pos(C, L), Size, Board, blue):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'R' ; Elem = ' '; Elem = 0), !.
 
 genRadius(pos(C, L), List):- CL is C - 1, CR is C + 1, LUP is L - 1, LDOWN is L + 1, 
 							 List = [pos(C, LUP), pos(C, LDOWN), pos(CL, LUP), pos(CL, L), pos(CL, LDOWN), pos(CR, LUP), pos(CR, L), pos(CR,LDOWN)].

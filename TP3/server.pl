@@ -53,14 +53,17 @@ processString([_Par=Val], R):-
 
 play(Player, Board, C, L, NextPlayer, NewBoard, Message):-		% Example play predicate aqui metemos a logica de jogo, que se divide em 3 logicas, humano X humano: isto processa uma move, se for a 2 moves por turno e troca; humano x pc como anterior, mas não troca, simplesmente manda as moves do pc, e pc x pc em que faz tudo?
 	% Game Logic
-	Board=[[_|A]|B], NewBoard=[[C + L|A]|B],	
+	Board=[[_|A]|B], NewBoard=[[C|A]|B],	
 	next(Player, NextPlayer),
-	Message = "Groovy".
+	player(Player, TP),
+	(isValidPos(pos(C, L), 6, Board, TP) -> Message = "Groovy"; Message = "Funky").
+	%[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]
+	%Message = "Groovy".
 						% Example - changes [1,1] to Play
 	%move(play(player(Player), C, L))
 	%move(play(blue, pos(C, L)), Board, Board)
-	/*
-	move(play(player(Player), pos(C, L)), Board, NewBoard),
+	
+	/*move(play(player(Player), pos(C, L)), Board, NewBoard),
 	(Board = NewBoard -> Message = "Groove Validated" ; next(Player, NextPlayer), Message = "Moove Validated").*/
 								% Change Player
 																% Add some message (Game Over / Invalid Move / ...)
