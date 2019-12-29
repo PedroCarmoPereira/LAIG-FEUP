@@ -229,13 +229,13 @@ valid_moves(Board, red, ListOfMoves):- getSize(Board, Size), getRedsCells(Board,
 valid_moves(Board, blue, ListOfMoves):- getSize(Board, Size), getBluesCells(Board,  Size, 0, [], RedsCells), getCellsPlays(RedsCells, blue, Board, [], ListOfMoves), !.
 
 
-move(_, [], B):- boardBySize(0, B).
-move(play(blue, pos(C, L)), Board, Board):- valid_moves(Board, blue, LM), not(member(pos(C,L), LM)), write("\nInvalid Position, you stoopid\n").
-move(play(blue, pos(C, L)), Board, NewBoar):- valid_moves(Board, blue, LM), member(pos(C,L), LM), getIndexMatrix(C, L, Board, Elem),
+move(_, [], B, 0):- boardBySize(0, B).
+move(play(blue, pos(C, L)), Board, Board, 0):- valid_moves(Board, blue, LM), not(member(pos(C,L), LM)).%, write("\nInvalid Position, you stoopid\n").
+move(play(blue, pos(C, L)), Board, NewBoar, 1):- valid_moves(Board, blue, LM), member(pos(C,L), LM), getIndexMatrix(C, L, Board, Elem),
 											  ((Elem = ' '; Elem = 0) -> alterPos(C, L, Board, 1, [], NewBoar) ; alterPos(C, L, Board, 3, [], NewBoar)), !.
 
-move(play(red, pos(C, L)), Board, Board):- valid_moves(Board, red, LM), not(member(pos(C,L), LM)), write("\nInvalid Position, you stoopid\n").
-move(play(red, pos(C, L)), Board, NewBoar):- valid_moves(Board, red, LM), member(pos(C,L), LM), getIndexMatrix(C, L, Board, Elem),
+move(play(red, pos(C, L)), Board, Board, 0):- valid_moves(Board, red, LM), not(member(pos(C,L), LM)).%, write("\nInvalid Position, you stoopid\n").
+move(play(red, pos(C, L)), Board, NewBoar, 1):- valid_moves(Board, red, LM), member(pos(C,L), LM), getIndexMatrix(C, L, Board, Elem),
 											  ((Elem = ' '; Elem = 0) -> alterPos(C, L, Board, 2, [], NewBoar) ; alterPos(C, L, Board, 4, [], NewBoar)), !.
 
 game_over(Board, blue):- valid_moves(Board, red, []), !.
@@ -243,8 +243,8 @@ game_over(Board, red):- valid_moves(Board, blue, []), !.
 
 showValidMoves(Board, Player):- valid_moves(Board, Player, LM), write(LM).
 
-play(C, L, Player,Board, TmpBoard,NewBoard):- write('Column: '), nl, read(C), nl, write('Line: '), nl, read(L), move(play(Player, pos(C, L)), Board, TmpBoard),
-											  (Board = TmpBoard -> play(_NC, _NL, Player, Board, _NTmpBoard, NewBoard); move(play(Player, pos(C, L)), Board, NewBoard)).
+play(C, L, Player,Board, TmpBoard,NewBoard):- write('Column: '), nl, read(C), nl, write('Line: '), nl, read(L), move(play(Player, pos(C, L)), Board, TmpBoard, _),
+											  (Board = TmpBoard -> play(_NC, _NL, Player, Board, _NTmpBoard, NewBoard); move(play(Player, pos(C, L)), Board, NewBoard, _)).
 
 turn(Board, _, _, Board, _):- game_over(Board, blue), !.
 turn(Board, _, _, Board, _):- game_over(Board, red), !.
@@ -314,7 +314,7 @@ playGame(Board, ai2, ai2, _NB):- thoughtTurn(Board, blue, TmpBoard, 0), display_
 thoughtTurn(Board, _, Board, _):- game_over(Board, blue), !.
 thoughtTurn(Board, _, Board, _):- game_over(Board, red), !.
 thoughtTurn(Board, _, Board, 2).
-thoughtTurn(Board, Player, NewBoard, N):- N \= 2, nl, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN), !.
+thoughtTurn(Board, Player, NewBoard, N):- N \= 2, nl, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB, _), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN), !.
 
 
 count_elemL(_, [], N, N).
