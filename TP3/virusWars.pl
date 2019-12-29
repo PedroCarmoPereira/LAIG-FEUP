@@ -47,13 +47,11 @@ boardBySize(ai, [[' ',' ',' ',' ',' '],
 				 [' ',' ',' ',' ',' '],
 				 [' ',' ',' ',' ',' ']]).
 
-boardBySize(ai2, [[' ',' ',' ',' ',' ', ' ', ' '],
-				 [' ',' ',' ',' ',' ', ' ', ' '],
-				 [' ',' ',' ',' ',' ', ' ', ' '],
-				 [' ',' ',' ',' ',' ', ' ', ' '],
-				 [' ',' ',' ',' ',' ', ' ', ' '],
-				 [' ',' ',' ',' ',' ', ' ', ' '],
-				 [' ',' ',' ',' ',' ', ' ', ' ']]).
+boardBySize(ai2, [[' ',' ',' ',' ',' '],
+				 [' ',' ',' ',' ',' '],
+				 [' ',' ',' ',' ',' '],
+				 [' ',' ',' ',' ',' '],
+				 [' ',' ',' ',' ',' ']]).
 
 boardBySize(1, [[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
 				[' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' '],
@@ -142,8 +140,8 @@ member(X, [_|T]):- member(X, T).
 genPos(L, C, pos(C, L)).
 
 getBluesCellsInRow(_, Size, Size, LF, LF):- !.
-getBluesCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), (Elem = 'B'), NC is C + 1, append(LT, [C], NLT) ,getBluesCellsInRow(LI, Size, NC, NLT, LF), !.
-getBluesCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), not(Elem = 'B'), NC is C + 1, getBluesCellsInRow(LI, Size, NC, LT, LF), !.
+getBluesCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), (Elem = 'B'; Elem = 1), NC is C + 1, append(LT, [C], NLT) ,getBluesCellsInRow(LI, Size, NC, NLT, LF), !.
+getBluesCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), not(Elem = 'B'; Elem = 1), NC is C + 1, getBluesCellsInRow(LI, Size, NC, LT, LF), !.
 
 
 getBluesCells(_, Size, Size, LF, LF):- !.
@@ -152,8 +150,8 @@ getBluesCells(Board, Size, L, LT, LF):- getIndexList(L, Board, Row), getBluesCel
 
 
 getRedsCellsInRow(_, Size, Size, LF, LF):- !.
-getRedsCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), (Elem = 'R'), NC is C + 1, append(LT, [C], NLT) ,getRedsCellsInRow(LI, Size, NC, NLT, LF), !.
-getRedsCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), not(Elem = 'R'), NC is C + 1, getRedsCellsInRow(LI, Size, NC, LT, LF), !.
+getRedsCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), (Elem = 'R'; Elem = 2), NC is C + 1, append(LT, [C], NLT) ,getRedsCellsInRow(LI, Size, NC, NLT, LF), !.
+getRedsCellsInRow(LI, Size, C, LT, LF):- getIndexList(C, LI, Elem), not(Elem = 'R'; Elem = 2), NC is C + 1, getRedsCellsInRow(LI, Size, NC, LT, LF), !.
 
 getRedsCells(_, Size, Size, LF, LF):- !.
 getRedsCells(Board, Size, L, LT, LF):- getIndexList(L, Board, Row), getRedsCellsInRow(Row, Size, 0, [], ListC), 
@@ -161,8 +159,9 @@ getRedsCells(Board, Size, L, LT, LF):- getIndexList(L, Board, Row), getRedsCells
 
 isRealPos(pos(C, L), Size):- C >= 0, C < Size, L >= 0, L < Size.
 
-isValidPos(pos(C, L), Size, Board, red):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'B' ; Elem = ' '; Elem = 0), !.
-isValidPos(pos(C, L), Size, Board, blue):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'R' ; Elem = ' '; Elem = 0), !.
+%NOVAS PEÇAS PARA LAIG: 0 -> Vazio, 1 -> Azul vivo, 2 -> Vermelho vivo, 3 -> Azul zombie, 4-> Vermelho zombie
+isValidPos(pos(C, L), Size, Board, red):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'B' ; Elem = ' '; Elem = 0; Elem = 1), !.
+isValidPos(pos(C, L), Size, Board, blue):- isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, Elem), (Elem = 'R' ; Elem = ' '; Elem = 0; Elem = 2), !.
 
 genRadius(pos(C, L), List):- CL is C - 1, CR is C + 1, LUP is L - 1, LDOWN is L + 1, 
 							 List = [pos(C, LUP), pos(C, LDOWN), pos(CL, LUP), pos(CL, L), pos(CL, LDOWN), pos(CR, LUP), pos(CR, L), pos(CR,LDOWN)].
@@ -176,10 +175,14 @@ filterValidPos([H | T], blue, Board, Size, LT, LF):- not(isValidPos(H, Size, Boa
 possibleCellMoves(pos(C, L), Player, Board, Size, LF):- genRadius(pos(C, L), Poss1), filterValidPos(Poss1, Player, Board, Size, [], LF), !.
 
 isLive(red, Board, pos(C, L)):- getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 'R'), !.
+isLive(red, Board, pos(C, L)):- getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 2), !.
 isLive(blue, Board, pos(C, L)):- getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 'B'), !.
+isLive(blue, Board, pos(C, L)):- getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 1), !.
 
 isZombie(red, C, L, Board):- getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 'r'), !.
+isZombie(red, C, L, Board):- getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 4), !.
 isZombie(blue, C, L, Board):-  getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 'b'), !.
+isZombie(blue, C, L, Board):-  getSize(Board, Size), isRealPos(pos(C, L), Size), getIndexMatrix(C, L, Board, 3), !.
 
 /*
 isZombieLinked(pos(C, L), Player, Board, CPL):- not(member(pos(C,L), CPL)), append(CPL, [pos(C, L)], NCPL) ,isZombie(Player, C, L, Board), (CL is C - 1, CR is C + 1, LUP is L - 1, LDOWN is L + 1, 
@@ -229,11 +232,11 @@ valid_moves(Board, blue, ListOfMoves):- getSize(Board, Size), getBluesCells(Boar
 move(_, [], B):- boardBySize(0, B).
 move(play(blue, pos(C, L)), Board, Board):- valid_moves(Board, blue, LM), not(member(pos(C,L), LM)), write("\nInvalid Position, you stoopid\n").
 move(play(blue, pos(C, L)), Board, NewBoar):- valid_moves(Board, blue, LM), member(pos(C,L), LM), getIndexMatrix(C, L, Board, Elem),
-											  (Elem = ' ' -> alterPos(C, L, Board, 'B', [], NewBoar) ; alterPos(C, L, Board, 'b', [], NewBoar)), !.
+											  ((Elem = ' '; Elem = 0) -> alterPos(C, L, Board, 1, [], NewBoar) ; alterPos(C, L, Board, 3, [], NewBoar)), !.
 
 move(play(red, pos(C, L)), Board, Board):- valid_moves(Board, red, LM), not(member(pos(C,L), LM)), write("\nInvalid Position, you stoopid\n").
 move(play(red, pos(C, L)), Board, NewBoar):- valid_moves(Board, red, LM), member(pos(C,L), LM), getIndexMatrix(C, L, Board, Elem),
-											  (Elem = ' ' -> alterPos(C, L, Board, 'R', [], NewBoar) ; alterPos(C, L, Board, 'r', [], NewBoar)), !.
+											  ((Elem = ' '; Elem = 0) -> alterPos(C, L, Board, 2, [], NewBoar) ; alterPos(C, L, Board, 4, [], NewBoar)), !.
 
 game_over(Board, blue):- valid_moves(Board, red, []), !.
 game_over(Board, red):- valid_moves(Board, blue, []), !.
@@ -256,10 +259,10 @@ turn(Board, Player, TB, NewBoard, 1):- nl, display_game(Board, Player), nl, writ
 								   turn(TTB, Player, _NTB, NewBoard, 2), !.
 
 blue1stMove(Board, C, L, NewBoard):- write('Column'), nl, read(C), write('Line'),nl, read(L), getSize(Board, Size), Middle is Size/2, 
-									((C < floor(Middle) - 1, C >= 0, L < Size, L >= 0)->alterPos(C, L, Board, 'B', [], NewBoard); write('\nInvalid Position\n'), blue1stMove(Board,_NC, _NL, NewBoard)). 
+									((C < floor(Middle) - 1, C >= 0, L < Size, L >= 0)->alterPos(C, L, Board, 1, [], NewBoard); write('\nInvalid Position\n'), blue1stMove(Board,_NC, _NL, NewBoard)). 
 
 red1stMove(Board, C, L, NewBoard):- write('Column'), nl, read(C), write('Line'),nl, read(L), getSize(Board, Size), Middle is Size/2, 
-									((C > ceiling(Middle), C < Size, L < Size, L >= 0)->alterPos(C, L, Board, 'R', [], NewBoard); write('\nInvalid Position\n'), red1stMove(Board,_NC, _NL, NewBoard)). 
+									((C > ceiling(Middle), C < Size, L < Size, L >= 0)->alterPos(C, L, Board, 2, [], NewBoard); write('\nInvalid Position\n'), red1stMove(Board,_NC, _NL, NewBoard)). 
 
 startGame(Board, human, human, NewBoard):- nl, write("Blue pick your starting position, on the left side of the Board"), nl, blue1stMove(Board, _CB, _LB, TmpBoard), display_game(TmpBoard, red),
 										   nl, write("Red pick your starting position, on the left side of the Board"), nl, red1stMove(TmpBoard, _CR, _LR, NewBoard).
@@ -272,13 +275,13 @@ startGame(Board, human, ai2, NewBoard):- nl, write("Blue pick your starting posi
 startGame(Board, ai2, ai2, NewBoard):- random1stMove(Board, ai1, blue, NB0), random1stMove(NB0, ai1, red, NewBoard), !.
 
 
-random1stMove(Board, ai1, blue, NewBoard):- getSize(Board, Size), SupLim is floor(Size/2) - 1, random(0, SupLim, C),  LimSup is Size - 1, random(0, LimSup, L), alterPos(C, L, Board, 'B', [], NewBoard), !.
-random1stMove(Board, ai1, red, NewBoard):- getSize(Board, Size), SupLim is ceiling(Size/2), LimSup is Size - 1, random(SupLim, LimSup, C),  random(0, LimSup, L), alterPos(C, L, Board, 'R', [], NewBoard), !.
+random1stMove(Board, ai1, blue, NewBoard):- getSize(Board, Size), SupLim is floor(Size/2) - 1, random(0, SupLim, C),  LimSup is Size - 1, random(0, LimSup, L), alterPos(C, L, Board, 1, [], NewBoard), !.
+random1stMove(Board, ai1, red, NewBoard):- getSize(Board, Size), SupLim is ceiling(Size/2), LimSup is Size - 1, random(SupLim, LimSup, C),  random(0, LimSup, L), alterPos(C, L, Board, 2, [], NewBoard), !.
 
 randomMove(C, L, red, Board, NewBoard):- valid_moves(Board, red, LM), getSize(LM, Moves),  SupLim is Moves - 1,(SupLim >= 1 -> random(0, SupLim, Index); Index is 0), 
-											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 'R', [], NewBoard);alterPos(C, L, Board, 'r', [], NewBoard) ), !.
+											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 2, [], NewBoard);alterPos(C, L, Board, 4, [], NewBoard) ), !.
 randomMove(C, L, blue, Board, NewBoard):- valid_moves(Board, blue, LM), getSize(LM, Moves),  SupLim is Moves - 1, random(0, SupLim, Index),
-											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 'B', [], NewBoard);alterPos(C, L, Board, 'b', [], NewBoard) ), !.
+											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 1, [], NewBoard);alterPos(C, L, Board, 3, [], NewBoard) ), !.
 
 
 randomTurn(Board, _, Board, _):- game_over(Board, blue), !.
@@ -325,20 +328,25 @@ value(_Board, TestedBoard, Player, 10):- game_over(TestedBoard, Player), !.
 value(_Board, TestedBoard, red, 0):- game_over(TestedBoard, blue), !.
 value(_Board, TestedBoard, blue, 0):- game_over(TestedBoard, red), !.
 value(Board, TestedBoard, red, 2):- count_elemM('r', TestedBoard, 0, NN), count_elemM('r', Board, 0, N), N < NN, !.
+value(Board, TestedBoard, red, 2):- count_elemM(4, TestedBoard, 0, NN), count_elemM(4, Board, 0, N), N < NN, !.
 value(Board, TestedBoard, red, 1):- count_elemM('R', TestedBoard, 0, NN), count_elemM('R', Board, 0, N), N < NN, !.
+value(Board, TestedBoard, red, 1):- count_elemM(2, TestedBoard, 0, NN), count_elemM(2, Board, 0, N), N < NN, !.
 value(Board, TestedBoard, blue, 2):- count_elemM('b', TestedBoard, 0, NN), count_elemM('b', Board, 0, N), N < NN, !.
+value(Board, TestedBoard, blue, 2):- count_elemM(3, TestedBoard, 0, NN), count_elemM(3, Board, 0, N), N < NN, !.
+value(Board, TestedBoard, blue, 1):- count_elemM(1, TestedBoard, 0, NN), count_elemM(1, Board, 0, N), N < NN, !.
 value(Board, TestedBoard, blue, 1):- count_elemM('B', TestedBoard, 0, NN), count_elemM('B', Board, 0, N), N < NN, !.
 
 
 maxValueMove([], _, _, _, Move, Move):- !.
-maxValueMove([pos(C, L) | T], Board, red, 0, 0, Move):- getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 'R', [], NewBoar) ; alterPos(C, L, Board, 'r', [], NewBoar)),
+maxValueMove([pos(C, L) | T], Board, red, 0, 0, Move):- getIndexMatrix(C, L, Board, Elem), ((Elem = ' '; Elem = 0) -> alterPos(C, L, Board, 2, [], NewBoar) ; alterPos(C, L, Board, 4, [], NewBoar)),
 															 value(Board, NewBoar, red,  N), maxValueMove(T, Board, red, N, pos(C, L), Move).
-maxValueMove([pos(C, L) | T], Board, red, TV, TM, Move):- getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 'R', [], NewBoar) ; alterPos(C, L, Board, 'r', [], NewBoar)),
+
+maxValueMove([pos(C, L) | T], Board, red, TV, TM, Move):- getIndexMatrix(C, L, Board, Elem), ((Elem = ' '; Elem = 0) -> alterPos(C, L, Board, 2, [], NewBoar) ; alterPos(C, L, Board, 4, [], NewBoar)),
 															 value(Board, NewBoar, red, N), (N > TV -> X is 1; X is 0), (X = 1 -> maxValueMove(T, Board, red, N, pos(C, L), Move) ; maxValueMove(T, Board, red, TV,  TM, Move)), !.
 
-maxValueMove([pos(C, L) | T], Board, blue, 0, 0, Move):- getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 'R', [], NewBoar) ; alterPos(C, L, Board, 'r', [], NewBoar)),
+maxValueMove([pos(C, L) | T], Board, blue, 0, 0, Move):- getIndexMatrix(C, L, Board, Elem), ((Elem = ' '; Elem = 0) -> alterPos(C, L, Board, 1, [], NewBoar) ; alterPos(C, L, Board, 3, [], NewBoar)),
 															 value(Board, NewBoar, blue,  N), maxValueMove(T, Board, blue, N, pos(C, L), Move).
-maxValueMove([pos(C, L) | T], Board, blue, TV, TM, Move):- getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 'R', [], NewBoar) ; alterPos(C, L, Board, 'r', [], NewBoar)),
+maxValueMove([pos(C, L) | T], Board, blue, TV, TM, Move):- getIndexMatrix(C, L, Board, Elem), ((Elem = ' '; Elem = 0)  -> alterPos(C, L, Board, 1, [], NewBoar) ; alterPos(C, L, Board, 3, [], NewBoar)),
 															 value(Board, NewBoar, blue, N), (N > TV -> X is 1; X is 0), (X = 1 -> maxValueMove(T, Board, blue, N, pos(C, L), Move) ; maxValueMove(T, Board, blue, TV,  TM, Move)), !.
 
 
