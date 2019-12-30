@@ -9,17 +9,18 @@
 		
 		<div id="content">
 			<div id="params">
-				<textarea id="board" rows="6" cols="20">[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]</textarea>
+				<textarea id="board" rows="6" cols="20">[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]]</textarea>
 				<br/>
 				<input type="text" id="player" value="blue0"/>
 				<br/>
-				<input type="text" id="col" value="1"/>
+				<input type="text" id="col" value="0"/>
 				<br>
-				<input type="text" id="line" value="1"/>
+				<input type="text" id="line" value="0"/>
 				<br/>
 				<input type="text" id="gametype" value="0"/>
 				<br/>
-				<button type="button" id="search" onClick="makeRequest();" >Send</button>
+				<button type="button" id="search" onClick="makeRequest();" >Play</button>
+				<button type="button" id="reset" onClick="reset()">Reset</button>
 			</div>
 			<div id="reply"></div>
 		</div>
@@ -51,7 +52,7 @@
 				postGameRequest(requestString, handleReply);
 				
 			}
-			
+
 			//Handle the JSON Reply
 			function handleReply(data){
 				console.log("AAA" + data.target.response);
@@ -59,6 +60,15 @@
 				document.querySelector("#reply").innerHTML=response.message;		// Access message and show
 				document.querySelector("#board").value=response.newBoard;			// Access new Board
 				document.querySelector("#player").value=response.newPlayer;			// Access new Player
+			}
+
+			function reset(){
+				document.querySelector("#board").value = "[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]]";
+				document.querySelector("#player").value = "blue0";
+				document.querySelector("#col").value = "0";
+				document.querySelector("#line").value = "0";
+				document.querySelector("#gametype").value = "0";
+				document.querySelector("#reply").innerHTML = "";
 			}
 			
 		</script>
