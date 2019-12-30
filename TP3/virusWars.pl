@@ -258,6 +258,9 @@ turn(Board, Player, TB, NewBoard, 1):- nl, display_game(Board, Player), nl, writ
 								   (Op = 1 -> showValidMoves(Board, Player), turn(Board, Player, TB, NewBoard, 1), ! ; (Op = 3 -> turn(TB, Player, _, NewBoard, 0) , ! ; play(_C, _L, Player, Board, _TmpBoard, TTB))), 
 								   turn(TTB, Player, _NTB, NewBoard, 2), !.
 
+validBlue1stMove(Board, C, L):- getSize(Board, Size), Middle is Size/2, (C < floor(Middle) - 1, C >= 0, L < Size, L >= 0).
+validRed1stMove(Board, C, L):- getSize(Board, Size), Middle is Size/2, (C > ceiling(Middle), C < Size, L < Size, L >= 0).
+
 blue1stMove(Board, C, L, NewBoard):- write('Column'), nl, read(C), write('Line'),nl, read(L), getSize(Board, Size), Middle is Size/2, 
 									((C < floor(Middle) - 1, C >= 0, L < Size, L >= 0)->alterPos(C, L, Board, 1, [], NewBoard); write('\nInvalid Position\n'), blue1stMove(Board,_NC, _NL, NewBoard)). 
 

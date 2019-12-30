@@ -50,13 +50,31 @@ processString([_Par=Val], R):-
 		Term.													% Call the Term
 
 %---------------------------------------------
+%Messages: Groovy Gary -> Good, Funky Fredy -> Invalid Pos, Crunky Charlie -> Not yet implemented
 
-play(Player, Board, C, L, NextPlayer, NewBoard, Message):-		% Example play predicate aqui metemos a logica de jogo, que se divide em 3 logicas, humano X humano: isto processa uma move, se for a 2 moves por turno e troca; humano x pc como anterior, mas não troca, simplesmente manda as moves do pc, e pc x pc em que faz tudo?
+firstMove(blue0).
+firstMove(red0).
+
+human1stMove(Player, C, L, Board, NewBoard, NextPlayer, Message):- (Player = red0 -> 
+																   (validRed1stMove(Board, C, L) ->
+																    alterPos(C, L, Board, 2, [], NewBoard), next(Player, NextPlayer), Message = "Groovy Gary";
+																    Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Funky Fredy");
+																   (validBlue1stMove(Board, C, L) ->
+																   	alterPos(C, L, Board, 1, [], NewBoard), next(Player, NextPlayer), Message = "Groovy Gary";
+																    Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Funky Fredy")
+																   ).
+
+humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message):- (firstMove(Player) -> human1stMove(Player, C, L, Board, NewBoard, NextPlayer, Message);
+																		player(Player, TP), 
+																		move(play(TP, pos(C, L)), Board, NewBoard, Pintou),
+					  													(Pintou = 0 -> same(Player, NextPlayer), Message = "Funky Fredy"; next(Player, NextPlayer), Message = "Groovy Gary")).
+
+play(Player, Board, C, L, GameType, NextPlayer, NewBoard, Message):-		% Example play predicate aqui metemos a logica de jogo, que se divide em 3 logicas, humano X humano: isto processa uma move, se for a 2 moves por turno e troca; humano x pc como anterior, mas não troca, simplesmente manda as moves do pc, e pc x pc em que faz tudo?
 	% Game Logic
-	player(Player, TP),
+	gameConfig(GameType, GT),
 	getSize(Board, Size),
-	move(play(TP, pos(C, L)), Board, NewBoard, Pintou),
-	(Pintou = 0 -> same(Player, NextPlayer), Message = "Funky"; next(Player, NextPlayer), Message = "Groovy").
+	(GT = humanXhuman -> humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
+	Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Crunky Charlie").
 
 same(X, X).
 
@@ -78,5 +96,12 @@ player(red0, red).
 player(red1, red).
 player(red2, red).
 
+
+gameConfig(0, humanXhuman).
+gameConfig(1, humanXboteasy).
+gameConfig(2, humanXbothard).
+gameConfig(3, boteasyXboteasy).
+gameConfig(4, bothardXboteasy).
+gameConfig(5, bothardXbothard).
 
 :- server(8083).
