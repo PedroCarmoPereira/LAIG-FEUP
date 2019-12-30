@@ -67,7 +67,7 @@ human1stMove(Player, C, L, Board, NewBoard, NextPlayer, Message):- (Player = red
 humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message):- (firstMove(Player) -> human1stMove(Player, C, L, Board, NewBoard, NextPlayer, Message);
 																		player(Player, TP), 
 																		move(play(TP, pos(C, L)), Board, NewBoard, Pintou),
-					  													(Pintou = 0 -> same(Player, NextPlayer), Message = "Funky Fredy"; next(Player, NextPlayer), Message = "Groovy Gary")).
+					  													(Pintou = 0 -> same(Player, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, Winner) -> same(Player, NextPlayer), gameOverMsg(NewBoard, TP, Message); next(Player, NextPlayer), Message = "Groovy Gary"))).
 
 play(Player, Board, C, L, GameType, NextPlayer, NewBoard, Message):-		% Example play predicate aqui metemos a logica de jogo, que se divide em 3 logicas, humano X humano: isto processa uma move, se for a 2 moves por turno e troca; humano x pc como anterior, mas não troca, simplesmente manda as moves do pc, e pc x pc em que faz tudo?
 	% Game Logic
@@ -96,6 +96,10 @@ player(red0, red).
 player(red1, red).
 player(red2, red).
 
+gameOverMsg(Board, TP, Message):- ( game_over(Board, TP) -> 
+								  (same(TP, red) -> Message = "Red Wins"; Message = "Blue Wins");
+								  (same(TP, blue) -> Message = "Red Wins"; Message = "Blue Wins")
+								  ).
 
 gameConfig(0, humanXhuman).
 gameConfig(1, humanXboteasy).

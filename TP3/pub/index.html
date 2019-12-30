@@ -19,7 +19,7 @@
 				<br/>
 				<input type="text" id="gametype" value="0"/>
 				<br/>
-				<button type="button" id="search" onClick="makeRequest();" >Play</button>
+				<button type="button" id="play" onClick="makeRequest();" >Play</button>
 				<button type="button" id="reset" onClick="reset()">Reset</button>
 			</div>
 			<div id="reply"></div>
@@ -60,6 +60,10 @@
 				document.querySelector("#reply").innerHTML=response.message;		// Access message and show
 				document.querySelector("#board").value=response.newBoard;			// Access new Board
 				document.querySelector("#player").value=response.newPlayer;			// Access new Player
+				if(response.message === "Red Wins" || response.message === "Blue Wins"){
+					var btn = document.getElementById("play");
+					btn.disabled = true;
+				}
 			}
 
 			function reset(){
@@ -69,6 +73,9 @@
 				document.querySelector("#line").value = "0";
 				document.querySelector("#gametype").value = "0";
 				document.querySelector("#reply").innerHTML = "";
+				var btn = document.getElementById("play");
+				btn.disabled = false;
+
 			}
 			
 		</script>
