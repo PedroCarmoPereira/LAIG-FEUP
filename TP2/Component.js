@@ -1,15 +1,16 @@
 function isPrimitive(obj){
     if (obj instanceof MyRectangle || obj instanceof MyCylinder || obj instanceof MySphere
-        || obj instanceof MyTorus || obj instanceof MyTriangle) return true;
+        || obj instanceof MyTorus || obj instanceof MyTriangle ) return true;
 
     return false;
 }
 
 class Component extends CGFobject {
 
-    constructor(scene, transformations, materials, textures, children, coords, animations){
+    constructor(scene, name, id, transformations, materials, textures, children, coords, animations){
         super(scene);
         this.scene = scene;
+        this.name = name;
         this.transformations = transformations;
         this.materials = materials;
         this.textures = textures;
@@ -17,11 +18,12 @@ class Component extends CGFobject {
         this.coords = coords;
         this.anims = animations;
         this.ai = 0;
+        this.id = id;
         if(!this.transformations) this.transformations = mat4.create();
     }
 
     display(mat, tex){
-
+        
         if (this.ai < this.anims.length){
             if (!this.anims[this.ai].done) this.anims[this.ai].apply(this);
             else {
@@ -32,13 +34,13 @@ class Component extends CGFobject {
                 }
             }
         }
-
-
-
+        
+        
+        
         for(let k = 0; k < this.children.length; k++){
             this.scene.pushMatrix();
             if(this.transformations)
-                this.scene.multMatrix(this.transformations);
+            this.scene.multMatrix(this.transformations);
 
             var matIndex = this.scene.matCnt % this.materials.length;
             if(this.materials[matIndex] != 'inherit'){   
