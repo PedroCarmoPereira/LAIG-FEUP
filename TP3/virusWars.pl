@@ -282,15 +282,15 @@ random1stMove(Board, ai1, blue, NewBoard):- getSize(Board, Size), SupLim is floo
 random1stMove(Board, ai1, red, NewBoard):- getSize(Board, Size), SupLim is ceiling(Size/2), LimSup is Size - 1, random(SupLim, LimSup, C),  random(0, LimSup, L), alterPos(C, L, Board, 2, [], NewBoard), !.
 
 randomMove(C, L, red, Board, NewBoard):- valid_moves(Board, red, LM), getSize(LM, Moves),  SupLim is Moves - 1,(SupLim >= 1 -> random(0, SupLim, Index); Index is 0), 
-											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 2, [], NewBoard);alterPos(C, L, Board, 4, [], NewBoard) ), !.
+											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 2, [], NewBoard);alterPos(C, L, Board, 4, [], NewBoard) ), !.
 randomMove(C, L, blue, Board, NewBoard):- valid_moves(Board, blue, LM), getSize(LM, Moves),  SupLim is Moves - 1, random(0, SupLim, Index),
-											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' -> alterPos(C, L, Board, 1, [], NewBoard);alterPos(C, L, Board, 3, [], NewBoard) ), !.
+											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 1, [], NewBoard);alterPos(C, L, Board, 3, [], NewBoard) ), !.
 
 
 randomTurn(Board, _, Board, _):- game_over(Board, blue), !.
 randomTurn(Board, _, Board, _):- game_over(Board, red), !.
 randomTurn(Board, _, Board, 2).
-randomTurn(Board, Player, NewBoard, N):- N \= 2, nl,  randomMove(_C1, _L1, Player, Board, TB), NN is N + 1, randomTurn(TB, Player, NewBoard, NN), !.
+randomTurn(Board, Player, NewBoard, N):- N \= 2, randomMove(_C1, _L1, Player, Board, TB), NN is N + 1, randomTurn(TB, Player, NewBoard, NN), !.
 
 
 randomPlay(Board, ai1, ai1, _):- game_over(Board, Player), display_game(Board, Player),format("~a wins!", Player), nl, write("Well Played!"), !.
