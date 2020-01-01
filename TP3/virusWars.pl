@@ -317,7 +317,7 @@ playGame(Board, ai2, ai2, _NB):- thoughtTurn(Board, blue, TmpBoard, 0), display_
 thoughtTurn(Board, _, Board, _):- game_over(Board, blue), !.
 thoughtTurn(Board, _, Board, _):- game_over(Board, red), !.
 thoughtTurn(Board, _, Board, 2).
-thoughtTurn(Board, Player, NewBoard, N):- N \= 2, nl, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB, _), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN), !.
+thoughtTurn(Board, Player, NewBoard, N):- N \= 2, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB, _), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN), !.
 
 
 count_elemL(_, [], N, N).
