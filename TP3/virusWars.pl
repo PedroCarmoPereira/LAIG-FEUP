@@ -282,7 +282,7 @@ random1stMove(Board, ai1, red, NewBoard):- getSize(Board, Size), SupLim is ceili
 
 randomMove(C, L, red, Board, NewBoard):- valid_moves(Board, red, LM), getSize(LM, Moves),  SupLim is Moves - 1,(SupLim >= 1 -> random(0, SupLim, Index); Index is 0), 
 											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 2, [], NewBoard);alterPos(C, L, Board, 4, [], NewBoard) ), !.
-randomMove(C, L, blue, Board, NewBoard):- valid_moves(Board, blue, LM), getSize(LM, Moves),  SupLim is Moves - 1, random(0, SupLim, Index),
+randomMove(C, L, blue, Board, NewBoard):- valid_moves(Board, blue, LM), getSize(LM, Moves),  SupLim is Moves - 1, (SupLim >= 1 -> random(0, SupLim, Index); Index is 0), 
 											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 1, [], NewBoard);alterPos(C, L, Board, 3, [], NewBoard) ), !.
 
 
