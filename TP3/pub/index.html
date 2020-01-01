@@ -75,12 +75,13 @@
 				if(response.message === "Groovy Gary") last_board = document.querySelector("#board").value;
 				document.querySelector("#board").value=response.newBoard;			// Access new Board
 				document.querySelector("#player").value=response.newPlayer;			// Access new Player
+				var undobtn = document.getElementById("undo");
 				if(response.message === "Red Wins" || response.message === "Blue Wins"){
 					var btn = document.getElementById("play");
 					btn.disabled = true;
+					undobtn.disabled = true;
 				}
 
-				var undobtn = document.getElementById("undo");
 				if(response.newPlayer === "blue2" || response.newPlayer ==="red2") undobtn.disabled = false;
 				else  undobtn.disabled = true;
 			}
