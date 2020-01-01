@@ -3,6 +3,8 @@
 * Virus Wars board game coded in SWI-Prolog
 */
 
+:-use_module(library(lists)).
+
 play:- use_module(library(random)),menu(Board, Blue, Red), display_game(Board, blue), startGame(Board, Blue, Red, NewBoard), playGame(NewBoard, Blue, Red, _NewNewBoard), play.
 
 playerConfig(Blue, Red):- write('Please select game mode: '), nl, write('1. Human vs Human'), nl, write('2. Human vs Computer'), nl, write('3. Computer vs Computer'), nl,
@@ -133,9 +135,6 @@ getIndexList(0,[M|_],M):- !.
 getIndexList(Index, [_|T], M):- Index > 0, NI is Index-1, getIndexList(NI, T, M).
 
 getIndexMatrix(C, L, Matrix, Elem):- getIndexList(L, Matrix, Row), getIndexList(C, Row, Elem).
-
-member(X, [X|_]).
-member(X, [_|T]):- member(X, T).
 
 genPos(L, C, pos(C, L)).
 

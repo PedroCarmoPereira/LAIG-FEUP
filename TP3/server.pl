@@ -73,22 +73,22 @@ humanXboteasyaction(C, L, Board, NewBoard, blue0, NextPlayer, Message):- human1s
 																		 (Message = "Groovy Gary" -> random1stMove(TB, ai1, red, NewBoard), NextPlayer = blue1; NextPlayer = blue0, NewBoard = Board).
 
 humanXboteasyaction(C, L, Board, NewBoard, blue1, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, NewBoard, Pintou),
-																		 (Pintou = 0 -> same(blue1, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue1, NextPlayer), gameOverMsg(NewBoard, TP, Message); next(blue1, NextPlayer), Message = "Groovy Gary")).
+																		 (Pintou = 0 -> same(blue1, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue1, NextPlayer), gameOverMsg(NewBoard, blue, Message); next(blue1, NextPlayer), Message = "Groovy Gary")).
 
 humanXboteasyaction(C, L, Board, NewBoard, blue2, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, TB, Pintou),
 																		 (TB = Board -> NewBoard = Board; randomTurn(TB, red, NewBoard, 0)),
-																		 (Pintou = 0 -> same(blue2, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue2, NextPlayer), gameOverMsg(NewBoard, TP, Message); prev(blue2, NextPlayer), Message = "Groovy Gary")).
+																		 (Pintou = 0 -> same(blue2, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue2, NextPlayer), gameOverMsg(NewBoard, blue, Message); prev(blue2, NextPlayer), Message = "Groovy Gary")).
 
 
 humanXbothardaction(C, L, Board, NewBoard, blue0, NextPlayer, Message):- human1stMove(blue0, C, L, Board, TB, _, Message),
 																		 (Message = "Groovy Gary" -> random1stMove(TB, ai1, red, NewBoard), NextPlayer = blue1; NextPlayer = blue0, NewBoard = Board).
 
 humanXbothardaction(C, L, Board, NewBoard, blue1, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, NewBoard, Pintou),
-																		 (Pintou = 0 -> same(blue1, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue1, NextPlayer), gameOverMsg(NewBoard, TP, Message); next(blue1, NextPlayer), Message = "Groovy Gary")).
+																		 (Pintou = 0 -> same(blue1, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue1, NextPlayer), gameOverMsg(NewBoard, blue, Message); next(blue1, NextPlayer), Message = "Groovy Gary")).
 
 humanXbothardaction(C, L, Board, NewBoard, blue2, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, TB, Pintou),
 																		 (TB = Board -> NewBoard = Board; thoughtTurn(TB, red, NewBoard, 0)),
-																		 (Pintou = 0 -> same(blue2, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue2, NextPlayer), gameOverMsg(NewBoard, TP, Message); prev(blue2, NextPlayer), Message = "Groovy Gary")).
+																		 (Pintou = 0 -> same(blue2, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue2, NextPlayer), gameOverMsg(NewBoard, blue, Message); prev(blue2, NextPlayer), Message = "Groovy Gary")).
 
 
 
@@ -98,7 +98,7 @@ play(Player, Board, C, L, GameType, NextPlayer, NewBoard, Message):-		% Example 
 	(GT = humanXhuman -> humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
 	(GT = humanXboteasy -> humanXboteasyaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
 	(GT = humanXbothard -> humanXbothardaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
-	Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Crunky Charlie"))).
+	Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Naughty Neddy"))).
 
 same(X, X).
 
