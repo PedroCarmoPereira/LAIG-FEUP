@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SWI Prolog HTTP Server Test</title>
+	</head>
+	<body>
+		<h1>SWI HTTP Test</h1>
+		
+		<div id="content">
+			<div id="params">
+				<textarea id="board" rows="6" cols="20">[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]]</textarea>
+				<br/>
+				<input type="text" id="player" value="blue0"/>
+				<br/>
+				<input type="text" id="col" value="0"/>
+				<br>
+				<input type="text" id="line" value="0"/>
+				<br/>
+				<input type="text" id="gametype" value="0"/>
+				<br/>
+				<button type="button" id="play" onClick="makeRequest();" >Play</button>
+				<button type="button" id="reset" onClick="reset()">Reset</button>
+			</div>
+			<div id="reply"></div>
+		</div>
+		
+		<script type="text/javascript">
+			function postGameRequest(requestString, onSuccess, onError)
+			{
+				var request = new XMLHttpRequest();
+				request.open('POST', '../game', true);
+
+				request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
+				request.onerror = onError || function(){console.log("Error waiting for response");};
+
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+				request.send('requestString='+encodeURIComponent(requestString));			
+			}
+		
+			function makeRequest()
+			{
+				// Get Parameter Values
+				var v_board = document.querySelector("#board").value;
+				var v_player = document.querySelector("#player").value;
+				var v_col = document.querySelector("#col").value;
+				var v_line = document.querySelector("#line").value;
+				var v_type = document.querySelector("#gametype").value;
+				
+				// Compose Request String
+				var requestString = "[play," + v_player + "," + v_board + "," + v_col + "," + v_line + "," + v_type + "]";
+				postGameRequest(requestString, handleReply);
+				
+			}
+
+			//Handle the JSON Reply
+			function handleReply(data){
+				console.log("LOG: " + data.target.response);
+				response=JSON.parse(data.target.response);
+				document.querySelector("#reply").innerHTML=response.message;		// Access message and show
+				document.querySelector("#board").value=response.newBoard;			// Access new Board
+				document.querySelector("#player").value=response.newPlayer;			// Access new Player
+				if(response.message === "Red Wins" || response.message === "Blue Wins"){
+					var btn = document.getElementById("play");
+					btn.disabled = true;
+				}
+			}
+
+			function reset(){
+				document.querySelector("#board").value = "[[0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0], [0,0,0,0,0,0]]";
+				document.querySelector("#player").value = "blue0";
+				document.querySelector("#col").value = "0";
+				document.querySelector("#line").value = "0";
+				document.querySelector("#gametype").value = "0";
+				document.querySelector("#reply").innerHTML = "";
+				var btn = document.getElementById("play");
+				btn.disabled = false;
+
+			}
+			
+		</script>
+		
+	</body>
+</html>
