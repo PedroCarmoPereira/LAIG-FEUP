@@ -1,0 +1,8 @@
+class Animation{
+
+    update(){
+    }
+
+    apply(){
+    }
+}
