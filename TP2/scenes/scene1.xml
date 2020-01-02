@@ -46,6 +46,7 @@
         <texture id="Wall" file="scenes/images/wall.jpg" />
         <texture id="Dirt" file="scenes/images/dirt.jpeg" />
         <texture id="Cement" file="scenes/images/cement.jpg" />
+        <texture id="darkWood" file="scenes/images/darkwood.jpg" />
     </textures>
 
     <materials>
@@ -424,6 +425,149 @@
                 <primitiveref id="demoRectangle" />
             </children>
         </component>
+
+
+        <component id="PPFront">
+            <transformation>
+            <translate x="0" y="0" z="0" />
+            </transformation>
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+            <texture id="inherit" length_s="0" length_t="0"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="PPSide1">
+            <transformation>
+                <translate x="0.5" y="0" z="0.5" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="0" length_t="0"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="PPSide2">
+            <transformation>
+                <translate x="-0.5" y="0" z="0.5" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="0" length_t="0"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="PPBack">
+            <transformation>
+                <translate x="0" y="0" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="0" length_t="0"/>
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+        </component>
+
+        <component id="PP">
+            <transformation>
+            </transformation>
+            <materials>
+               <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="0" length_t="0"/>
+            <children>
+                <componentref id="PPFront" />
+                <componentref id="PPBack" />
+                <componentref id="PPSide1" />
+                <componentref id="PPSide2" />
+            </children>
+        </component>
+
+        <component id="Post1">
+            <transformation>
+                <translate x="-2.5" y="10" z="-2.5" />
+                <scale x="1" y="10" z="1" />
+            </transformation>
+            <materials>
+               <material id="wood" />
+            </materials>
+            <texture id="darkWood" length_s="0" length_t="0"/>
+            <children>
+                <componentref id="PP" />
+            </children>
+        </component>
+
+        <component id="Post2">
+            <transformation>
+                <translate x="12.5" y="10" z="-2.5" />
+                <scale x="1" y="10" z="1" />
+            </transformation>
+            <materials>
+               <material id="wood" />
+            </materials>
+            <texture id="darkWood" length_s="0" length_t="0"/>
+            <children>
+                <componentref id="PP" />
+            </children>
+        </component>
+
+        <component id="Post3">
+            <transformation>
+                <translate x="12.5" y="10" z="12.5" />
+                <scale x="1" y="10" z="1" />
+            </transformation>
+            <materials>
+               <material id="wood" />
+            </materials>
+            <texture id="darkWood" length_s="0" length_t="0"/>
+            <children>
+                <componentref id="PP" />
+            </children>
+        </component>
+
+        <component id="Post4">
+            <transformation>
+                <translate x="-2.5" y="10" z="12.5" />
+                <scale x="1" y="10" z="1" />
+            </transformation>
+            <materials>
+               <material id="wood" />
+            </materials>
+            <texture id="darkWood" length_s="0" length_t="0"/>
+            <children>
+                <componentref id="PP" />
+            </children>
+        </component>
+
+        <component id="Chair">
+            <transformation>
+            </transformation>
+            <materials>
+               <material id="demoMaterial" />
+            </materials>
+            <texture id="demoTexture" length_s="0" length_t="0"/>
+            <children>
+                <componentref id="ChairLeg1" />
+                <componentref id="ChairLeg2" />
+                <componentref id="ChairBack" />
+                <componentref id="ChairBack2" />
+                <componentref id="ChairTop" />
+            </children>
+        </component>
+
         <component id="Chair1">
             <transformation>
                 <translate x="7.5" y="0" z="5" />
@@ -433,11 +577,7 @@
             </materials>
             <texture id="demoTexture" length_s="0" length_t="0"/>
             <children>
-                <componentref id="ChairLeg1" />
-                <componentref id="ChairLeg2" />
-                <componentref id="ChairBack" />
-                <componentref id="ChairBack2" />
-                <componentref id="ChairTop" />
+                <componentref id="Chair"/>
             </children>
         </component>
 
@@ -451,11 +591,7 @@
             </materials>
             <texture id="demoTexture" length_s="0" length_t="0"/>
             <children>
-                <componentref id="ChairLeg1" />
-                <componentref id="ChairLeg2" />
-                <componentref id="ChairBack" />
-                <componentref id="ChairBack2" />
-                <componentref id="ChairTop" />
+                <componentref id="Chair"/>
             </children>
         </component>
 
@@ -488,6 +624,10 @@
                 <componentref id="Wall4" />
                 <componentref id="Floor" />
                 <componentref id="Ceiling" />
+                <componentref id="Post1" />
+                <componentref id="Post2" />
+                <componentref id="Post3" />
+                <componentref id="Post4" />
             </children>
         </component>
     </components>
