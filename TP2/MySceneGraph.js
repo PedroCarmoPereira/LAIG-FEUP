@@ -1289,7 +1289,7 @@ class MySceneGraph {
         this.scene.logPicking();
 		this.scene.clearPickRegistration();
         this.board.display();   
-        //this.components[this.idRoot].display(this.components[this.idRoot].materials);
-        //this.primitives['demoPatch'].display();
+        this.components[this.idRoot].display(this.components[this.idRoot].materials);
+        this.primitives['demoPatch'].display();
     }
 }

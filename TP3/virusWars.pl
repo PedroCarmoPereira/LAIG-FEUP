@@ -3,6 +3,8 @@
 * Virus Wars board game coded in SWI-Prolog
 */
 
+:-use_module(library(lists)).
+
 play:- use_module(library(random)),menu(Board, Blue, Red), display_game(Board, blue), startGame(Board, Blue, Red, NewBoard), playGame(NewBoard, Blue, Red, _NewNewBoard), play.
 
 playerConfig(Blue, Red):- write('Please select game mode: '), nl, write('1. Human vs Human'), nl, write('2. Human vs Computer'), nl, write('3. Computer vs Computer'), nl,
@@ -133,9 +135,6 @@ getIndexList(0,[M|_],M):- !.
 getIndexList(Index, [_|T], M):- Index > 0, NI is Index-1, getIndexList(NI, T, M).
 
 getIndexMatrix(C, L, Matrix, Elem):- getIndexList(L, Matrix, Row), getIndexList(C, Row, Elem).
-
-member(X, [X|_]).
-member(X, [_|T]):- member(X, T).
 
 genPos(L, C, pos(C, L)).
 
@@ -283,7 +282,7 @@ random1stMove(Board, ai1, red, NewBoard):- getSize(Board, Size), SupLim is ceili
 
 randomMove(C, L, red, Board, NewBoard):- valid_moves(Board, red, LM), getSize(LM, Moves),  SupLim is Moves - 1,(SupLim >= 1 -> random(0, SupLim, Index); Index is 0), 
 											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 2, [], NewBoard);alterPos(C, L, Board, 4, [], NewBoard) ), !.
-randomMove(C, L, blue, Board, NewBoard):- valid_moves(Board, blue, LM), getSize(LM, Moves),  SupLim is Moves - 1, random(0, SupLim, Index),
+randomMove(C, L, blue, Board, NewBoard):- valid_moves(Board, blue, LM), getSize(LM, Moves),  SupLim is Moves - 1, (SupLim >= 1 -> random(0, SupLim, Index); Index is 0), 
 											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 1, [], NewBoard);alterPos(C, L, Board, 3, [], NewBoard) ), !.
 
 
@@ -317,7 +316,7 @@ playGame(Board, ai2, ai2, _NB):- thoughtTurn(Board, blue, TmpBoard, 0), display_
 thoughtTurn(Board, _, Board, _):- game_over(Board, blue), !.
 thoughtTurn(Board, _, Board, _):- game_over(Board, red), !.
 thoughtTurn(Board, _, Board, 2).
-thoughtTurn(Board, Player, NewBoard, N):- N \= 2, nl, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB, _), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN), !.
+thoughtTurn(Board, Player, NewBoard, N):- N \= 2, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB, _), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN), !.
 
 
 count_elemL(_, [], N, N).

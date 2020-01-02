@@ -17,6 +17,7 @@ class Component extends CGFobject {
         this.children = children;
         this.coords = coords;
         this.anims = animations;
+        if(animations == undefined) this.anims = [];
         this.ai = 0;
         this.id = id;
         if(!this.transformations) this.transformations = mat4.create();
