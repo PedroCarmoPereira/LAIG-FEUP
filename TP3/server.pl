@@ -97,6 +97,14 @@ boteasyXboteasyaction(Board, NewBoard, blue0, blue1, Message):-  bots1stturn(Boa
 
 boteasyXboteasyaction(Board, NewBoard, _, NextPlayer, Message):- randomTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";randomTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")), NextPlayer = "pc".
 														.
+bothardXboteasyaction(Board, NewBoard, blue0, blue1, Message):- bots1stturn(Board, NewBoard, Message).
+
+bothardXboteasyaction(Board, NewBoard, _, pc, Message):- thoughtTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";randomTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")).
+
+bothardXbothardaction(Board, NewBoard, blue0, blue1, Message):- bots1stturn(Board, NewBoard, Message).
+
+bothardXbothardaction(Board, NewBoard, _, pc, Message):- thoughtTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";thoughtTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")).
+
 
 play(Player, Board, C, L, GameType, NextPlayer, NewBoard, Message):-		% Example play predicate aqui metemos a logica de jogo, que se divide em 3 logicas, humano X humano: isto processa uma move, se for a 2 moves por turno e troca; humano x pc como anterior, mas não troca, simplesmente manda as moves do pc, e pc x pc em que faz tudo?
 	% Game Logic
@@ -105,7 +113,9 @@ play(Player, Board, C, L, GameType, NextPlayer, NewBoard, Message):-		% Example 
 	(GT = humanXboteasy -> humanXboteasyaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
 	(GT = humanXbothard -> humanXbothardaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
 	(GT = boteasyXboteasy -> boteasyXboteasyaction(Board, NewBoard, Player, NextPlayer, Message);
-	Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Naughty Neddy")))).
+	(GT = bothardXboteasy -> bothardXboteasyaction(Board, NewBoard, Player, NextPlayer, Message);
+	(GT = bothardXbothard -> bothardXbothardaction(Board, NewBoard, Player, NextPlayer, Message);
+	Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Naughty Neddy")))))).
 
 same(X, X).
 
