@@ -47,6 +47,7 @@
         <texture id="Dirt" file="scenes/images/dirt.jpeg" />
         <texture id="Cement" file="scenes/images/cement.jpg" />
         <texture id="darkWood" file="scenes/images/darkwood.jpg" />
+        <texture id="door" file="scenes/images/door.jpg" />
     </textures>
 
     <materials>
@@ -426,6 +427,23 @@
             </children>
         </component>
 
+        <component id="Door">
+            <transformation>
+                <translate x="6" y="5" z="-17.9" />
+                <scale x="5" y="5" z="1" />
+            </transformation>
+
+            <materials>
+                <material id="demoMaterial" />
+            </materials>
+
+            <texture id="door" length_s="0" length_t="0"/>
+            
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+
+        </component>
 
         <component id="PPFront">
             <transformation>
@@ -628,6 +646,7 @@
                 <componentref id="Post2" />
                 <componentref id="Post3" />
                 <componentref id="Post4" />
+                <componentref id="Door" />
             </children>
         </component>
     </components>

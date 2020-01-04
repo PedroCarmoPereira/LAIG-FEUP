@@ -96,7 +96,7 @@ bots1stturn(Board, NewBoard, Message):-random1stMove(Board, ai1, blue, NB), rand
 boteasyXboteasyaction(Board, NewBoard, blue0, blue1, Message):-  bots1stturn(Board, NewBoard, Message).
 
 boteasyXboteasyaction(Board, NewBoard, _, NextPlayer, Message):- randomTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";randomTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")), NextPlayer = "pc".
-														.
+														
 bothardXboteasyaction(Board, NewBoard, blue0, blue1, Message):- bots1stturn(Board, NewBoard, Message).
 
 bothardXboteasyaction(Board, NewBoard, _, pc, Message):- thoughtTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";randomTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")).
