@@ -46,6 +46,7 @@ class XMLscene extends CGFscene {
         this.boardpiece = null;
         this.gamepieceId = null;
         this.boardpieceId = null;
+        this.round = 0;
     }
 
     /**
@@ -154,13 +155,35 @@ class XMLscene extends CGFscene {
                         else if((customId >= 11 && customId <= 16) || (customId >= 21 && customId <= 26) || (customId >= 31 && customId <= 36) || (customId >= 41 && customId <= 46) || (customId >= 51 && customId <= 56) || (customId >= 61 && customId <= 66)){
                             if(this.gamepiece != null){
                                 this.boardpieceId = customId;
-                                this.gamepiece.addAnimation(this.boardpieceId%10-1,0.4, Math.floor(this.boardpieceId/10)-0.75,3);
-                                this.gamepiece = null;
+                                if(this.round == 0 && this.gamepiece.texture == 'textures/gamepiece1.jpg'){
+                                    this.gamepiece = null;
+                                    this.boardpieceId = null;
+                                }
+                    
+                                else if(this.round == 1 && this.gamepiece.texture == 'textures/gamepiece2.jpg'){
+                                    this.gamepiece = null;
+                                    this.boardpieceId = null;
+                                }
+                    
+                                else if(this.round != 0 && this.round != 1 && Math.floor((this.round-2)/2)%2 == 0 && this.gamepiece.texture == 'textures/gamepiece1.jpg'){
+                                    this.gamepiece = null;
+                                    this.boardpieceId = null;
+                                }
+                    
+                                else if(this.round != 0 && this.round != 1 && Math.floor((this.round-2)/2)%2 != 0 && this.gamepiece.texture == 'textures/gamepiece2.jpg'){
+                                    this.gamepiece = null;
+                                    this.boardpieceId = null;
+                                }
+                                if(this.gamepiece != null){
+                                    document.getElementById("col").value = this.boardpieceId%10-1;
+                                    document.getElementById("line").value = Math.floor(this.boardpieceId/10)-1; 
+                                    makeRequest();
+                                }
                             }
                         }					
 					}
 				}
-				this.pickResults.splice(0, this.pickResults.length);
+                this.pickResults.splice(0, this.pickResults.length);
 			}
 		}
 	}
@@ -185,6 +208,38 @@ class XMLscene extends CGFscene {
 
         this.texrtt.bind(1);
 
+        if(message != null && this.gamepiece != null && this.boardpieceId != null){
+            console.log("message " + message);
+            if(message == 'Groovy Gary' && this.gamepiece != null){
+                for(let i = 0; i < 36; i++){
+                    if(this.graph.gamepieces[i].x == this.boardpieceId%10-1 && this.graph.gamepieces[i].y == Math.floor(this.boardpieceId/10)-1){
+                        if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
+                            this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                            this.gamepiece = null;
+                            this.boardpieceId = null;
+                            this.round++;
+                            break;
+                        }
+                        else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
+                            this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                            this.gamepiece = null;
+                            this.boardpieceId = null;
+                            this.round++;
+                            break;
+                        }
+                    }
+                }
+                if(this.gamepiece != null){
+                    this.gamepiece.x = this.boardpieceId%10-1;
+                    this.gamepiece.y = Math.floor(this.boardpieceId/10)-1;
+                    this.gamepiece.addAnimation(this.boardpieceId%10-1,0.4, Math.floor(this.boardpieceId/10)-0.75,3);
+                    this.gamepiece = null;
+                    this.boardpieceId = null;
+                    this.round++;
+                }
+            }
+            message = null;
+        }
         
         this.pushMatrix();
         this.axis.display();

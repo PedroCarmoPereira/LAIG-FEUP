@@ -15,6 +15,11 @@ class Piece extends CGFobject {
         this.material.loadTexture(texture);
         this.material.setTextureWrap('REPEAT', 'REPEAT');
     }
+
+    changeTexture(texture) {
+        this.material.loadTexture(texture);
+    }
+    
     display() {
         this.scene.pushMatrix();
         this.material.apply();

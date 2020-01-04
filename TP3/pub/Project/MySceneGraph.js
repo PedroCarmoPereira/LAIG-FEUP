@@ -50,10 +50,10 @@ class MySceneGraph {
         this.gamepieces = [];
         for(let i = 0; i < 36; i++){
             if(i < 18){
-                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece1.jpg', [i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))], 100+i);
+                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece1.jpg', [i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))], 100+i, [i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))]);
             }
             else if(i >= 18){
-                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece2.jpg', [(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))], 100+i);
+                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece2.jpg', [(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))], 100+i, [(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))]);
             }
 
         }

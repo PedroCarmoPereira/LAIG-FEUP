@@ -1,31 +1,3 @@
-<<<<<<< HEAD
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>LAIG - Parser Example</title>
-    <link rel="icon" href="data:,">
-
-<style>
-body, html {
-    border: 0;
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-}
-
-canvas {
-    width: 100%;
-    height: 100%;
-}
-</style>
-</head>
-<body>
-
-<script src="main.js"></script>
-
-</body>
-=======
 <!DOCTYPE html>
 <html>
 	<head>
@@ -33,7 +5,7 @@ canvas {
 		<title>LAIG PROJ</title>
 	</head>
 	<body>
-		<h1>SWI HTTP Test</h1>
+		<h1 style="display: none;">SWI HTTP Test </h1>
 		
 		<div id="content">
 			<div id="params">
@@ -64,20 +36,21 @@ canvas {
 			<div id="reply"></div>
 		</div>
 		
-		<script type="text/javascript">
+		<script type="text/javascript" >
 
 			var last_board;
+			var message = null;
 
 			function postGameRequest(requestString, onSuccess, onError)
 			{
 				var request = new XMLHttpRequest();
-				request.open('POST', '../game', true);
+				request.open('POST', '../../game', true);
 
 				request.onload = onSuccess || function(data){console.log("Request successful. Reply: " + data.target.response);};
 				request.onerror = onError || function(){console.log("Error waiting for response");};
 
 				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-				request.send('requestString='+encodeURIComponent(requestString));			
+				request.send('requestString='+encodeURIComponent(requestString));	
 			}
 		
 			function makeRequest()
@@ -100,6 +73,7 @@ canvas {
 				console.log("LOG: " + data.target.response);
 				response=JSON.parse(data.target.response);
 				document.querySelector("#reply").innerHTML=response.message;		// Access message and show
+				message = response.message;
 				if(response.message === "Groovy Gary") last_board = document.querySelector("#board").value;
 				document.querySelector("#board").value=response.newBoard;			// Access new Board
 				document.querySelector("#player").value=response.newPlayer;			// Access new Player
@@ -136,7 +110,7 @@ canvas {
 			}
 			
 		</script>
-		
+		<script src="main.js"></script>
 	</body>
->>>>>>> 429c76984c4b54c3e4e728ce3d754271c8c2cc28
 </html>
+
