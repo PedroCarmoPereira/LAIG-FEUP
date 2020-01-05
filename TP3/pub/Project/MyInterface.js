@@ -57,6 +57,10 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'undo').onChange(this.scene.undoo.bind(this.scene));
     }
 
+    doMovie() {
+        this.gui.add(this.scene, 'movies').name("Movie").onChange(this.scene.moviess.bind(this.scene)).listen();
+    }
+
     wins() {
         this.gui.add(this.scene, 'redwins').name("Red Wins:").listen();
         this.gui.add(this.scene, 'bluewins').name("Blue Wins:").listen();

@@ -19,6 +19,7 @@ class XMLscene extends CGFscene {
         this.redwins = 0;
         this.bluewins = 0;
         this.timer = 0;
+        this.movies = false;
     }
 
     /**
@@ -58,6 +59,15 @@ class XMLscene extends CGFscene {
         this.time3 = 0;
         this.undoMove = [];
         this.currAngleCam = 0;
+        this.movie = [];
+        this.movieCount = 0;
+        this.value1;
+        this.value2;
+        this.value3;
+        this.value4;
+        this.value5;
+        this.time4 = 0;
+        this.counter = 0;
     }
 
     /**
@@ -108,6 +118,25 @@ class XMLscene extends CGFscene {
         }
     }
 
+    moviess() {
+        if(this.movies != 0){
+        for(let i = 0; i < 36; i++){
+            this.gamepiece = null;
+            this.boardpieceId = null;
+            message = null;
+            botmoves = '[]';
+            this.time2 = 0;
+            if(i < 18){
+                this.graph.gamepieces[i].reset2([i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))]);
+            }
+            else if(i >= 18){
+                this.graph.gamepieces[i].reset2([(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))]);
+            }
+            this.timer = 0;
+        }
+    }
+    }
+
     update(t){
         for(var comp in this.graph.components){
             if (this.graph.components[comp].ai < this.graph.components[comp].anims.length)
@@ -127,13 +156,13 @@ class XMLscene extends CGFscene {
             }
         }
         if(this.graph.win == true){
+            this.timer = 0;
             if(this.time2 == 0){
                 this.time2 = t;
             }
             if(t - this.time2 > 10000){
                 this.graph.win = false;
                 for(let i = 0; i < 36; i++){
-                    this.graph.gamepieces[i].reset();
                     this.round = 0;
                     this.gamepiece = null;
                     this.boardpieceId = null;
@@ -147,6 +176,7 @@ class XMLscene extends CGFscene {
                         this.graph.gamepieces[i].reset([(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))]);
                     }
                     reset();
+                    this.timer = 0;
                 }
             }
         }
@@ -156,6 +186,30 @@ class XMLscene extends CGFscene {
         else if(this.time3+1000 < t){
             this.timer++;
             this.time3 = t;
+        }
+
+        if(this.movies != 0){
+            if(this.time4 == 0){
+                this.time4 = t;
+            }
+            else if(this.time4+1000 < t){
+                this.time4 = t;
+                if(this.counter < this.movie.length){
+                    if(this.movie[this.counter][0] == "Move"){
+                        this.movie[this.counter][1].addAnimation(this.movie[this.counter][2], this.movie[this.counter][3], this.movie[this.counter][4], 3);
+                    }
+                    if(this.movie[this.counter][0] == "Texture"){
+                        console.log("aaa");
+                        this.movie[this.counter][1].changeTexture(this.movie[this.counter][2]);
+                    } 
+                    this.counter++;
+                }
+                else {
+                    this.movies = false;
+                    this.counter = 0;
+                    this.time4 = 0;
+                }
+            }
         }
     }
 
@@ -224,6 +278,7 @@ class XMLscene extends CGFscene {
         this.interface.initCameras();
         this.interface.initModes();
         this.interface.undo();
+        this.interface.doMovie();
         this.interface.wins();
         this.interface.timer();
     }
@@ -307,6 +362,10 @@ class XMLscene extends CGFscene {
                             this.undoMove[0] = 'Texture';
                             this.undoMove[1] = this.graph.gamepieces[i].gamepiece;
                             this.undoMove[2] = 'textures/gamepiece1.jpg';
+                            this.value1 = "Texture";
+                            this.value2 = this.graph.gamepieces[i].gamepiece;
+                            this.value3 = 'textures/zombieblue.jpg';
+                            this.movie.push([this.value1, this.value2, this.value3]);
                             this.gamepiece = null;
                             this.boardpieceId = null;
                             this.round++;
@@ -317,6 +376,10 @@ class XMLscene extends CGFscene {
                             this.undoMove[0] = 'Texture';
                             this.undoMove[1] = this.graph.gamepieces[i].gamepiece;
                             this.undoMove[2] = 'textures/gamepiece2.jpg';
+                            this.value1 = "Texture";
+                            this.value2 = this.graph.gamepieces[i].gamepiece;
+                            this.value3 = 'textures/zombiered.jpg';
+                            this.movie.push([this.value1, this.value2, this.value3]);
                             this.gamepiece = null;
                             this.boardpieceId = null;
                             this.round++;
@@ -334,6 +397,12 @@ class XMLscene extends CGFscene {
                     else if(this.gamepiece.texture == 'textures/gamepiece2.jpg'){
                         this.undoMove[2] = [(undoaux-18)*1 - (Math.floor((undoaux-18)/6)*6),0,8 + (Math.floor((undoaux-18)/6))];
                     }
+                    this.value1 = "Move";
+                    this.value2 = this.gamepiece;
+                    this.value3 = this.boardpieceId%10-1;
+                    this.value4 = 0.4;
+                    this.value5 = Math.floor(this.boardpieceId/10)-0.75;
+                    this.movie.push([this.value1, this.value2, this.value3, this.value4, this.value5]);
                     this.gamepiece.x = this.boardpieceId%10-1;
                     this.gamepiece.y = Math.floor(this.boardpieceId/10)-1;
                     this.gamepiece.addAnimation(this.boardpieceId%10-1,0.4, Math.floor(this.boardpieceId/10)-0.75,3);
