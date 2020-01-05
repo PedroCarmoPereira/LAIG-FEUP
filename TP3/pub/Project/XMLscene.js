@@ -551,12 +551,12 @@ class XMLscene extends CGFscene {
 
     display(){
 		this.texrtt.attachToFrameBuffer();
-		if (this.views != undefined) this.render(this.securityView);
+		//if (this.views != undefined) this.render(this.securityView);
         this.texrtt.detachFromFrameBuffer();
         if (this.views != undefined) this.updateCamera();
         this.render(this.camera);
         this.gl.disable(this.gl.DEPTH_TEST);
-        this.securityCam.display();
+        //this.securityCam.display();
         this.gl.enable(this.gl.DEPTH_TEST);
 	}
 }

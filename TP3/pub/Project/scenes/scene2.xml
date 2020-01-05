@@ -1,14 +1,15 @@
 <lxs>
     <scene root="Root" axis_length="5"/>
 
-    <views default="demoPerspective">
-        <perspective id="demoPerspective" near="0.1" far="500" angle="45">
+    <views default="blue">
+        <perspective id="red" near="0.1" far="500" angle="45">
             <from x="5" y="5" z="-15" />
             <to x="5" y="5" z="0" />
         </perspective>
-        <perspective id="securityCamera" near="0.1" far="500" angle="45">
-            <from x="15" y="10" z="0" />
-            <to x="0" y="0" z="13" />
+
+        <perspective id="blue" near="0.1" far="500" angle="45">
+            <from x="5" y="5" z="25" />
+            <to x="5" y="5" z="-15" />
         </perspective>
     </views>
 
@@ -439,7 +440,7 @@
             <transformation>
                 <translate x="0" y="5" z="-17.9" />
                 <scale x="5" y="5" z="1" />
-                <rotate axis="z" angle="180" />
+                <!--<rotate axis="z" angle="180" />-->
             </transformation>
 
             <materials>
@@ -458,7 +459,7 @@
             <transformation>
                 <translate x="12" y="5" z="-17.9" />
                 <scale x="5" y="5" z="1" />
-                <rotate axis="z" angle="180" />
+                <!--<rotate axis="z" angle="180" />-->
             </transformation>
 
             <materials>
@@ -573,7 +574,8 @@
 
         <component id="Chair1">
             <transformation>
-                <translate x="7.5" y="0" z="5" />
+                <translate x="2" y="0" z="0" />
+                <rotate axis="y" angle="90" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
@@ -586,8 +588,8 @@
 
         <component id="Chair2">
             <transformation>
-                <translate x="2" y="0" z="11" />
-                <rotate axis="y" angle="180" />
+                <translate x="7.7" y="0" z="14" />
+                <rotate axis="y" angle="270" />
             </transformation>
             <materials>
                 <material id="demoMaterial" />
