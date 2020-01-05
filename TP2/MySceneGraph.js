@@ -1287,8 +1287,11 @@ class MySceneGraph {
      */
     displayScene() {
         this.scene.logPicking();
-		this.scene.clearPickRegistration();
-        this.board.display();   
+        this.scene.clearPickRegistration();
+        this.scene.pushMatrix();
+        this.scene.translate(2.5, 3, 5);
+        this.board.display();  
+        this.scene.popMatrix(); 
         this.components[this.idRoot].display(this.components[this.idRoot].materials);
     }
 }

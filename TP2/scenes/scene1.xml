@@ -48,6 +48,7 @@
         <texture id="Cement" file="scenes/images/cement.jpg" />
         <texture id="darkWood" file="scenes/images/darkwood.jpg" />
         <texture id="door" file="scenes/images/door.jpg" />
+        <texture id="testSil" file="scenes/images/manblend.png" />
     </textures>
 
     <materials>
@@ -445,6 +446,44 @@
 
         </component>
 
+         <component id="sill1">
+            <transformation>
+                <translate x="0" y="5" z="-17.9" />
+                <scale x="5" y="5" z="1" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+
+            <materials>
+                <material id="cement" />
+            </materials>
+
+            <texture id="testSil" length_s="0" length_t="0"/>
+            
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+
+        </component>
+
+        <component id="sill2">
+            <transformation>
+                <translate x="12" y="5" z="-17.9" />
+                <scale x="5" y="5" z="1" />
+                <rotate axis="z" angle="180" />
+            </transformation>
+
+            <materials>
+                <material id="cement" />
+            </materials>
+
+            <texture id="testSil" length_s="0" length_t="0"/>
+            
+            <children>
+                <primitiveref id="demoRectangle" />
+            </children>
+
+        </component>
+
         <component id="PPFront">
             <transformation>
             <translate x="0" y="0" z="0" />
@@ -570,6 +609,20 @@
             </children>
         </component>
 
+         <component id="Post5">
+            <transformation>
+                <translate x="5" y="1.5" z="7.5" />
+                <scale x="1" y="1.5" z="1" />
+            </transformation>
+            <materials>
+               <material id="wood" />
+            </materials>
+            <texture id="darkWood" length_s="0" length_t="0"/>
+            <children>
+                <componentref id="PP" />
+            </children>
+        </component>
+
         <component id="Chair">
             <transformation>
             </transformation>
@@ -646,7 +699,10 @@
                 <componentref id="Post2" />
                 <componentref id="Post3" />
                 <componentref id="Post4" />
+                <componentref id="Post5" />
                 <componentref id="Door" />
+                <componentref id="sill1" />
+                <componentref id="sill2" />
             </children>
         </component>
     </components>
