@@ -34,6 +34,11 @@ class GamePiece extends CGFobject {
         this.gamepiece.changeTexture(this.texture);
     }
 
+    reset2(coords) {
+        this.coords = coords;
+        this.gamepiece.changeTexture(this.texture);
+    }
+
     addAnimation(x, y, z, endTime) {
         this.endTime = endTime;
         this.animationX = x;
