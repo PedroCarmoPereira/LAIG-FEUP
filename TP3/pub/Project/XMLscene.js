@@ -57,6 +57,7 @@ class XMLscene extends CGFscene {
         this.time2 = 0;
         this.time3 = 0;
         this.undoMove = [];
+        this.currAngleCam = 0;
     }
 
     /**
@@ -67,8 +68,18 @@ class XMLscene extends CGFscene {
     }
 
     updateCamera(){
-        this.camera = this.views[this.currCameraID];
-        this.interface.setActiveCamera(this.camera);
+        if(this.camera != this.views[this.currCameraID]){
+            if(this.currAngleCam < Math.PI){
+                this.camera.orbit(CGFcameraAxis.y, Math.PI / 50);
+                this.currAngleCam += Math.PI/50;
+            }
+            else {
+                this.currAngleCam = 0;
+                this.camera.orbit(CGFcameraAxis.y, Math.PI);
+                this.camera = this.views[this.currCameraID];
+                this.interface.setActiveCamera(this.camera);
+            }
+        }
     }
 
     updateSecurityCamera(){
