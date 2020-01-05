@@ -9,7 +9,7 @@
 
         <perspective id="blue" near="0.1" far="500" angle="45">
             <from x="5" y="5" z="25" />
-            <to x="5" y="5" z="-15" />
+            <to x="5" y="5" z="-5" />
         </perspective>
     </views>
 

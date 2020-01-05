@@ -23,6 +23,7 @@ class MyInterface extends CGFinterface {
         // add a group of controls (and open/expand by defult)
 
         this.initKeys();
+        this.initScenes();
         return true;
     }
 
@@ -42,6 +43,17 @@ class MyInterface extends CGFinterface {
 
     initModes(){
         this.gui.add(this.scene, 'modes', this.scene.modes).name('Modes').onChange(this.scene.changeMode.bind(this.scene));
+    }
+
+    initScenes(){
+        const aaa = [
+            "scene1.xml", 
+            "scene2.xml"
+        ];
+
+        //this.scene.sceneID = this.scene.graph.filename;
+        this.gui.add(this.scene, "sceneID", aaa).name('Current Scene').onChange(filename => this.scene.graph.xmlUpdate(filename));
+
     }
 
     initLights(){
