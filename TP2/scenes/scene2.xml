@@ -47,8 +47,9 @@
         <texture id="Dirt" file="scenes/images/dirt.jpeg" />
         <texture id="Cement" file="scenes/images/cement.jpg" />
         <texture id="darkWood" file="scenes/images/darkwood.jpg" />
-        <texture id="door" file="scenes/images/door.jpg" />
-        <texture id="testSil" file="scenes/images/manblend.png" />
+        <texture id="door" file="scenes/images/portalbg.png" />
+        <texture id="testSil" file="scenes/images/alienbg.png" />
+        <texture id="spacetex" file="scenes/images/space.jpg" />
     </textures>
 
     <materials>
@@ -80,27 +81,6 @@
             <specular r="1" g="1" b="1" a="1.0" />
         </material>
 
-        <material id="dirt" shininess="0">
-            <emission r="0" g="0" b="0" a="1.0" />
-            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
-            <diffuse r="0.2" g="0.1" b="0" a="1.0" />
-            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
-        </material>
-
-        <material id="cement" shininess="0">
-            <emission r="0" g="0" b="0" a="1.0" />
-            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
-            <diffuse r="0.4" g="0.4" b="0.4" a="1.0" />
-            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
-        </material>
-
-        <material id="wood2" shininess="10">
-            <emission r="0.2" g="0.2" b="0.2" a="1.0" />
-            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
-            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
-            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
-        </material>
-
         <material id="metal" shininess="10">
             <emission r="0.6" g="0.6" b="0.6" a="1.0" />
             <ambient r="0.6" g="0.6" b="0.6" a="1.0" />
@@ -108,6 +88,19 @@
             <specular r="0.8" g="0.8" b="0.8" a="1.0" />
         </material>
 
+        <material id="wierdMaterial" shininess="10">
+            <emission r="1" g="0.08" b="0.6" a="1.0" />
+            <ambient r="0" g="0" b="0" a="1.0" />
+            <diffuse r="0" g="0" b="0" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+        </material>
+
+        <material id="space" shininess="10">
+            <emission r="0.1" g="0.1" b="0.1" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0" g="0" b="0" a="1.0" />
+        </material>
     </materials>
 
     <transformations>
@@ -336,16 +329,15 @@
         </component>
         <component id="Wall1">
             <transformation>
-                <translate x="-18.7" y="10" z="7" />
+                <translate x="-100" y="10" z="7" />
                 <rotate axis="y" angle="90" />
                 <rotate axis="x" angle="180" />
-                <scale x="50" y="10" z="1" />
+                <scale x="200" y="200" z="1" />
             </transformation>
             <materials>
-                <material id="cement" />
-                <material id="wall" />
+                <material id="space" />
             </materials>
-            <texture id="Cement" length_s="0" length_t="0"/>
+            <texture id="spacetex" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -353,16 +345,15 @@
 
         <component id="Wall3">
             <transformation>
-                <translate x="31.3" y="10" z="7" />
+                <translate x="100" y="10" z="7" />
                 <rotate axis="y" angle="90" />
                 <rotate axis="x" angle="180" />
-                <scale x="50" y="10" z="1" />
+                <scale x="200" y="200" z="1" />
             </transformation>
             <materials>
-                <material id="cement" />
-                <material id="wall" />
+                <material id="space" />
             </materials>
-            <texture id="Cement" length_s="0" length_t="0"/>
+            <texture id="spacetex" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -370,14 +361,13 @@
 
         <component id="Wall2">
             <transformation>
-                <translate x="6.3" y="10" z="32" />
-                <scale x="50" y="10" z="1" />
+                <translate x="6.3" y="10" z="100" />
+                <scale x="200" y="200" z="1" />
             </transformation>
             <materials>
-                <material id="cement" />
-                <material id="wall" />
+                <material id="space" />
             </materials>
-            <texture id="Cement" length_s="0" length_t="0"/>
+            <texture id="spacetex" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -385,14 +375,13 @@
 
         <component id="Wall4">
             <transformation>
-                <translate x="6.3" y="10" z="-18" />
-                <scale x="50" y="10" z="1" />
+                <translate x="6.3" y="10" z="-100" />
+                <scale x="200" y="200" z="1" />
             </transformation>
             <materials>
-                <material id="cement" />
-                <material id="wall" />
+                <material id="space" />
             </materials>
-            <texture id="Cement" length_s="0" length_t="0"/>
+            <texture id="spacetex" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -405,9 +394,9 @@
                 <scale x="50" y="25" z="1" />
             </transformation>
             <materials>
-                <material id="dirt" />
+                <material id="wierdMaterial" />
             </materials>
-            <texture id="Dirt" length_s="0" length_t="0"/>
+            <texture id="none" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -415,14 +404,14 @@
 
         <component id="Ceiling">
             <transformation>
-                <translate x="6.3" y="20" z="7" />
+                <translate x="6.3" y="100" z="7" />
                 <rotate axis="x" angle="90" />
-                <scale x="50" y="25" z="1" />
+                <scale x="200" y="200" z="1" />
             </transformation>
             <materials>
-                <material id="cement" />
+                <material id="space" />
             </materials>
-            <texture id="Cement" length_s="0" length_t="0"/>
+            <texture id="spacetex" length_s="0" length_t="0"/>
             <children>
                 <primitiveref id="demoRectangle" />
             </children>
@@ -454,7 +443,7 @@
             </transformation>
 
             <materials>
-                <material id="cement" />
+                <material id="demoMaterial" />
             </materials>
 
             <texture id="testSil" length_s="0" length_t="0"/>
@@ -473,7 +462,7 @@
             </transformation>
 
             <materials>
-                <material id="cement" />
+                <material id="demoMaterial" />
             </materials>
 
             <texture id="testSil" length_s="0" length_t="0"/>
@@ -552,63 +541,6 @@
                 <componentref id="PPSide2" />
             </children>
         </component>
-
-        <component id="Post1">
-            <transformation>
-                <translate x="-2.5" y="10" z="-2.5" />
-                <scale x="1" y="10" z="1" />
-            </transformation>
-            <materials>
-               <material id="wood" />
-            </materials>
-            <texture id="darkWood" length_s="0" length_t="0"/>
-            <children>
-                <componentref id="PP" />
-            </children>
-        </component>
-
-        <component id="Post2">
-            <transformation>
-                <translate x="12.5" y="10" z="-2.5" />
-                <scale x="1" y="10" z="1" />
-            </transformation>
-            <materials>
-               <material id="wood" />
-            </materials>
-            <texture id="darkWood" length_s="0" length_t="0"/>
-            <children>
-                <componentref id="PP" />
-            </children>
-        </component>
-
-        <component id="Post3">
-            <transformation>
-                <translate x="12.5" y="10" z="12.5" />
-                <scale x="1" y="10" z="1" />
-            </transformation>
-            <materials>
-               <material id="wood" />
-            </materials>
-            <texture id="darkWood" length_s="0" length_t="0"/>
-            <children>
-                <componentref id="PP" />
-            </children>
-        </component>
-
-        <component id="Post4">
-            <transformation>
-                <translate x="-2.5" y="10" z="12.5" />
-                <scale x="1" y="10" z="1" />
-            </transformation>
-            <materials>
-               <material id="wood" />
-            </materials>
-            <texture id="darkWood" length_s="0" length_t="0"/>
-            <children>
-                <componentref id="PP" />
-            </children>
-        </component>
-
          <component id="Post5">
             <transformation>
                 <translate x="5" y="1.5" z="7.5" />
@@ -666,19 +598,6 @@
             </children>
         </component>
 
-        <component id="PatchTest">
-            <transformation>
-                <translate x="0" y="0" z="0" />
-            </transformation>
-            <materials>
-                <material id="wood2" />
-            </materials>
-            <texture id="inherit" length_s="0" length_t="0"/>
-            <children>
-                <primitiveref id="demoPatch" />
-            </children>
-        </component>
-
         <component id="Root">
             <transformation>
             </transformation>
@@ -695,11 +614,6 @@
                 <componentref id="Wall4" />
                 <componentref id="Floor" />
                 <componentref id="Ceiling" />
-                <componentref id="Post1" />
-                <componentref id="Post2" />
-                <componentref id="Post3" />
-                <componentref id="Post4" />
-                <componentref id="Post5" />
                 <componentref id="Door" />
                 <componentref id="sill1" />
                 <componentref id="sill2" />
