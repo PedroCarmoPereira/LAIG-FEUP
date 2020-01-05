@@ -1,10 +1,9 @@
 class GamePiece extends CGFobject {
-    constructor(scene, texture, coords1, id, coords2) {
+    constructor(scene, texture, coords1, id) {
         super(scene);
         this.gamepiece = new Piece(scene, texture);
         this.texture = texture;
         this.id = id;
-        this.basecoords = coords2;
         this.coords = coords1;
         this.varcoords = [0,0,0];
         this.animation = null;
@@ -18,11 +17,21 @@ class GamePiece extends CGFobject {
         this.x = -1;
         this.y = -1;
         this.z = -1;
-        console.log(coords2)
     }
 
-    undo() {
-        this.coords = this.basecoords;
+    undo(coords) {
+        this.coords = coords;
+        this.x = -1;
+        this.y = -1;
+        this.z = -1;
+    }
+
+    reset(coords) {
+        this.coords = coords;
+        this.x = -1;
+        this.y = -1;
+        this.z = -1;
+        this.gamepiece.changeTexture(this.texture);
     }
 
     addAnimation(x, y, z, endTime) {

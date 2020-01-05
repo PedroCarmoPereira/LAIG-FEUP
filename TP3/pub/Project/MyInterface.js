@@ -53,6 +53,19 @@ class MyInterface extends CGFinterface {
         }
     }
 
+    undo() {
+        this.gui.add(this.scene, 'undo').onChange(this.scene.undoo.bind(this.scene));
+    }
+
+    wins() {
+        this.gui.add(this.scene, 'redwins').name("Red Wins:").listen();
+        this.gui.add(this.scene, 'bluewins').name("Blue Wins:").listen();
+    }
+
+    timer() {
+        this.gui.add(this.scene, 'timer').name("Timer:").listen();
+    }
+
     processKeyDown(event) {
         this.activeKeys[event.code]=true;
     };

@@ -47,13 +47,22 @@ class MySceneGraph {
         //this.cylinder = new MyCylinder(this.scene, 5, 50, 50, 2, 1, 1);
         //this.cylinder = new cylinder2(this.scene, 50, 50, 4, 2, 2);
         this.board = new Board(this.scene);
+        this.material = new CGFappearance(scene);
+        this.material.setAmbient(0.5, 0.5, 0.5, 1);
+        this.material.setDiffuse(0.5, 0.5, 0.5, 1);
+        this.material.setSpecular(0.2, 0.2, 0.2, 1);
+        this.material.setShininess(0.2);
+        this.material.setTextureWrap('REPEAT', 'REPEAT');
+        this.message = new MyRectangle(this.scene, 9, -3, 3, -3, 3);
+        this.message2 = new MyRectangle(this.scene, 9, -3, 3, -3, 3);
+        this.win = false;
         this.gamepieces = [];
         for(let i = 0; i < 36; i++){
             if(i < 18){
-                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece1.jpg', [i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))], 100+i, [i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))]);
+                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece1.jpg', [i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))], 100+i);
             }
             else if(i >= 18){
-                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece2.jpg', [(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))], 100+i, [(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))]);
+                this.gamepieces[i] = new GamePiece(this.scene, 'textures/gamepiece2.jpg', [(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))], 100+i);
             }
 
         }
@@ -1304,6 +1313,20 @@ class MySceneGraph {
             this.gamepieces[i].display();
         }
         this.scene.popMatrix();
+
+        if(this.win){
+            this.scene.translate(2.5, 5, 3.1);
+            this.material.apply();
+            this.message.display();
+            this.scene.popMatrix();
+
+            this.scene.pushMatrix();
+            this.scene.translate(2.5, 5, 3);
+            this.scene.rotate(180*Math.PI/180, 0, 1, 0);
+            this.material.apply();
+            this.message2.display();
+        }
+
         //this.components[this.idRoot].display(this.components[this.idRoot].materials);
         //this.primitives['demoPatch'].display();
     }

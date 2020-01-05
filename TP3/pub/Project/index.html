@@ -45,6 +45,7 @@
 
 			var last_board;
 			var message = null;
+			var botmoves = [];
 
 			function postGameRequest(requestString, onSuccess, onError)
 			{
@@ -82,7 +83,8 @@
 				if(response.message === "Groovy Gary") last_board = document.querySelector("#board").value;
 				document.querySelector("#board").value=response.newBoard;			// Access new Board
 				document.querySelector("#player").value=response.newPlayer;			// Access new Player
-				document.querySelector("#botmoves").value=response.bm;		
+				document.querySelector("#botmoves").value=response.bm;
+				botmoves = response.bm;		
 				
 				var undobtn = document.getElementById("undo");
 				if(response.message === "Red Wins" || response.message === "Blue Wins"){
