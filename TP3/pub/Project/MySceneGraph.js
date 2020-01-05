@@ -1297,11 +1297,13 @@ class MySceneGraph {
      */
     displayScene() {
         this.scene.logPicking();
-		this.scene.clearPickRegistration();
+        this.scene.clearPickRegistration();
+        this.scene.pushMatrix();
         this.board.display();   
         for(let i = 0; i < 36; i++){
             this.gamepieces[i].display();
         }
+        this.scene.popMatrix();
         //this.components[this.idRoot].display(this.components[this.idRoot].materials);
         //this.primitives['demoPatch'].display();
     }

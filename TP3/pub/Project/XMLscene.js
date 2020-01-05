@@ -14,6 +14,7 @@ class XMLscene extends CGFscene {
         this.interface = myinterface;
         this.currCameraID = "";
         this.currSecCamID = "";
+        this.modes = 0;
     }
 
     /**
@@ -36,6 +37,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
         this.viewIDs = [];
         this.viewIDs.push(this.currCameraID);
+        this.modes = [0, 1, 2];
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
         this.setLights = [];
@@ -63,6 +65,11 @@ class XMLscene extends CGFscene {
 
     updateSecurityCamera(){
         this.securityView = this.views[this.currSecCamID];
+    }
+
+    changeMode(){
+        document.getElementById("gametype").value = this.modes;
+        console.log(this.modes);
     }
 
     update(t){
@@ -139,6 +146,7 @@ class XMLscene extends CGFscene {
         
         this.interface.initLights();
         this.interface.initCameras();
+        this.interface.initModes();
     }
     logPicking() {
         if (this.pickMode == false) {

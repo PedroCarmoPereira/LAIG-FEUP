@@ -40,6 +40,10 @@ class MyInterface extends CGFinterface {
         this.gui.add(this.scene, 'currSecCamID', this.scene.viewIDs).name('Security Camera').onChange(this.scene.updateSecurityCamera.bind(this.scene));
     }
 
+    initModes(){
+        this.gui.add(this.scene, 'modes', this.scene.modes).name('Modes').onChange(this.scene.changeMode.bind(this.scene));
+    }
+
     initLights(){
         var f = this.gui.addFolder('Lights');
         f.open();
