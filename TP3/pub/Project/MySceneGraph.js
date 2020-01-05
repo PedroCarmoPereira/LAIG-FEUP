@@ -1315,13 +1315,13 @@ class MySceneGraph {
         this.components[this.idRoot].display(this.components[this.idRoot].materials);
 
         if(this.win){
-            this.scene.translate(2.5, 5, 3.1);
+            this.scene.translate(5, 8, 8.1);
             this.material.apply();
             this.message.display();
             this.scene.popMatrix();
 
             this.scene.pushMatrix();
-            this.scene.translate(2.5, 5, 3);
+            this.scene.translate(5, 8, 8);
             this.scene.rotate(180*Math.PI/180, 0, 1, 0);
             this.material.apply();
             this.message2.display();
