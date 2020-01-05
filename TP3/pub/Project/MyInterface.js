@@ -48,7 +48,8 @@ class MyInterface extends CGFinterface {
     initScenes(){
         const aaa = [
             "scene1.xml", 
-            "scene2.xml"
+            "scene2.xml",
+            "scene3.xml"
         ];
 
         //this.scene.sceneID = this.scene.graph.filename;
