@@ -12,7 +12,6 @@ class XMLscene extends CGFscene {
         super();
 
         this.interface = myinterface;
-        this.currCameraID = "";
         this.currSecCamID = "";
         this.modes = 0;
         this.undo = false;
@@ -59,6 +58,7 @@ class XMLscene extends CGFscene {
         this.time3 = 0;
         this.undoMove = [];
         this.currAngleCam = 0;
+<<<<<<< HEAD
         this.movie = [];
         this.movieCount = 0;
         this.value1;
@@ -68,6 +68,9 @@ class XMLscene extends CGFscene {
         this.value5;
         this.time4 = 0;
         this.counter = 0;
+=======
+        this.sceneID = "scene1.xml";
+>>>>>>> 42c9f95507ca7795e06cfa3cf9e91c7a2833e8cd
     }
 
     /**
@@ -263,6 +266,9 @@ class XMLscene extends CGFscene {
      */
     onGraphLoaded() {
         this.axis = new CGFaxis(this, this.graph.referenceLength);
+        
+        this.currCameraID = "blue";
+       
 
         this.gl.clearColor(this.graph.background[0], this.graph.background[1], this.graph.background[2], this.graph.background[3]);
 

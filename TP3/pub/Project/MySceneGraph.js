@@ -69,6 +69,17 @@ class MySceneGraph {
         this.scene.setPickEnabled(true);
     }
 
+
+    xmlUpdate(filename) {
+        // Stored just for displaying in the interface and knowing the currently loaded scene
+        this.filename = filename;
+        this.nodes = [];
+
+        // File reading 
+        this.reader = new CGFXMLreader();
+        this.reader.open('scenes/' + filename, this);
+    }
+
     /*
      * Callback to be executed after successful reading
      */
