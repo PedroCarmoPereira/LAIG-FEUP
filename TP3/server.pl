@@ -31,7 +31,7 @@ prepReplyStringToJSON(_Request) :-								% Fallback for non-POST Requests
 
 formatAsJSON(Reply):-
 		write('{'),												% Start JSON Object
-		Fields = [newPlayer, newBoard, message],				% Response Field Names, aqui tenho que por as vars que quero mandar para o servidor, algo como board, player, e alguma mensagem
+		Fields = [bm, newPlayer, newBoard, message],				% Response Field Names, aqui tenho que por as vars que quero mandar para o servidor, algo como board, player, e alguma mensagem
 		writeJSON(Fields, Reply).								% Format content as JSON 
 		
 writeJSON([Prop], [Val]):-
@@ -44,7 +44,7 @@ writeJSON([Prop|PT], [Val|VT]):-
 
 processString([_Par=Val], R):-
         term_string(List, Val),									% Convert Parameter String to Prolog List
-		R = [_NB, _NP, _M],										% Variables for Response
+		R = [_BM, _NB, _NP, _M],										% Variables for Response
 		append(List, R, ListR),									% Add extra Vars to Request
 		Term =.. ListR,											% Create Term from ListR
 		Term.													% Call the Term
@@ -64,58 +64,65 @@ human1stMove(Player, C, L, Board, NewBoard, NextPlayer, Message):- (Player = red
 																    Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Funky Fredy")
 																   ).
 
-humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message):- (firstMove(Player) -> human1stMove(Player, C, L, Board, NewBoard, NextPlayer, Message);
+humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message, []):- (firstMove(Player) -> human1stMove(Player, C, L, Board, NewBoard, NextPlayer, Message);
 																		player(Player, TP), 
 																		move(play(TP, pos(C, L)), Board, NewBoard, Pintou),
 					  													(Pintou = 0 -> same(Player, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(Player, NextPlayer), gameOverMsg(NewBoard, TP, Message); next(Player, NextPlayer), Message = "Groovy Gary"))).
 
-humanXboteasyaction(C, L, Board, NewBoard, blue0, NextPlayer, Message):- human1stMove(blue0, C, L, Board, TB, _, Message),
+humanXboteasyaction(C, L, Board, NewBoard, blue0, NextPlayer, Message, []):- human1stMove(blue0, C, L, Board, TB, _, Message),
 																		 (Message = "Groovy Gary" -> random1stMove(TB, ai1, red, NewBoard), NextPlayer = blue1; NextPlayer = blue0, NewBoard = Board).
 
-humanXboteasyaction(C, L, Board, NewBoard, blue1, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, NewBoard, Pintou),
+humanXboteasyaction(C, L, Board, NewBoard, blue1, NextPlayer, Message, []):- move(play(blue, pos(C, L)), Board, NewBoard, Pintou),
 																		 (Pintou = 0 -> same(blue1, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue1, NextPlayer), gameOverMsg(NewBoard, blue, Message); next(blue1, NextPlayer), Message = "Groovy Gary")).
 
-humanXboteasyaction(C, L, Board, NewBoard, blue2, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, TB, Pintou),
-																		 (TB = Board -> NewBoard = Board; randomTurn(TB, red, NewBoard, 0)),
+humanXboteasyaction(C, L, Board, NewBoard, blue2, NextPlayer, Message, BM):- move(play(blue, pos(C, L)), Board, TB, Pintou),
+																		 (TB = Board -> NewBoard = Board; randomTurn(TB, red, NewBoard, 0, BM)),
 																		 (Pintou = 0 -> same(blue2, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue2, NextPlayer), gameOverMsg(NewBoard, blue, Message); prev(blue2, NextPlayer), Message = "Groovy Gary")).
 
 
-humanXbothardaction(C, L, Board, NewBoard, blue0, NextPlayer, Message):- human1stMove(blue0, C, L, Board, TB, _, Message),
+humanXbothardaction(C, L, Board, NewBoard, blue0, NextPlayer, Message, []):- human1stMove(blue0, C, L, Board, TB, _, Message),
 																		 (Message = "Groovy Gary" -> random1stMove(TB, ai1, red, NewBoard), NextPlayer = blue1; NextPlayer = blue0, NewBoard = Board).
 
-humanXbothardaction(C, L, Board, NewBoard, blue1, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, NewBoard, Pintou),
+humanXbothardaction(C, L, Board, NewBoard, blue1, NextPlayer, Message, []):- move(play(blue, pos(C, L)), Board, NewBoard, Pintou),
 																		 (Pintou = 0 -> same(blue1, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue1, NextPlayer), gameOverMsg(NewBoard, blue, Message); next(blue1, NextPlayer), Message = "Groovy Gary")).
 
-humanXbothardaction(C, L, Board, NewBoard, blue2, NextPlayer, Message):- move(play(blue, pos(C, L)), Board, TB, Pintou),
-																		 (TB = Board -> NewBoard = Board; thoughtTurn(TB, red, NewBoard, 0)),
+humanXbothardaction(C, L, Board, NewBoard, blue2, NextPlayer, Message, BM):- move(play(blue, pos(C, L)), Board, TB, Pintou),
+																		 (TB = Board -> NewBoard = Board; thoughtTurn(TB, red, NewBoard, 0, BM)),
 																		 (Pintou = 0 -> same(blue2, NextPlayer), Message = "Funky Fredy"; (game_over(NewBoard, _Winner) -> same(blue2, NextPlayer), gameOverMsg(NewBoard, blue, Message); prev(blue2, NextPlayer), Message = "Groovy Gary")).
 
 
 bots1stturn(Board, NewBoard, Message):-random1stMove(Board, ai1, blue, NB), random1stMove(NB, ai1, red, NewBoard), Message = "Groovy Gary".
 
-boteasyXboteasyaction(Board, NewBoard, blue0, blue1, Message):-  bots1stturn(Board, NewBoard, Message).
+boteasyXboteasyaction(Board, NewBoard, blue0, blue1, Message, []):-  bots1stturn(Board, NewBoard, Message).
 
-boteasyXboteasyaction(Board, NewBoard, _, NextPlayer, Message):- randomTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";randomTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")), NextPlayer = "pc".
-														.
-bothardXboteasyaction(Board, NewBoard, blue0, blue1, Message):- bots1stturn(Board, NewBoard, Message).
+boteasyXboteasyaction(Board, NewBoard, blue1, red1, Message, BM):- randomTurn(Board, blue, NewBoard, 0, BM), (game_over(NewBoard, _Winner) -> Message = "Game Over"; Message = "Groovy Gary").
 
-bothardXboteasyaction(Board, NewBoard, _, pc, Message):- thoughtTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";randomTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")).
+boteasyXboteasyaction(Board, NewBoard, red1, blue1, Message, BM):- randomTurn(Board, red, NewBoard, 0, BM), (game_over(NewBoard, _Winner) -> Message = "Game Over"; Message = "Groovy Gary").
 
-bothardXbothardaction(Board, NewBoard, blue0, blue1, Message):- bots1stturn(Board, NewBoard, Message).
+														
+bothardXboteasyaction(Board, NewBoard, blue0, blue1, Message, []):- bots1stturn(Board, NewBoard, Message).
 
-bothardXbothardaction(Board, NewBoard, _, pc, Message):- thoughtTurn(Board, blue, TB, 0), (game_over(TB, _Winner) -> NewBoard = TB, Message = "Game Over";thoughtTurn(TB, red, NewBoard, 0), (game_over(NewBoard, _Win2) -> Message = "Game Over"; Message = "Groovy Gary")).
+bothardXboteasyaction(Board, NewBoard, blue1, red1, Message, BM):- thoughtTurn(Board, blue, NewBoard, 0, BM), (game_over(NewBoard, _Winner) -> Message = "Game Over"; Message = "Groovy Gary").
+
+bothardXboteasyaction(Board, NewBoard, red1, blue1, Message, BM):- randomTurn(Board, red, NewBoard, 0, BM), (game_over(NewBoard, _Winner) -> Message = "Game Over"; Message = "Groovy Gary").
+
+bothardXbothardaction(Board, NewBoard, blue0, blue1, Message, []):- bots1stturn(Board, NewBoard, Message).
+
+bothardXbothardaction(Board, NewBoard, blue1, red1, Message, BM):- thoughtTurn(Board, blue, NewBoard, 0, BM), (game_over(NewBoard, _Winner) -> Message = "Game Over"; Message = "Groovy Gary").
+
+bothardXbothardaction(Board, NewBoard, red1, blue1, Message, BM):- thoughtTurn(Board, red, NewBoard, 0, BM), (game_over(NewBoard, _Winner) -> Message = "Game Over"; Message = "Groovy Gary").
 
 
-play(Player, Board, C, L, GameType, NextPlayer, NewBoard, Message):-		% Example play predicate aqui metemos a logica de jogo, que se divide em 3 logicas, humano X humano: isto processa uma move, se for a 2 moves por turno e troca; humano x pc como anterior, mas não troca, simplesmente manda as moves do pc, e pc x pc em que faz tudo?
+play(Player, Board, C, L, GameType, BM, NextPlayer, NewBoard, Message):-		% Example play predicate aqui metemos a logica de jogo, que se divide em 3 logicas, humano X humano: isto processa uma move, se for a 2 moves por turno e troca; humano x pc como anterior, mas não troca, simplesmente manda as moves do pc, e pc x pc em que faz tudo?
 	% Game Logic
 	gameConfig(GameType, GT),
-	(GT = humanXhuman -> humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
-	(GT = humanXboteasy -> humanXboteasyaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
-	(GT = humanXbothard -> humanXbothardaction(C, L, Board, NewBoard, Player, NextPlayer, Message);
-	(GT = boteasyXboteasy -> boteasyXboteasyaction(Board, NewBoard, Player, NextPlayer, Message);
-	(GT = bothardXboteasy -> bothardXboteasyaction(Board, NewBoard, Player, NextPlayer, Message);
-	(GT = bothardXbothard -> bothardXbothardaction(Board, NewBoard, Player, NextPlayer, Message);
-	Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Naughty Neddy")))))).
+	(GT = humanXhuman -> humanXhumanaction(C, L, Board, NewBoard, Player, NextPlayer, Message, BM);
+	(GT = humanXboteasy -> humanXboteasyaction(C, L, Board, NewBoard, Player, NextPlayer, Message, BM);
+	(GT = humanXbothard -> humanXbothardaction(C, L, Board, NewBoard, Player, NextPlayer, Message, BM);
+	(GT = boteasyXboteasy -> boteasyXboteasyaction(Board, NewBoard, Player, NextPlayer, Message, BM);
+	(GT = bothardXboteasy -> bothardXboteasyaction(Board, NewBoard, Player, NextPlayer, Message, BM);
+	(GT = bothardXbothard -> bothardXbothardaction(Board, NewBoard, Player, NextPlayer, Message, BM);
+	Board = [H | T ], NewBoard = [ H | T], same(Player, NextPlayer), Message = "Naughty Neddy", BM = "Papayomayo")))))).
 
 same(X, X).
 

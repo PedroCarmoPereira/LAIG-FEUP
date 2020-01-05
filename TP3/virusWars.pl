@@ -286,10 +286,10 @@ randomMove(C, L, blue, Board, NewBoard):- valid_moves(Board, blue, LM), getSize(
 											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 1, [], NewBoard);alterPos(C, L, Board, 3, [], NewBoard) ), !.
 
 
-randomTurn(Board, _, Board, _):- game_over(Board, blue), !.
-randomTurn(Board, _, Board, _):- game_over(Board, red), !.
-randomTurn(Board, _, Board, 2).
-randomTurn(Board, Player, NewBoard, N):- N \= 2, randomMove(_C1, _L1, Player, Board, TB), NN is N + 1, randomTurn(TB, Player, NewBoard, NN), !.
+randomTurn(Board, _, Board, _, []):- game_over(Board, blue), !.
+randomTurn(Board, _, Board, _, []):- game_over(Board, red), !.
+randomTurn(Board, _, Board, 2, []).
+randomTurn(Board, Player, NewBoard, N, L):- N \= 2, randomMove(C1, L1, Player, Board, TB), NN is N + 1, randomTurn(TB, Player, NewBoard, NN, TL), append([C1, L1], TL, L), !.
 
 
 randomPlay(Board, ai1, ai1, _):- game_over(Board, Player), display_game(Board, Player),format("~a wins!", Player), nl, write("Well Played!"), !.
@@ -313,10 +313,10 @@ playGame(Board, ai2, ai2, _NB):- thoughtTurn(Board, blue, TmpBoard, 0), display_
 
 
 
-thoughtTurn(Board, _, Board, _):- game_over(Board, blue), !.
-thoughtTurn(Board, _, Board, _):- game_over(Board, red), !.
-thoughtTurn(Board, _, Board, 2).
-thoughtTurn(Board, Player, NewBoard, N):- N \= 2, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB, _), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN), !.
+thoughtTurn(Board, _, Board, _, []):- game_over(Board, blue), !.
+thoughtTurn(Board, _, Board, _, []):- game_over(Board, red), !.
+thoughtTurn(Board, _, Board, 2, []).
+thoughtTurn(Board, Player, NewBoard, N, ML):- N \= 2, chose_move(Board, ai2, Player, pos(C, L)), move(play(Player, pos(C,L)), Board, TB, _), NN is N + 1, thoughtTurn(TB, Player, NewBoard, NN, TL), append([C, L], TL, ML),  !.
 
 
 count_elemL(_, [], N, N).
