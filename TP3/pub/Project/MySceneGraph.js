@@ -1299,12 +1299,16 @@ class MySceneGraph {
         this.scene.logPicking();
         this.scene.clearPickRegistration();
         this.scene.pushMatrix();
+        this.scene.translate(2.5, 3, 5);
         this.board.display();   
         for(let i = 0; i < 36; i++){
+            this.scene.pushMatrix();
+            this.scene.rotate(-Math.PI/2, 0, 1, 0);
             this.gamepieces[i].display();
+            this.scene.popMatrix();
         }
         this.scene.popMatrix();
-        //this.components[this.idRoot].display(this.components[this.idRoot].materials);
+        this.components[this.idRoot].display(this.components[this.idRoot].materials);
         //this.primitives['demoPatch'].display();
     }
 }
