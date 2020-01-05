@@ -29,6 +29,11 @@
 				<br>
 				<input type="text" id="gametype" value="0"/>
 				<br/>
+
+				<label for="gametype">Bot Moves: </label>
+				<br>
+				<input type="text" id="botmoves" value="[]"/>
+				<br/>
 				<button type="button" id="play" onClick="makeRequest();" >Play</button>
 				<button type="button" id="reset" onClick="reset();">Reset</button>
 				<button type="button" id="undo" onClick="undo();" disabled>Undo</button>
@@ -77,6 +82,8 @@
 				if(response.message === "Groovy Gary") last_board = document.querySelector("#board").value;
 				document.querySelector("#board").value=response.newBoard;			// Access new Board
 				document.querySelector("#player").value=response.newPlayer;			// Access new Player
+				document.querySelector("#botmoves").value=response.bm;		
+				
 				var undobtn = document.getElementById("undo");
 				if(response.message === "Red Wins" || response.message === "Blue Wins"){
 					var btn = document.getElementById("play");
@@ -95,6 +102,7 @@
 				document.querySelector("#line").value = "0";
 				document.querySelector("#gametype").value = "0";
 				document.querySelector("#reply").innerHTML = "";
+				document.querySelector("#botmoves").value = "[]";
 				var btn = document.getElementById("play");
 				btn.disabled = false;
 
