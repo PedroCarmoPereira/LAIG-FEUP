@@ -58,7 +58,6 @@ class XMLscene extends CGFscene {
         this.time3 = 0;
         this.undoMove = [];
         this.currAngleCam = 0;
-<<<<<<< HEAD
         this.movie = [];
         this.movieCount = 0;
         this.value1;
@@ -68,9 +67,7 @@ class XMLscene extends CGFscene {
         this.value5;
         this.time4 = 0;
         this.counter = 0;
-=======
         this.sceneID = "scene1.xml";
->>>>>>> 42c9f95507ca7795e06cfa3cf9e91c7a2833e8cd
     }
 
     /**
