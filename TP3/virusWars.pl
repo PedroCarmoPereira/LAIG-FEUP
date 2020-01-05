@@ -277,8 +277,8 @@ startGame(Board, human, ai2, NewBoard):- nl, write("Blue pick your starting posi
 startGame(Board, ai2, ai2, NewBoard):- random1stMove(Board, ai1, blue, NB0), random1stMove(NB0, ai1, red, NewBoard), !.
 
 
-random1stMove(Board, ai1, blue, NewBoard):- getSize(Board, Size), SupLim is floor(Size/2) - 1, random(0, SupLim, C),  LimSup is Size - 1, random(0, LimSup, L), alterPos(C, L, Board, 1, [], NewBoard), !.
-random1stMove(Board, ai1, red, NewBoard):- getSize(Board, Size), SupLim is ceiling(Size/2), LimSup is Size - 1, random(SupLim, LimSup, C),  random(0, LimSup, L), alterPos(C, L, Board, 2, [], NewBoard), !.
+random1stMove(Board, ai1, blue, NewBoard, BM):- getSize(Board, Size), SupLim is floor(Size/2) - 1, random(0, SupLim, C),  LimSup is Size - 1, random(0, LimSup, L), alterPos(C, L, Board, 1, [], NewBoard), BM = [C, L], !.
+random1stMove(Board, ai1, red, NewBoard, BM):- getSize(Board, Size), SupLim is ceiling(Size/2), LimSup is Size - 1, random(SupLim, LimSup, C),  random(0, LimSup, L), alterPos(C, L, Board, 2, [], NewBoard), BM = [C, L], !.
 
 randomMove(C, L, red, Board, NewBoard):- valid_moves(Board, red, LM), getSize(LM, Moves),  SupLim is Moves - 1,(SupLim >= 1 -> random(0, SupLim, Index); Index is 0), 
 											getIndexList(Index, LM, pos(C, L)),  getIndexMatrix(C, L, Board, Elem), (Elem = ' ' ; Elem = 0 -> alterPos(C, L, Board, 2, [], NewBoard);alterPos(C, L, Board, 4, [], NewBoard) ), !.
