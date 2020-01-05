@@ -15,6 +15,10 @@ class XMLscene extends CGFscene {
         this.currCameraID = "";
         this.currSecCamID = "";
         this.modes = 0;
+        this.undo = false;
+        this.redwins = 0;
+        this.bluewins = 0;
+        this.timer = 0;
     }
 
     /**
@@ -37,7 +41,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
         this.viewIDs = [];
         this.viewIDs.push(this.currCameraID);
-        this.modes = [0, 1, 2];
+        this.modes = [0, 1, 2, 3, 4, 5];
         this.axis = new CGFaxis(this);
         this.setUpdatePeriod(100);
         this.setLights = [];
@@ -49,6 +53,10 @@ class XMLscene extends CGFscene {
         this.gamepieceId = null;
         this.boardpieceId = null;
         this.round = 0;
+        this.time = 0;
+        this.time2 = 0;
+        this.time3 = 0;
+        this.undoMove = [];
     }
 
     /**
@@ -69,7 +77,24 @@ class XMLscene extends CGFscene {
 
     changeMode(){
         document.getElementById("gametype").value = this.modes;
-        console.log(this.modes);
+    }
+
+    undoo() {
+        if(this.undo != 0){
+            this.undo = false;
+            if(this.undoMove.length != 0 && document.getElementById("undo").disabled == false){
+                if(this.undoMove[0] == 'Move'){
+                    this.undoMove[1].undo(this.undoMove[2]);
+                    this.round --;
+                    undo();
+                }
+                else if(this.undoMove[0] == 'Texture' && document.getElementById("undo").disabled == false){
+                    this.undoMove[1].changeTexture(this.undoMove[2]);
+                    this.round --;
+                    undo();
+                }
+            }
+        }
     }
 
     update(t){
@@ -80,6 +105,46 @@ class XMLscene extends CGFscene {
         this.securityCam.update(t);
         for(let i = 0; i < 36; i++){
             this.graph.gamepieces[i].update(t);
+        }
+        if((this.modes == 3 || this.modes == 4 || this.modes == 5) && botmoves == '[]'){
+            if(this.time == 0){
+                this.time = t;
+            }
+            if(this.time+3000 < t){
+                makeRequest();
+                this.time = t;
+            }
+        }
+        if(this.graph.win == true){
+            if(this.time2 == 0){
+                this.time2 = t;
+            }
+            if(t - this.time2 > 10000){
+                this.graph.win = false;
+                for(let i = 0; i < 36; i++){
+                    this.graph.gamepieces[i].reset();
+                    this.round = 0;
+                    this.gamepiece = null;
+                    this.boardpieceId = null;
+                    message = null;
+                    botmoves = '[]';
+                    this.time2 = 0;
+                    if(i < 18){
+                        this.graph.gamepieces[i].reset([i*1- (Math.floor(i/6)*6),0,-2 - (Math.floor(i/6))]);
+                    }
+                    else if(i >= 18){
+                        this.graph.gamepieces[i].reset([(i-18)*1 - (Math.floor((i-18)/6)*6),0,8 + (Math.floor((i-18)/6))]);
+                    }
+                    reset();
+                }
+            }
+        }
+        if(this.time3 == 0){
+            this.time3 = t;
+        }
+        else if(this.time3+1000 < t){
+            this.timer++;
+            this.time3 = t;
         }
     }
 
@@ -147,6 +212,9 @@ class XMLscene extends CGFscene {
         this.interface.initLights();
         this.interface.initCameras();
         this.interface.initModes();
+        this.interface.undo();
+        this.interface.wins();
+        this.interface.timer();
     }
     logPicking() {
         if (this.pickMode == false) {
@@ -183,9 +251,11 @@ class XMLscene extends CGFscene {
                                     this.boardpieceId = null;
                                 }
                                 if(this.gamepiece != null){
-                                    document.getElementById("col").value = this.boardpieceId%10-1;
-                                    document.getElementById("line").value = Math.floor(this.boardpieceId/10)-1; 
-                                    makeRequest();
+                                    if(this.gamepiece.x == -1){
+                                        document.getElementById("col").value = this.boardpieceId%10-1;
+                                        document.getElementById("line").value = Math.floor(this.boardpieceId/10)-1; 
+                                        makeRequest();
+                                    }
                                 }
                             }
                         }					
@@ -217,12 +287,15 @@ class XMLscene extends CGFscene {
         this.texrtt.bind(1);
 
         if(message != null && this.gamepiece != null && this.boardpieceId != null){
-            console.log("message " + message);
-            if(message == 'Groovy Gary' && this.gamepiece != null){
+            if((message == 'Groovy Gary' || message == 'Blue Wins' || message == 'Red Wins') && this.gamepiece != null){
+            if(this.gamepiece.x == -1){
                 for(let i = 0; i < 36; i++){
                     if(this.graph.gamepieces[i].x == this.boardpieceId%10-1 && this.graph.gamepieces[i].y == Math.floor(this.boardpieceId/10)-1){
                         if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
                             this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                            this.undoMove[0] = 'Texture';
+                            this.undoMove[1] = this.graph.gamepieces[i].gamepiece;
+                            this.undoMove[2] = 'textures/gamepiece1.jpg';
                             this.gamepiece = null;
                             this.boardpieceId = null;
                             this.round++;
@@ -230,6 +303,9 @@ class XMLscene extends CGFscene {
                         }
                         else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
                             this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                            this.undoMove[0] = 'Texture';
+                            this.undoMove[1] = this.graph.gamepieces[i].gamepiece;
+                            this.undoMove[2] = 'textures/gamepiece2.jpg';
                             this.gamepiece = null;
                             this.boardpieceId = null;
                             this.round++;
@@ -238,6 +314,15 @@ class XMLscene extends CGFscene {
                     }
                 }
                 if(this.gamepiece != null){
+                    this.undoMove[0] = 'Move';
+                    this.undoMove[1] = this.gamepiece;
+                    var undoaux = this.gamepieceId-100;
+                    if(this.gamepiece.texture == 'textures/gamepiece1.jpg'){
+                        this.undoMove[2] = [undoaux*1- (Math.floor(undoaux/6)*6),0,-2 - (Math.floor(undoaux/6))];
+                    }
+                    else if(this.gamepiece.texture == 'textures/gamepiece2.jpg'){
+                        this.undoMove[2] = [(undoaux-18)*1 - (Math.floor((undoaux-18)/6)*6),0,8 + (Math.floor((undoaux-18)/6))];
+                    }
                     this.gamepiece.x = this.boardpieceId%10-1;
                     this.gamepiece.y = Math.floor(this.boardpieceId/10)-1;
                     this.gamepiece.addAnimation(this.boardpieceId%10-1,0.4, Math.floor(this.boardpieceId/10)-0.75,3);
@@ -246,7 +331,190 @@ class XMLscene extends CGFscene {
                     this.round++;
                 }
             }
-            message = null;
+        }
+        if(message == 'Blue Wins'){
+            this.bluewins++;
+            this.graph.win = true;
+            this.graph.material.loadTexture('textures/bluewins.jpg');
+        }
+        else if(message == 'Red Wins'){
+            this.redwins++;
+            this.graph.win = true;
+            this.graph.material.loadTexture('textures/redwins.jpg');
+        }
+        message = null;
+        }
+
+        if(botmoves != '[]'){
+            if((this.modes == 1 || this.modes == 2) && (this.round == 1 || Math.floor((this.round-2)/2)%2 != 0)){
+                for(let j = 1; j < botmoves.length; j = j+4){
+                    for(let i = 0; i < 36; i++){
+                        for(let i = 0; i < 36; i++){
+                            if(this.graph.gamepieces[i].x == -1 && this.graph.gamepieces[i].y == -1 && this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
+                                this.gamepiece = this.graph.gamepieces[i];
+                                break;
+                            }
+                        }
+                        if(this.graph.gamepieces[i].x == botmoves[j] && this.graph.gamepieces[i].y == botmoves[j+2]){
+                            if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
+                                this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                                this.gamepiece = null;
+                                this.boardpieceId = null;
+                                this.round++;
+                                break;
+                            }
+                            else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
+                                this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                                this.gamepiece = null;
+                                this.boardpieceId = null;
+                                this.round++;
+                                break;
+                            }
+                        }
+                    }
+                    if(this.gamepiece != null){
+                        this.gamepiece.x = botmoves[j];
+                        this.gamepiece.y = botmoves[j+2];
+                        this.gamepiece.addAnimation(parseInt(botmoves[j]),0.4, parseInt(botmoves[j+2])+0.25,3);
+                        this.gamepiece = null;
+                        this.boardpieceId = null;
+                        this.round++;
+                    }
+                }
+                if(message == 'Blue Wins'){
+                    this.bluewins++;
+                    this.graph.win = true;
+                    this.graph.material.loadTexture('textures/bluewins.jpg');
+                }
+                else if(message == 'Red Wins'){
+                    this.redwins++;
+                    this.graph.win = true;
+                    this.graph.material.loadTexture('textures/redwins.jpg');
+                }
+                botmoves = '[]';
+                message = null;
+                }
+                if(this.modes == 3 || this.modes == 4 || this.modes == 5){
+                    if(this.round == 0){
+                        for(let j = 1; j < botmoves.length; j = j+4){
+                            if(j == 5){
+                                for(let i = 0; i < 36; i++){
+                                    if(this.graph.gamepieces[i].x == -1 && this.graph.gamepieces[i].y == -1 && this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
+                                            this.gamepiece = this.graph.gamepieces[i];
+                                        break;
+                                    }
+                                }
+                            }
+                            if(j == 1){
+                                for(let i = 0; i < 36; i++){
+                                    if(this.graph.gamepieces[i].x == -1 && this.graph.gamepieces[i].y == -1 && this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){
+                                            this.gamepiece = this.graph.gamepieces[i];
+                                        break;
+                                    }
+                                }
+                            }
+                                
+                            if(this.gamepiece != null){
+                                this.gamepiece.x = botmoves[j];
+                                this.gamepiece.y = botmoves[j+2];
+                                this.gamepiece.addAnimation(parseInt(botmoves[j]),0.4, parseInt(botmoves[j+2])+0.25,3);
+                                this.gamepiece = null;
+                                this.boardpieceId = null;
+                                this.round++;
+                            }
+                            
+                        }
+                    }
+
+                    else if(Math.floor((this.round-2)/2)%2 != 0){
+                        for(let j = 1; j < botmoves.length; j = j+4){
+                            for(let i = 0; i < 36; i++){
+                                for(let i = 0; i < 36; i++){
+                                    if(this.graph.gamepieces[i].x == -1 && this.graph.gamepieces[i].y == -1 && this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
+                                        this.gamepiece = this.graph.gamepieces[i];
+                                        break;
+                                    }
+                                }
+                                if(this.graph.gamepieces[i].x == botmoves[j] && this.graph.gamepieces[i].y == botmoves[j+2]){
+                                    if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
+                                        this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                                        this.gamepiece = null;
+                                        this.boardpieceId = null;
+                                        this.round++;
+                                        break;
+                                    }
+                                    else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
+                                        this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                                        this.gamepiece = null;
+                                        this.boardpieceId = null;
+                                        this.round++;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(this.gamepiece != null){
+                                this.gamepiece.x = botmoves[j];
+                                this.gamepiece.y = botmoves[j+2];
+                                this.gamepiece.addAnimation(parseInt(botmoves[j]),0.4, parseInt(botmoves[j+2])+0.25,3);
+                                this.gamepiece = null;
+                                this.boardpieceId = null;
+                                this.round++;
+                            }
+                        }
+                    }
+
+                    else if(Math.floor((this.round-2)/2)%2 == 0){
+                        for(let j = 1; j < botmoves.length; j = j+4){
+                            for(let i = 0; i < 36; i++){
+                                for(let i = 0; i < 36; i++){
+                                    if(this.graph.gamepieces[i].x == -1 && this.graph.gamepieces[i].y == -1 && this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){
+                                        this.gamepiece = this.graph.gamepieces[i];
+                                        break;
+                                    }
+                                }
+                                if(this.graph.gamepieces[i].x == botmoves[j] && this.graph.gamepieces[i].y == botmoves[j+2]){
+                                    if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
+                                        this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                                        this.gamepiece = null;
+                                        this.boardpieceId = null;
+                                        this.round++;
+                                        break;
+                                    }
+                                    else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
+                                        this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                                        this.gamepiece = null;
+                                        this.boardpieceId = null;
+                                        this.round++;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(this.gamepiece != null){
+                                this.gamepiece.x = botmoves[j];
+                                this.gamepiece.y = botmoves[j+2];
+                                this.gamepiece.addAnimation(parseInt(botmoves[j]),0.4, parseInt(botmoves[j+2])+0.25,3);
+                                this.gamepiece = null;
+                                this.boardpieceId = null;
+                                this.round++;
+                            }
+                        }
+                    }
+                    if(message == 'Blue Wins'){
+                        this.bluewins++;
+                        this.graph.win = true;
+                        this.graph.material.loadTexture('textures/bluewins.jpg');
+                    }
+                    else if(message == 'Red Wins'){
+                        this.redwins++;
+                        this.graph.win = true;
+                        this.graph.material.loadTexture('textures/redwins.jpg');
+                    }
+                    botmoves = '[]';
+                    message = null;
+            
+            }
+            
+                            
         }
         
         this.pushMatrix();
