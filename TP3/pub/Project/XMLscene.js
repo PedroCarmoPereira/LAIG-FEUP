@@ -67,6 +67,7 @@ class XMLscene extends CGFscene {
         this.value5;
         this.time4 = 0;
         this.counter = 0;
+        this.movieongoing = false;
         this.sceneID = "scene1.xml";
     }
 
@@ -120,6 +121,7 @@ class XMLscene extends CGFscene {
 
     moviess() {
         if(this.movies != 0){
+            this.movieongoing = true;
         for(let i = 0; i < 36; i++){
             this.gamepiece = null;
             this.boardpieceId = null;
@@ -146,7 +148,7 @@ class XMLscene extends CGFscene {
         for(let i = 0; i < 36; i++){
             this.graph.gamepieces[i].update(t);
         }
-        if((this.modes == 3 || this.modes == 4 || this.modes == 5) && botmoves == '[]'){
+        if((this.modes == 3 || this.modes == 4 || this.modes == 5) && botmoves == '[]' && this.movieongoing == false){
             if(this.time == 0){
                 this.time = t;
             }
@@ -189,6 +191,7 @@ class XMLscene extends CGFscene {
         }
 
         if(this.movies != 0){
+            this.movieongoing = true;
             if(this.time4 == 0){
                 this.time4 = t;
             }
@@ -208,6 +211,7 @@ class XMLscene extends CGFscene {
                     this.movies = false;
                     this.counter = 0;
                     this.time4 = 0;
+                    this.movieongoing = false;
                 }
             }
         }
@@ -441,6 +445,10 @@ class XMLscene extends CGFscene {
                         if(this.graph.gamepieces[i].x == botmoves[j] && this.graph.gamepieces[i].y == botmoves[j+2]){
                             if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
                                 this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                                this.value1 = "Texture";
+                                this.value2 = this.graph.gamepieces[i].gamepiece;
+                                this.value3 = 'textures/zombieblue.jpg';
+                                this.movie.push([this.value1, this.value2, this.value3]);
                                 this.gamepiece = null;
                                 this.boardpieceId = null;
                                 this.round++;
@@ -448,6 +456,10 @@ class XMLscene extends CGFscene {
                             }
                             else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
                                 this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                                this.value1 = "Texture";
+                                this.value2 = this.graph.gamepieces[i].gamepiece;
+                                this.value3 = 'textures/zombiered.jpg';
+                                this.movie.push([this.value1, this.value2, this.value3]);
                                 this.gamepiece = null;
                                 this.boardpieceId = null;
                                 this.round++;
@@ -458,6 +470,12 @@ class XMLscene extends CGFscene {
                     if(this.gamepiece != null){
                         this.gamepiece.x = botmoves[j];
                         this.gamepiece.y = botmoves[j+2];
+                        this.value1 = "Move";
+                        this.value2 = this.gamepiece;
+                        this.value3 = parseInt(botmoves[j])
+                        this.value4 = 0.4;
+                        this.value5 = parseInt(botmoves[j+2])+0.25
+                        this.movie.push([this.value1, this.value2, this.value3, this.value4, this.value5]);
                         this.gamepiece.addAnimation(parseInt(botmoves[j]),0.4, parseInt(botmoves[j+2])+0.25,3);
                         this.gamepiece = null;
                         this.boardpieceId = null;
@@ -500,6 +518,12 @@ class XMLscene extends CGFscene {
                             if(this.gamepiece != null){
                                 this.gamepiece.x = botmoves[j];
                                 this.gamepiece.y = botmoves[j+2];
+                                this.value1 = "Move";
+                                this.value2 = this.gamepiece;
+                                this.value3 = parseInt(botmoves[j])
+                                this.value4 = 0.4;
+                                this.value5 = parseInt(botmoves[j+2])+0.25
+                                this.movie.push([this.value1, this.value2, this.value3, this.value4, this.value5]);
                                 this.gamepiece.addAnimation(parseInt(botmoves[j]),0.4, parseInt(botmoves[j+2])+0.25,3);
                                 this.gamepiece = null;
                                 this.boardpieceId = null;
@@ -521,6 +545,10 @@ class XMLscene extends CGFscene {
                                 if(this.graph.gamepieces[i].x == botmoves[j] && this.graph.gamepieces[i].y == botmoves[j+2]){
                                     if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
                                         this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                                        this.value1 = "Texture";
+                                        this.value2 = this.graph.gamepieces[i].gamepiece;
+                                        this.value3 = 'textures/zombieblue.jpg';
+                                        this.movie.push([this.value1, this.value2, this.value3]);
                                         this.gamepiece = null;
                                         this.boardpieceId = null;
                                         this.round++;
@@ -528,6 +556,10 @@ class XMLscene extends CGFscene {
                                     }
                                     else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
                                         this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                                        this.value1 = "Texture";
+                                        this.value2 = this.graph.gamepieces[i].gamepiece;
+                                        this.value3 = 'textures/zombiered.jpg';
+                                        this.movie.push([this.value1, this.value2, this.value3]);
                                         this.gamepiece = null;
                                         this.boardpieceId = null;
                                         this.round++;
@@ -538,6 +570,12 @@ class XMLscene extends CGFscene {
                             if(this.gamepiece != null){
                                 this.gamepiece.x = botmoves[j];
                                 this.gamepiece.y = botmoves[j+2];
+                                this.value1 = "Move";
+                                this.value2 = this.gamepiece;
+                                this.value3 = parseInt(botmoves[j]);
+                                this.value4 = 0.4;
+                                this.value5 = parseInt(botmoves[j+2])+0.25;
+                                this.movie.push([this.value1, this.value2, this.value3, this.value4, this.value5]);
                                 this.gamepiece.addAnimation(parseInt(botmoves[j]),0.4, parseInt(botmoves[j+2])+0.25,3);
                                 this.gamepiece = null;
                                 this.boardpieceId = null;
@@ -558,6 +596,10 @@ class XMLscene extends CGFscene {
                                 if(this.graph.gamepieces[i].x == botmoves[j] && this.graph.gamepieces[i].y == botmoves[j+2]){
                                     if(this.graph.gamepieces[i].texture == 'textures/gamepiece1.jpg'){
                                         this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombieblue.jpg');
+                                        this.value1 = "Texture";
+                                        this.value2 = this.graph.gamepieces[i].gamepiece;
+                                        this.value3 = 'textures/zombieblue.jpg';
+                                        this.movie.push([this.value1, this.value2, this.value3]);
                                         this.gamepiece = null;
                                         this.boardpieceId = null;
                                         this.round++;
@@ -565,6 +607,10 @@ class XMLscene extends CGFscene {
                                     }
                                     else if(this.graph.gamepieces[i].texture == 'textures/gamepiece2.jpg'){  
                                         this.graph.gamepieces[i].gamepiece.changeTexture('textures/zombiered.jpg');
+                                        this.value1 = "Texture";
+                                        this.value2 = this.graph.gamepieces[i].gamepiece;
+                                        this.value3 = 'textures/zombiered.jpg';
+                                        this.movie.push([this.value1, this.value2, this.value3]);
                                         this.gamepiece = null;
                                         this.boardpieceId = null;
                                         this.round++;
